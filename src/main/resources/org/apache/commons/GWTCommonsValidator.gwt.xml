@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
+ "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
+<module rename-to='GWTCommonsValidator'>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User' />
+  <inherits name="com.google.gwt.i18n.I18N"/>
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='org.apache.commons.validator.GWTCommonsValidator' />
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='validator' />
+
+</module>
