@@ -100,7 +100,7 @@ public class UrlValidator implements Serializable {
     public static final long ALLOW_LOCAL_URLS = 1 << 3;
 
     // Drop numeric, and  "+-." for now
-    private static final String AUTHORITY_CHARS_REGEX = "\\p{Alnum}\\-\\.";
+    private static final String AUTHORITY_CHARS_REGEX = "0-9a-zA-Z\\-\\.";
 
     /**
      * This expression derived/taken from the BNF for URI (RFC2396).
@@ -129,7 +129,7 @@ public class UrlValidator implements Serializable {
     /**
      * Protocol (ie. http:, ftp:,https:).
      */
-    private static final String SCHEME_REGEX = "^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*";
+    private static final String SCHEME_REGEX = "^[a-zA-Z][0-9a-zA-Z\\+\\-\\.]*";
     private static final RegExp SCHEME_PATTERN = RegExp.compile(SCHEME_REGEX);
 
     private static final String AUTHORITY_REGEX =
@@ -152,7 +152,7 @@ public class UrlValidator implements Serializable {
     private static final String QUERY_REGEX = "^(.*)$";
     private static final RegExp QUERY_PATTERN = RegExp.compile(QUERY_REGEX);
 
-    private static final String LEGAL_ASCII_REGEX = "^\\p{ASCII}+$";
+    private static final String LEGAL_ASCII_REGEX = "^[\\x00-\\x7F]+$";
     private static final RegExp ASCII_PATTERN = RegExp.compile(LEGAL_ASCII_REGEX);
 
     private static final String PORT_REGEX = "^:(\\d{1,5})$";

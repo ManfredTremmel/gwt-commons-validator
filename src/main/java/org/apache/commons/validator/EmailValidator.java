@@ -49,7 +49,7 @@ public class EmailValidator {
     private static final String ATOM = VALID_CHARS + '+';
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
-    private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^\\p{ASCII}+$");
+    private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^[\\x00-\\x7F]+$");
     private static final RegExp EMAIL_PATTERN = RegExp.compile("^(.+)@(.+)$");
     private static final RegExp IP_DOMAIN_PATTERN = RegExp.compile("^\\[(.*)\\]$");
     private static final RegExp TLD_PATTERN = RegExp.compile("^([a-zA-Z]+)$");

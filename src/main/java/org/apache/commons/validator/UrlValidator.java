@@ -155,7 +155,7 @@ public class UrlValidator implements Serializable {
 
     private static final RegExp QUERY_PATTERN = RegExp.compile("^(.*)$");
 
-    private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^\\p{ASCII}+$");
+    private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^[\\x00-\\x7F]+$");
 
     private static final RegExp DOMAIN_PATTERN =
     		RegExp.compile("^" + ATOM + "(\\." + ATOM + ")*$");

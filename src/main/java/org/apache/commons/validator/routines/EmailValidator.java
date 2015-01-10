@@ -43,12 +43,12 @@ public class EmailValidator implements Serializable {
 
     private static final long serialVersionUID = 1705927040799295880L;
 
-    private static final String SPECIAL_CHARS = "\\p{Cntrl}\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
+    private static final String SPECIAL_CHARS = "\\x00-\\x1F\\x7F\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
     private static final String VALID_CHARS = "[^\\s" + SPECIAL_CHARS + "]";
     private static final String QUOTED_USER = "(\"[^\"]*\")";
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
-    private static final String LEGAL_ASCII_REGEX = "^\\p{ASCII}+$";
+    private static final String LEGAL_ASCII_REGEX = "^[\\x00-\\x7F]+$";
     private static final String EMAIL_REGEX = "^\\s*?(.+)@(.+?)\\s*$";
     private static final String IP_DOMAIN_REGEX = "^\\[(.*)\\]$";
     private static final String USER_REGEX = "^\\s*" + WORD + "(\\." + WORD + ")*$";

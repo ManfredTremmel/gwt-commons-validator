@@ -65,10 +65,10 @@ public class DomainValidator implements Serializable {
     private static final long serialVersionUID = -4407125112880174009L;
 
     // Regular expression strings for hostnames (derived from RFC2396 and RFC 1123)
-    private static final String DOMAIN_LABEL_REGEX = "\\p{Alnum}(?>[\\p{Alnum}-]*\\p{Alnum})*";
-    private static final String TOP_LABEL_REGEX = "\\p{Alpha}{2,}";
-    private static final String DOMAIN_NAME_REGEX =
-            "^(?:" + DOMAIN_LABEL_REGEX + "\\.)+" + "(" + TOP_LABEL_REGEX + ")$";
+    private static final String DOMAIN_LABEL_REGEX = "[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*";
+    private static final String TOP_LABEL_REGEX = "[a-zA-Z]{2,}";
+    private static final String DOMAIN_NAME_REGEX = "(" + TOP_LABEL_REGEX + ")$";
+    private static final String COMPLETE_DOMAIN_REGEX = "^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*\\.)+([a-zA-Z]{2,})$";
 
     private final boolean allowLocal;
 
@@ -89,6 +89,12 @@ public class DomainValidator implements Serializable {
      */
     private final RegexValidator domainRegex =
             new RegexValidator(DOMAIN_NAME_REGEX);
+
+    /**
+     * RegexValidator for matching domains.
+     */
+    private final RegexValidator completeDomainRegex =
+            new RegexValidator(COMPLETE_DOMAIN_REGEX);
     /**
      * RegexValidator for matching the a local hostname
      */
@@ -131,7 +137,7 @@ public class DomainValidator implements Serializable {
      */
     public boolean isValid(String domain) {
         String[] groups = domainRegex.match(domain);
-        if (groups != null && groups.length > 0) {
+        if (groups != null && groups.length > 0 && completeDomainRegex.match(domain) != null) {
             return isValidTld(groups[0]);
         } else if(allowLocal) {
             if (hostnameRegex.isValid(domain)) {
