@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Test the Flags class.
  *
- * @version $Revision: 658832 $ $Date: 2008-05-21 21:57:21 +0200 (Wed, 21 May 2008) $
+ * @version $Revision: 1649290 $
  */
 public class FlagsTest extends TestCase {
 
@@ -83,7 +83,21 @@ public class FlagsTest extends TestCase {
     public void testTurnOnAll() {
         Flags f = new Flags();
         f.turnOnAll();
-        assertEquals(Long.MAX_VALUE, f.getFlags());
+        assertEquals(~0, f.getFlags());
+    }
+
+    public void testIsOn_isFalseWhenNotAllFlagsInArgumentAreOn() {
+        Flags first = new Flags(1);
+        long firstAndSecond = 3;
+        
+        assertFalse(first.isOn(firstAndSecond)); 
+    }
+
+    public void testIsOn_isTrueWhenHighOrderBitIsSetAndQueried() {
+        Flags allOn = new Flags(~0);
+        long highOrderBit = 0x8000000000000000L;
+        
+        assertTrue(allOn.isOn(highOrderBit));
     }
 
     /**

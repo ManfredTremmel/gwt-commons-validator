@@ -25,16 +25,13 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * passing in information to a pluggable validator.  Instances of this class are
  * configured with a &lt;var&gt; xml element.
  *
- * @version $Revision: 493905 $ $Date: 2007-01-08 03:11:38 +0100 (Mon, 08 Jan 2007) $
+ * @version $Revision: 1649191 $
  */
 public class Var implements Cloneable, Serializable {
 
-    /**
-	 * serial version uid.
-	 */
-	private static final long serialVersionUID = -684185211548420224L;
+    private static final long serialVersionUID = -684185211548420224L;
 
-	/**
+    /**
      * Int Constant for JavaScript type.  This can be used
      * when auto-generating JavaScript.
      */

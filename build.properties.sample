@@ -15,7 +15,7 @@
 
 # $Id: build.properties.sample 1237244 2012-01-29 11:23:19Z simonetripodi $
 # $Rev: 1237244 $
-# $Date: 2012-01-29 12:23:19 +0100 (Sun, 29 Jan 2012) $
+# $Date: 2012-01-29 12:23:19 +0100 (So, 29 Jan 2012) $
 # -----------------------------------------------------------------------------
 # This is an example "build.properties" file.  Make any changes you need, 
 # and rename this file to "build.properties" in the same directory that 

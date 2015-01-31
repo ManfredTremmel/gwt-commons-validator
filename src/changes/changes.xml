@@ -42,7 +42,95 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
 
-  <release version="1.4.0" date="in SVN" description="JDK 1.4 (minimum)">
+  <release version="1.4.1" date="tba" description="1.4 Maintenance release">
+    <action issue="VALIDATOR-342" dev="sebb" type="fix" due-to="Donal Murtagh">
+     URLValidator returns false for http://example.rocks
+    </action>
+    <action issue="VALIDATOR-235" dev="sebb" type="fix" due-to="Brian Preuß">
+     UrlValidator rejects url with Unicode characters in domain label or TLD
+    </action>
+    <action issue="VALIDATOR-339" dev="sebb" type="fix" due-to="Alex Blume">
+     URLValidator fails validating domain names with a trailing period, which are valid.
+    </action>
+    <action issue="VALIDATOR-306" dev="sebb" type="fix" due-to="Jukka Timonen">
+     DomainValidator accepts labels longer than 63 chars and domain name lengths exceeding 255 chars
+    </action>
+    <action issue="VALIDATOR-349" dev="sebb" type="update">
+     TLD tables should be pre-sorted
+    </action>
+    <action issue="VALIDATOR-290" dev="sebb" type="update" due-to="Alexander Rytov">
+     Create new url validation using rfc3986 and IDN - added new test
+    </action>
+    <action issue="VALIDATOR-350" dev="sebb" type="fix">
+     Should "x.root" validate as a domain name?
+     Removed "root" from TLD list. 
+     Also "um" and "yu" as they are currently "Not assigned" 
+    </action>
+    <action issue="VALIDATOR-308" dev="sebb" type="fix" due-to="Til Boerner">
+      Logical errors in util.Flags affecting check of multiple flags as well as flag 64
+    </action>
+    <action issue="VALIDATOR-344" dev="sebb" type="fix" >
+      AbstractCheckDigit class does not fully test invalid strings
+      Fix up the testCalculateInvalid() invalid method to allow for 
+      either invalid checksum or syntax (CheckDigitException) error
+      when testing the entries in the invalid array.
+    </action>
+    <action issue="VALIDATOR-297" dev="sebb" type="fix">
+      Punycode url is not valid
+      Top-level domain regex matching was wrong; did not allow embedded "-" as per RFC2396
+    </action>
+    <action issue="VALIDATOR-334" dev="sebb" type="update">
+      UrlValidator: isValidAuthority() returning true when supplied authority validator fails
+    </action>
+    <action issue="VALIDATOR-309" dev="sebb" type="fix" due-to="Rashid Rashidov">
+      UrlValidator does not validate uppercase URL schemes
+    </action>
+    <action issue="VALIDATOR-343" dev="sebb" type="fix" due-to="Sam Cooley">
+      Doc URL update for broken link
+    </action>
+    <action issue="VALIDATOR-346" dev="sebb" type="fix" >
+      SedolCheckDigit fails to reject invalid (non-numeric) check digits
+    </action>
+    <action issue="VALIDATOR-345" dev="sebb" type="fix" >
+      ISINCheckDigit fails to reject invalid (non-numeric) check digits
+    </action>
+    <action issue="VALIDATOR-336" dev="sebb" type="fix" >
+      CUSIPCheckDigit thinks invalid CUSIP is valid
+    </action>
+    <action issue="VALIDATOR-348" dev="sebb" type="update" >
+      Update TLD list to latest version (Version 2014123000)
+    </action>
+    <action issue="VALIDATOR-347" dev="sebb" type="fix" >
+      toLowerCase() method is Locale-sensitive and should not be used
+      Fixed 4 instances in DomainValidator
+    </action>
+    <action issue="VALIDATOR-307" dev="adrianc" type="update">
+      isValid checks if the given address is only IPV4 address and not IPV6
+    </action>
+    <action  issue="VALIDATOR-337" dev="britter" type="update" due-to="Ben Ripkens" >
+      Deprecate the JS part of commons validator
+    </action>
+    <action issue="VALIDATOR-266" dev="britter" type="fix" due-to="Bruce Collie" >
+      DomainValidator uses an O(n) method where an O(1) would be more appropriate
+    </action>
+    <action issue="VALIDATOR-273" dev="britter" type="fix" due-to="Chris Lee" >
+      EmailValidator does not support mailboxes at TLDs
+    </action>
+    <action  issue="VALIDATOR-317" dev="britter" type="fix" due-to="Arūnas Bendoraitis" >
+      DomainValidator missing sTLD - "xxx"
+    </action>
+    <action issue="VALIDATOR-327" dev="britter" type="fix" due-to="Arūnas Bendoraitis" >
+      Missing sx tld.
+    </action>
+    <action issue="VALIDATOR-305" dev="britter" type="fix" due-to="Arūnas Bendoraitis" >
+      Some TLDs are missing from DomainValidator
+    </action>
+    <action issue="VALIDATOR-331" dev="sebb" type="fix">
+      IBANCheckDigitTest.createInvalidCodes(String[] codes) uses wrong values
+    </action>
+  </release>
+
+  <release version="1.4.0" date="2012-02-03" description="JDK 1.4 (minimum)">
     <action dev="simonetripodi" type="fix" issue="VALIDATOR-301" due-to="Jacob Zwiers">
       CheckStyle and FindBug Issues - inner classes and key sets
     </action>
@@ -162,22 +250,16 @@ The <action> type attribute can be add,update,fix,remove.
     </action>
     <action dev="niallp" type="update">
       JDK 1.4 - change minimum dependency for validator to be JDK 1.4 (was 1.3). Primary reason
-      for this is to use JDK 1.4+ built in <i>regular expression</i> support and remove the dependency
+      for this is to use JDK 1.4+ built in regular expression support and remove the dependency
       on Jakarta ORO.
     </action>
   </release>
 
   <release version="1.3.1" date="2006-11-28" description="1.3 Maintenance Release.">
     <action dev="niallp" type="update">
-    <p>
-      <strong>Dependencies:</strong> <a href="dependencies.html">dependencies</a>
-      for Validator 1.3.1 are unchanged since the 1.3.0 release.
-    </p>
-    <p>
-      <strong>N.B.</strong><a href="http://jakarta.apache.org/oro/">Jakarta ORO</a>
-      has now been marked as an optional dependency in the project.xml as it is only
-      required by the Email, URL and Regular Expression validations.
-    </p>
+      Dependencies for Validator 1.3.1 are unchanged since the 1.3.0 release.
+      N.B. Jakarta ORO has now been marked as an optional dependency
+      in the project.xml as it is only required by the Email, URL and Regular Expression validations.
     </action>
     <action dev="niallp" type="fix" issue="VALIDATOR-208" due-to="Leo Asanov">
     JavaScript function jcv_isFieldPresent() causes error in IE5 using "undefined".
@@ -213,7 +295,7 @@ The <action> type attribute can be add,update,fix,remove.
     Example does not compile using ant build script.
     </action>
     <action dev="niallp" type="fix" issue="VALIDATOR-189" due-to="Thomas Bailey">
-    Validating indexed properties fails when <code>null</code>.
+    Validating indexed properties fails when null.
     </action>
     <action dev="martinc" type="fix" issue="VALIDATOR-89" due-to="Takayuki Kaneko">
     Fix a thread safety issue in parameter initialization.
@@ -228,8 +310,7 @@ The <action> type attribute can be add,update,fix,remove.
      Validator argument - resource="false" ignored for arg0 - arg3.
     </action>
     <action dev="niallp" type="fix" issue="VALIDATOR-60" due-to="Yugandhar">
-     Change JavaScript validators to cater for <i>disabled</i> being 
-     <i>undefined</i> (an issue in Netscape 4.7).
+     Change JavaScript validators to cater for disabled being undefined (an issue in Netscape 4.7).
     </action>
     <action dev="niallp" type="add">
      <p>Add new routines package containing standard validations - first
@@ -250,8 +331,7 @@ The <action> type attribute can be add,update,fix,remove.
      Use the Dojo/Rhino JavaScript compressor to created compressed
      versions of the static JavaScript files. Additionally create single
      file distros of all the static JavaScript in un-compressed and compressed
-     format. See <a href="http://dojotoolkit.org/docs/compressor_system.html">
-     Dojo/Rhino Compressor</a>.
+     format. See Dojo/Rhino Compressor.
     </action>
     <action dev="niallp" type="fix">
      Prefix remaining JavaScript utility methods with "jcv_" to reduce 

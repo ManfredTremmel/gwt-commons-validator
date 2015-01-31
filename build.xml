@@ -19,8 +19,7 @@
 
 <!--
         "Validator" component of the Apache Commons Subproject
-        $Id: build.xml 1237244 2012-01-29 11:23:19Z simonetripodi $
-        $Id: build.xml 1237244 2012-01-29 11:23:19Z simonetripodi $
+        $Id: build.xml 1640270 2014-11-18 02:29:55Z sebb $
 -->
 
 
@@ -94,6 +93,9 @@
   <!-- The base directory for example sources -->
   <property name="example.home"            value="src/example"/>
 
+  <!-- Directory where test results are stored -->
+  <property name="test.results.dir"        value="${build.home}/test-results" />
+
   <!-- Directory where binary release files are staged -->
   <property name="stage.bin.dir"           value="${release.home}/stage/bin"/>
 
@@ -162,10 +164,6 @@
   <!-- Should all tests fail if one does? -->
   <property name="test.failonerror"        value="true"/>
 
-  <!-- The test runner to execute -->
-  <property name="test.runner"             value="junit.textui.TestRunner"/>
-
-
 <!-- ========== Example Execution Defaults ================================ -->
 
 
@@ -196,6 +194,7 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/tests"/>
+    <mkdir dir="${test.results.dir}"/>
   </target>
 
 
@@ -291,7 +290,7 @@
 
 
   <target name="change-log" >
-   	<cvschangelog destfile="changelog.xml" start="${cvs.start}" />
+     <cvschangelog destfile="changelog.xml" start="${cvs.start}" />
      <style in="changelog.xml" out="changelog.html" style="${ant.home}/etc/changelog.xsl">
           <param name="title" expression="Validator ChangeLog"/>
           <param name="module" expression="commons"/>
@@ -366,31 +365,55 @@
   <target name="test.main"  depends="compile.tests"
    description="Run main unit test cases">
     <echo message="Running main tests ..."/>
-    <java classname="${test.runner}" fork="yes"
-        failonerror="${test.failonerror}">
-      <arg value="org.apache.commons.validator.ValidatorTestSuite"/>
+
+    <junit fork="yes" forkmode="once" printsummary="yes" 
+           haltonfailure="${test.failonerror}" 
+           failureproperty="main.test.failed" showoutput="true">
       <classpath refid="test.classpath"/>
-    </java>
+      <formatter type="plain"/>
+      <batchtest todir="${test.results.dir}">
+         <fileset dir="${test.home}/java">
+           <include name="org/apache/commons/validator/*Test.java" />
+           <exclude name="**/Abstract*Test.java" />
+         </fileset>
+      </batchtest>
+    </junit>
   </target>
 
   <target name="test.checkdigit"  depends="compile.tests"
    description="Run checkdigit unit test cases">
     <echo message="Running checkdigit tests ..."/>
-    <java classname="${test.runner}" fork="yes"
-        failonerror="${test.failonerror}">
-      <arg value="org.apache.commons.validator.routines.checkdigit.CheckDigitTestSuite"/>
+
+    <junit fork="yes" forkmode="once" printsummary="yes" 
+           haltonfailure="${test.failonerror}" 
+           failureproperty="main.test.failed" showoutput="true">
       <classpath refid="test.classpath"/>
-    </java>
+      <formatter type="plain"/>
+      <batchtest todir="${test.results.dir}">
+         <fileset dir="${test.home}/java">
+           <include name="org/apache/commons/validator/routines/checkdigit/*Test.java" />
+           <exclude name="**/Abstract*Test.java" />
+         </fileset>
+      </batchtest>
+    </junit>
   </target>
 
   <target name="test.routines"  depends="compile.tests"
    description="Run routines unit test cases">
     <echo message="Running routines tests ..."/>
-    <java classname="${test.runner}" fork="yes"
-        failonerror="${test.failonerror}">
-      <arg value="org.apache.commons.validator.routines.RoutinesTestSuite"/>
+
+    <junit fork="yes" forkmode="once" printsummary="yes" 
+           haltonfailure="${test.failonerror}" 
+           failureproperty="main.test.failed" showoutput="true">
       <classpath refid="test.classpath"/>
-    </java>
+      <formatter type="plain"/>
+      <batchtest todir="${test.results.dir}">
+         <fileset dir="${test.home}/java">
+           <include name="org/apache/commons/validator/routines/*Test.java" />
+           <exclude name="**/Abstract*Test.java" />
+         </fileset>
+      </batchtest>
+    </junit>
   </target>
 
 <!-- ========== Example Targets =========================================== -->
@@ -487,7 +510,7 @@
         <mkdir dir="${download.lib.dir}" />
         <get dest="${download.lib.dir}/commons-beanutils.jar"
             usetimestamp="true" ignoreerrors="true"
-            src="http://mirrors.ibiblio.org/pub/mirrors/maven/commons-beanutils/jars/commons-beanutils-1.7.0.jar"/>
+            src="http://repo.maven.apache.org/maven2/commons-beanutils/commons-beanutils/1.9.2/commons-beanutils-1.9.2.jar"/>
     </target>
 
     <target name="download-digester" unless="digester.found">
@@ -495,7 +518,7 @@
         <mkdir dir="${download.lib.dir}" />
         <get dest="${download.lib.dir}/commons-digester.jar"
             usetimestamp="true" ignoreerrors="true"
-            src="http://mirrors.ibiblio.org/pub/mirrors/maven/commons-digester/jars/commons-digester-1.8.jar"/>
+            src="http://repo.maven.apache.org/maven2/commons-digester/commons-digester/1.8.1/commons-digester-1.8.1.jar"/>
     </target>
 
     <target name="download-logging" unless="logging.found">
@@ -503,7 +526,7 @@
         <mkdir dir="${download.lib.dir}" />
         <get dest="${download.lib.dir}/commons-logging.jar"
             usetimestamp="true" ignoreerrors="true"
-            src="http://mirrors.ibiblio.org/pub/mirrors/maven/commons-logging/jars/commons-logging-1.1.jar"/>
+            src="http://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
     </target>
 
     <target name="download-junit" unless="junit.found">
@@ -511,7 +534,7 @@
         <mkdir dir="${download.lib.dir}" />
         <get dest="${download.lib.dir}/junit.jar"
             usetimestamp="true" ignoreerrors="true"
-            src="http://mirrors.ibiblio.org/pub/mirrors/maven/junit/jars/junit-3.8.1.jar"/>
+            src="http://repo.maven.apache.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar"/>
     </target>
       
 </project>

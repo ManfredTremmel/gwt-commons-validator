@@ -20,7 +20,7 @@ package org.apache.commons.validator.routines.checkdigit;
 /**
  * ISIN Check Digit Test.
  *
- * @version $Revision: 909009 $
+ * @version $Revision: 1648878 $
  * @since Validator 1.4
  */
 public class SedolCheckDigitTest extends AbstractCheckDigitTest {
@@ -49,4 +49,20 @@ public class SedolCheckDigitTest extends AbstractCheckDigitTest {
         invalid = new String[] {"123#567"};
         zeroSum = "0000000";
     }
+
+    private static String invalidCheckDigits[] = {
+                "026349E", // proper check digit is '4', see above
+                "087061C", // proper check digit is '2', see above
+                "B06LQ9H", // proper check digit is '7', see above
+                "343757F", // proper check digit is '5', see above
+                "B07LF5F", // proper check digit is '5', see above
+               };
+
+    public void testVALIDATOR_346() {
+        for (int i = 0; i < invalidCheckDigits.length; i++) {
+            String invalidCheckDigit = invalidCheckDigits[i];
+            assertFalse("Should fail: " + invalidCheckDigit, routine.isValid(invalidCheckDigit));
+        }
+    }
+
 }

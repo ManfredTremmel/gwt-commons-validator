@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 /**
  * Luhn Check Digit Test.
  *
- * @version $Revision: 909004 $
+ * @version $Revision: 1649288 $
  * @since Validator 1.4
  */
 public abstract class AbstractCheckDigitTest extends TestCase {
@@ -45,10 +45,36 @@ public abstract class AbstractCheckDigitTest extends TestCase {
     /** Check digit routine being tested */
     protected CheckDigit routine;
 
-    /** Array of valid code values */
+    /**
+     * Array of valid code values
+     * These must contain valid strings *including* the check digit.
+     *
+     * They are passed to:
+     * CheckDigit.isValid(expects string including checkdigit)
+     * which is expected to return true
+     * and
+     * AbstractCheckDigitTest.createInvalidCodes() which
+     * mangles the last character to check that the result is now invalid.
+     * and
+     * the truncated string is passed to
+     * CheckDigit.calculate(expects string without checkdigit)
+     * the result is compared with the last character
+     */
     protected String[] valid;
 
-    /** Array of invalid code values */
+    /**
+     * Array of invalid code values
+     *
+     * These are currently passed to both 
+     * CheckDigit.calculate(expects a string without checkdigit)
+     * which is expected to throw an exception
+     * However that only applies if the string is syntactically incorrect;
+     * and
+     * CheckDigit.isValid(expects a string including checkdigit)
+     * which is expected to return false
+     *
+     * See https://issues.apache.org/jira/browse/VALIDATOR-344 for some dicussion on this 
+     */
     protected String[] invalid = new String[] {"12345678A"};
 
     /** code value which sums to zero */
@@ -135,7 +161,7 @@ public abstract class AbstractCheckDigitTest extends TestCase {
                 }
                 assertEquals("valid[" + i +"]: " + valid[i], expected, routine.calculate(code));
             } catch (Exception e) {
-                fail("valid[" + i +"] threw " + e);
+                fail("valid[" + i +"]=" + valid[i] + " threw " + e);
             }
         }
 
@@ -153,13 +179,23 @@ public abstract class AbstractCheckDigitTest extends TestCase {
         // test invalid code values
         for (int i = 0; i < invalid.length; i++) {
             try {
+                final String code = invalid[i];
                 if (log.isDebugEnabled()) {
-                    log.debug("   " + i + " Testing Invalid Check Digit, Code=[" + invalid[i] + "]");
+                    log.debug("   " + i + " Testing Invalid Check Digit, Code=[" + code + "]");
                 }
-                routine.calculate(invalid[i]);
-                fail("Invalid Characters[" + i + "]=" +  invalid[i] + " - expected exception");
-            } catch (Exception e) {
-                assertTrue("Invalid Character[" +i +"]=" +  e.getMessage(), e.getMessage().startsWith("Invalid Character["));
+                String expected = checkDigit(code);
+                String actual = routine.calculate(removeCheckDigit(code));
+                // If exception not thrown, check that the digit is incorrect instead
+                if (expected.equals(actual)) {
+                    fail("Expected mismatch for " + code + " expected " + expected + " actual " + actual);
+                }
+            } catch (CheckDigitException e) {
+                // possible failure messages:
+                // Invalid ISBN Length ...
+                // Invalid Character[ ...
+                // Are there any others?
+                assertTrue("Invalid Character[" +i +"]=" +  e.getMessage(), e.getMessage().startsWith("Invalid "));
+// WAS                assertTrue("Invalid Character[" +i +"]=" +  e.getMessage(), e.getMessage().startsWith("Invalid Character["));
             }
         }
     }
@@ -174,6 +210,10 @@ public abstract class AbstractCheckDigitTest extends TestCase {
 
         // isValid() zero length
         assertFalse("isValid() Zero Length", routine.isValid(""));
+
+        // isValid() length 1
+        // Don't use 0, because that passes for Verhoef (not sure why yet)
+        assertFalse("isValid() Length 1", routine.isValid("9"));
 
         // calculate() null
         try {
@@ -237,6 +277,8 @@ public abstract class AbstractCheckDigitTest extends TestCase {
         assertNotNull(result);
     }
 
+    private static final String POSSIBLE_CHECK_DIGITS = "0123456789 ABCDEFHIJKLMNOPQRSTUVWXYZ\tabcdefghijklmnopqrstuvwxyz!@£$%^&*()_+";
+//    private static final String POSSIBLE_CHECK_DIGITS = "0123456789";
     /**
      * Returns an array of codes with invalid check digits.
      *
@@ -250,8 +292,8 @@ public abstract class AbstractCheckDigitTest extends TestCase {
         for (int i = 0; i < codes.length; i++) {
             String code = removeCheckDigit(codes[i]);
             String check  = checkDigit(codes[i]);
-            for (int j = 0; j < 10; j++) {
-                String curr =  "" + Character.forDigit(j, 10);
+            for (int j = 0; j < POSSIBLE_CHECK_DIGITS.length(); j++) {
+                String curr =  POSSIBLE_CHECK_DIGITS.substring(j, j+1);//"" + Character.forDigit(j, 10);
                 if (!curr.equals(check)) {
                     list.add(code + curr);
                 }

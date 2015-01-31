@@ -25,6 +25,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * or length of a code. {@link CheckDigit} provides for separating out
  * the check digit calculation logic enabling it to be more easily
  * tested and reused.
+ * </p>
  * <p>
  * Although Commons Validator is primarily concerned with validation,
  * {@link CheckDigit} also defines behaviour for calculating/generating check
@@ -32,37 +33,39 @@ package org.apache.commons.validator.routines.checkdigit;
  * same logic for both. The {@link org.apache.commons.validator.routines.ISBNValidator}
  * makes specific use of this feature by providing the facility to validate ISBN-10 codes
  * and then convert them to the new ISBN-13 standard.
+ * </p>
  * <p>
- * {@link CheckDigit} is used by the new generic
- * <a href="..\CodeValidator.html">CodeValidator</a> implementation.
- * <p>
+ * CheckDigit is used by the new generic @link CodeValidator} implementation.
+ * </p>
+ *
  * <h3>Implementations</h3>
  * See the 
  * <a href="package-summary.html">Package Summary</a> for a full
  * list of implementations provided within Commons Validator.
  *
  * @see org.apache.commons.validator.routines.CodeValidator
- * @version $Revision: 589328 $ $Date: 2007-10-28 11:43:47 +0100 (Sun, 28 Oct 2007) $
+ * @version $Revision: 1649287 $
  * @since Validator 1.4
  */
 public interface CheckDigit {
 
     /**
-     * Calculate the <i>Check Digit</i> for a code.
+     * Calculates the <i>Check Digit</i> for a code.
      *
      * @param code The code to calculate the Check Digit for.
+     * The string must not include the check digit
      * @return The calculated Check Digit
      * @throws CheckDigitException if an error occurs.
      */
-    public String calculate(String code) throws CheckDigitException;
+    String calculate(String code) throws CheckDigitException;
 
     /**
-     * Validate the check digit for the code.
+     * Validates the check digit for the code.
      *
-     * @param code The code to validate.
+     * @param code The code to validate, the string must include the check digit.
      * @return <code>true</code> if the check digit is valid, otherwise
      * <code>false</code>.
      */
-    public boolean isValid(String code);
+    boolean isValid(String code);
 
 }

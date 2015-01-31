@@ -21,13 +21,13 @@ import junit.framework.TestCase;
 /**
  * Performs Validation Test for url validations.
  *
- * @version $Revision: 1094806 $ $Date: 2011-04-19 00:53:09 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  * @deprecated to be removed when org.apache.commons.validator.UrlValidator is removed
  */
 public class UrlTest extends TestCase {
 
-   private boolean printStatus = false;
-   private boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
+   private final boolean printStatus = false;
+   private final boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
 
    public UrlTest(String testName) {
       super(testName);

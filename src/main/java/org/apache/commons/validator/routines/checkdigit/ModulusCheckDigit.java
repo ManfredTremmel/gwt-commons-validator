@@ -24,19 +24,21 @@ import java.io.Serializable;
  * Provides a <i>base</i> class for building <i>modulus</i> Check
  * Digit routines.
  * <p>
- * This implementation only handles <i>numeric</i> codes, such as
+ * This implementation only handles <i>single-digit numeric</i> codes, such as
  * <b>EAN-13</b>. For <i>alphanumeric</i> codes such as <b>EAN-128</b> you
  * will need to implement/override the <code>toInt()</code> and
  * <code>toChar()</code> methods.
  * <p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
 
     private static final long serialVersionUID = 2948962251251528941L;
 
+    // N.B. The modulus can be > 10 provided that the implementing class overrides toCheckDigit and toInt
+    // (for example as in ISBN10CheckDigit)
     private final int modulus;
 
     /**
@@ -114,7 +116,7 @@ public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
         if (total == 0) {
             throw new CheckDigitException("Invalid code, sum is zero");
         }
-        return (total % modulus);
+        return total % modulus;
     }
 
     /**
@@ -164,9 +166,9 @@ public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
     /**
      * Convert an integer value to a check digit.
      * <p>
-     * <b>Note:</b> this implementation only handles numeric values
+     * <b>Note:</b> this implementation only handles single-digit numeric values
      * For non-numeric characters, override this method to provide
-     * integer-->character conversion.
+     * integer--&gt;character conversion.
      *
      * @param charValue The integer value of the character
      * @return The converted character
@@ -177,10 +179,9 @@ public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
             throws CheckDigitException {
         if (charValue >= 0 && charValue <= 9) {
             return Integer.toString(charValue);
-        } else {
-            throw new CheckDigitException("Invalid Check Digit Value =" +
-                    + charValue);
         }
+        throw new CheckDigitException("Invalid Check Digit Value =" +
+                + charValue);
     }
 
     /**

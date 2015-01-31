@@ -21,7 +21,7 @@ package org.apache.commons.validator;
 /**                                                       
  * Performs Validation Test for <code>byte</code> validations.
  *
- * @version $Revision: 1094804 $ $Date: 2011-04-19 00:48:05 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class ByteTest extends AbstractNumberTest {
 

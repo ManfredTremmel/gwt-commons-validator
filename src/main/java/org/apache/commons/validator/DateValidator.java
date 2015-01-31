@@ -30,7 +30,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * getInstance() method.
  * </p>
  *
- * @version $Revision: 594962 $ $Date: 2007-11-14 18:30:27 +0100 (Wed, 14 Nov 2007) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.1
  * @deprecated Use the new DateValidator, CalendarValidator or TimeValidator in the
  * routines package. This class will be removed in a future release.

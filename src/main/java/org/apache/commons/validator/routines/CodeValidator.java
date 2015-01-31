@@ -45,7 +45,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
  * validation by  specifying them as a <i>non-capturing</i> group in the regular
  * expression (i.e. use the <code>(?:   )</code> notation).
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class CodeValidator implements Serializable {

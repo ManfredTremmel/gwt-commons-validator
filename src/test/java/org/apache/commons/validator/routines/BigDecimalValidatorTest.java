@@ -22,7 +22,7 @@ import java.util.Locale;
 /**
  * Test Case for BigDecimalValidator.
  * 
- * @version $Revision: 1094808 $ $Date: 2011-04-19 00:57:51 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class BigDecimalValidatorTest extends AbstractNumberValidatorTest {
 

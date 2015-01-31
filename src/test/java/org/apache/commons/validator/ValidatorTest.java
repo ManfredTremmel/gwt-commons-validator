@@ -30,7 +30,7 @@ import org.apache.commons.validator.util.ValidatorUtils;
 /**                                                       
  * Performs Validation Test.
  *
- * @version $Revision: 1094751 $ $Date: 2011-04-18 23:17:40 +0200 (Mon, 18 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class ValidatorTest extends TestCase {            
                                                           

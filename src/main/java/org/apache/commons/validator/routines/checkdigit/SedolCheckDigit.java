@@ -18,13 +18,15 @@ package org.apache.commons.validator.routines.checkdigit;
 
 /**
  * Modulus 10 <b>SEDOL</b> (UK Securities) Check Digit calculation/validation.
+ *
  * <p>
  * SEDOL Numbers are 7 character alphanumeric codes used
  * to identify UK Securities (SEDOL stands for Stock Exchange Daily Official List).
+ * </p>
  * <p>
  * Check digit calculation is based on <i>modulus 10</i> with digits being weighted
  * based on their position, from left to right, as follows:
- * <p>
+ * </p>
  * <pre><code>
  *      position:  1  2  3  4  5  6  7
  *     weighting:  1  3  1  7  3  9  1
@@ -32,8 +34,9 @@ package org.apache.commons.validator.routines.checkdigit;
  * <p>
  * See <a href="http://en.wikipedia.org/wiki/SEDOL">Wikipedia - SEDOL</a>
  * for more details.
+ * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class SedolCheckDigit extends ModulusCheckDigit {
@@ -79,7 +82,7 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
      * @return The weighted value of the character.
      */
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
-        return (charValue * POSITION_WEIGHT[leftPos - 1]);
+        return charValue * POSITION_WEIGHT[leftPos - 1];
     }
 
     /**
@@ -94,9 +97,11 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
     protected int toInt(char character, int leftPos, int rightPos)
             throws CheckDigitException {
         int charValue = CharacterGetNumericValue.getNumericValue(character);
-        if (charValue < 0 || charValue > 35) {
+        // the check digit is only allowed to reach 9
+        final int charMax = rightPos == 1 ? 9 : 35;
+        if (charValue < 0 || charValue > charMax) {
             throw new CheckDigitException("Invalid Character[" +
-                    leftPos + "] = '" + charValue + "'");
+                    leftPos + "," + rightPos + "] = '" + charValue + "' out of range 0 to " + charMax);
         }
         return charValue;
     }

@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * ISBNValidator Test Case.
  *
- * @version $Revision: 1094806 $ $Date: 2011-04-19 00:53:09 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  * @deprecated to be removed when the org.apache.commons.validator.ISBNValidator class is removed
  */
 public class ISBNValidatorTest extends TestCase {

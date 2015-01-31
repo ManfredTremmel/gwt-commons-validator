@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * Tests that validator rules split between 2 different XML files get 
  * merged properly.
  *
- * @version $Revision: 1094808 $ $Date: 2011-04-19 00:57:51 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class MultipleConfigFilesTest extends TestCase {
 

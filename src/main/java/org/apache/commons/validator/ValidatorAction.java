@@ -43,7 +43,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *
  * <strong>Note</strong>: The validation method is assumed to be thread safe.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 @GwtIncompatible("incompatible class")
 public class ValidatorAction implements Serializable {
@@ -152,13 +152,13 @@ public class ValidatorAction implements Serializable {
      * setDepends() (which clears the List) won't interfere with a call to
      * isDependency().
      */
-    private List dependencyList = Collections.synchronizedList(new ArrayList());
+    private final List dependencyList = Collections.synchronizedList(new ArrayList());
 
     /**
      * An internal List representation of all the validation method's
      * parameters defined in the methodParams String.
      */
-    private List methodParameterList = new ArrayList();
+    private final List methodParameterList = new ArrayList();
 
     /**
      * Gets the name of the validator action.
@@ -755,9 +755,8 @@ public class ValidatorAction implements Serializable {
         if (result instanceof Boolean) {
             Boolean valid = (Boolean) result;
             return valid.booleanValue();
-        } else {
-            return (result != null);
         }
+        return result != null;
     }
 
     /**

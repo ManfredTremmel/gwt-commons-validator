@@ -17,23 +17,26 @@
 package org.apache.commons.validator.routines.checkdigit;
 
 /**
- * Modulus 10 <b>CUSIP</b> (North American Securities)
- * Check Digit calculation/validation.
+ * Modulus 10 <b>CUSIP</b> (North American Securities) Check Digit calculation/validation.
+ *
  * <p>
  * CUSIP Numbers are 9 character alphanumeric codes used
  * to identify North American Securities.
+ * </p>
+ *
  * <p>
  * Check digit calculation uses the <i>Modulus 10 Double Add Double</i> technique
  * with every second digit being weighted by 2. Alphabetic characters are
  * converted to numbers by their position in the alphabet starting with A being 10.
  * Weighted numbers greater than ten are treated as two separate numbers.
- * <p>
+ * </p>
  *
  * <p>
  * See <a href="http://en.wikipedia.org/wiki/CUSIP">Wikipedia - CUSIP</a>
  * for more details.
+ * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class CUSIPCheckDigit extends ModulusCheckDigit {
@@ -58,16 +61,18 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
      *
      * @param character The character to convert
      * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The positionof the character in the code, counting from right to left
+     * @param rightPos The position of the character in the code, counting from right to left
      * @return The integer value of the character
      * @throws CheckDigitException if character is not alphanumeric
      */
     protected int toInt(char character, int leftPos, int rightPos)
             throws CheckDigitException {
         int charValue = CharacterGetNumericValue.getNumericValue(character);
-        if (charValue < 0 || charValue > 35) {
+        // the final character is only allowed to reach 9
+        final int charMax = rightPos == 1 ? 9 : 35;
+        if (charValue < 0 || charValue > charMax) {
             throw new CheckDigitException("Invalid Character[" +
-                    leftPos + "] = '" + charValue + "'");
+                    leftPos + "," + rightPos + "] = '" + charValue + "' out of range 0 to " + charMax);
         }
         return charValue;
     }
@@ -76,9 +81,9 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
      * <p>Calculates the <i>weighted</i> value of a charcter in the
      * code at a specified position.</p>
      *
-     * <p>For Luhn (from right to left) <b>odd</b> digits are weighted
+     * <p>For CUSIP (from right to left) <b>odd</b> digits are weighted
      * with a factor of <b>one</b> and <b>even</b> digits with a factor
-     * of <b>two</b>. Weighted values > 9, have 9 subtracted</p>
+     * of <b>two</b>. Weighted values &gt; 9, have 9 subtracted</p>
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right

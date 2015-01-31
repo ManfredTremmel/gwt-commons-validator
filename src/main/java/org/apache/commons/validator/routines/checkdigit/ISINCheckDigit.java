@@ -17,21 +17,26 @@
 package org.apache.commons.validator.routines.checkdigit;
 
 /**
- * Modulus 10 <b>ISIN</b> (International Securities Identifying Number)
- * Check Digit calculation/validation.
+ * Modulus 10 <b>ISIN</b> (International Securities Identifying Number) Check Digit calculation/validation.
+ *
  * <p>
  * ISIN Numbers are 12 character alphanumeric codes used
  * to identify Securities.
+ * </p>
+ *
  * <p>
  * Check digit calculation uses the <i>Modulus 10 Double Add Double</i> technique
  * with every second digit being weighted by 2. Alphabetic characters are
  * converted to numbers by their position in the alphabet starting with A being 10.
  * Weighted numbers greater than ten are treated as two separate numbers.
+ * </p>
+ *
  * <p>
  * See <a href="http://en.wikipedia.org/wiki/ISIN">Wikipedia - ISIN</a>
  * for more details.
+ * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class ISINCheckDigit extends ModulusCheckDigit {
@@ -62,12 +67,20 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
      */
     protected int calculateModulus(String code, boolean includesCheckDigit) throws CheckDigitException {
         StringBuffer transformed = new  StringBuffer(code.length() * 2);
+        if (includesCheckDigit) {
+            char checkDigit = code.charAt(code.length()-1); // fetch the last character
+            if (!Character.isDigit(checkDigit)){
+                throw new CheckDigitException("Invalid checkdigit["+ checkDigit+ "] in " + code);
+            }
+        }
         for (int i = 0; i < code.length(); i++) {
             int charValue = CharacterGetNumericValue.getNumericValue(code.charAt(i));
             if (charValue < 0 || charValue > 35) {
                 throw new CheckDigitException("Invalid Character[" +
                         (i + 1) + "] = '" + charValue + "'");
             }
+             // this converts alphanumerics to two digits
+             // so there is no need to overload toInt()
             transformed.append(charValue);
         }
         return super.calculateModulus(transformed.toString(), includesCheckDigit);
@@ -79,7 +92,7 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
      *
      * <p>For Luhn (from right to left) <b>odd</b> digits are weighted
      * with a factor of <b>one</b> and <b>even</b> digits with a factor
-     * of <b>two</b>. Weighted values > 9, have 9 subtracted</p>
+     * of <b>two</b>. Weighted values &gt; 9, have 9 subtracted</p>
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right

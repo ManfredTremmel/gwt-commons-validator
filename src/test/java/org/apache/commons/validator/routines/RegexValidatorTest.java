@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Test Case for RegexValidatorTest.
  *
- * @version $Revision: 595023 $ $Date: 2007-11-14 20:49:23 +0100 (Wed, 14 Nov 2007) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public class RegexValidatorTest extends TestCase {
@@ -277,6 +277,7 @@ public class RegexValidatorTest extends TestCase {
             } else {
                 fail(label + " Null expect=" + expect + " result=" + result);
             }
+            return; // not strictly necessary, but prevents possible NPE below
         }
 
         // Check Length

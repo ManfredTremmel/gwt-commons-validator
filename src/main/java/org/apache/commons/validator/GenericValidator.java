@@ -29,7 +29,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
 /**
  * This class contains basic methods for performing validations.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 public class GenericValidator implements Serializable {
 
@@ -161,7 +161,7 @@ public class GenericValidator implements Serializable {
      */
     @GwtIncompatible("incompatible method")
     public static boolean isDate(String value, String datePattern, boolean strict) {
-        // TODO not yet supported in routines version
+        // TODO method isValid() not yet supported in routines version
         return org.apache.commons.validator.DateValidator.getInstance().isValid(value, datePattern, strict);
     }
 

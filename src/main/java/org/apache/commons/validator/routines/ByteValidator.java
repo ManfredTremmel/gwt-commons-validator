@@ -39,7 +39,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *    one of the <code>validate()</code> methods to validate and receive a
  *    <i>converted</i> <code>Byte</code> value.</p>
  *
- * <p>Once a value has been sucessfully converted the following
+ * <p>Once a value has been successfully converted the following
  *    methods can be used to perform minimum, maximum and range checks:</p>
  *    <ul>
  *       <li><code>minValue()</code> checks whether the value is greater
@@ -61,7 +61,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using a specified pattern with a specified <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -251,9 +251,8 @@ public class ByteValidator extends AbstractNumberValidator {
         if (longValue < Byte.MIN_VALUE ||
             longValue > Byte.MAX_VALUE) {
             return null;
-        } else {
-            return new Byte((byte)longValue);
         }
+        return new Byte((byte)longValue);
     }
 
 }

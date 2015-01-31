@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 /**
  * Consolidates reading in XML config file into parent class.
  *
- * @version $Revision: 658832 $ $Date: 2008-05-21 21:57:21 +0200 (Wed, 21 May 2008) $
+ * @version $Revision: 1649191 $
  */
 abstract public class AbstractCommonTest extends TestCase {
     

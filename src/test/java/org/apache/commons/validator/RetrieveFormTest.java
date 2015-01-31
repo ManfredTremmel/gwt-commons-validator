@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 /**
  * Tests retrieving forms using different Locales.
  *
- * @version $Revision: 1094738 $ $Date: 2011-04-18 22:51:21 +0200 (Mon, 18 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class RetrieveFormTest extends TestCase {
 

@@ -28,7 +28,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * This contains the results of a set of validation rules processed
  * on a JavaBean.
  *
- * @version $Revision: 1237168 $ $Date: 2012-01-28 22:20:15 +0100 (Sat, 28 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 @GwtIncompatible("incompatible class")
 public class ValidatorResult implements Serializable {
@@ -144,16 +144,21 @@ public class ValidatorResult implements Serializable {
 
        /**
         * Construct a Result status.
-         * @param valid Whether the validator passed or failed.
-         * @param result Value returned by the validator.
+        * @param valid Whether the validator passed or failed.
+        * @param result Value returned by the validator.
         */
         public ResultStatus(boolean valid, Object result) {
             this.valid = valid;
             this.result = result;
         }
         /**
-         * Provided for backwards binary compatibility only
-         * @deprecated Use {@link #ValidatorResult(boolean, Object)} instead
+         * Provided for backwards binary compatibility only.
+         *
+         * @param ignored ignored by this method
+         * @param valid Whether the validator passed or failed.
+         * @param result Value returned by the validator.
+         *
+         * @deprecated Use {@code ResultStatus(boolean, Object)} instead
          */
         public ResultStatus(ValidatorResult ignored, boolean valid, Object result) {
             this(valid, result);

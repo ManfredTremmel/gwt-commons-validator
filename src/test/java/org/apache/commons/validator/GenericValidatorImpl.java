@@ -21,7 +21,7 @@ import org.apache.commons.validator.util.ValidatorUtils;
 /**                                                       
  * Contains validation methods for different unit tests.
  *
- * @version $Revision: 1094802 $ $Date: 2011-04-19 00:47:06 +0200 (Tue, 19 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class GenericValidatorImpl {
           
@@ -218,8 +218,9 @@ public class GenericValidatorImpl {
             String dependTest = field.getVarValue("fieldTest[" + i + "]");
             String dependTestValue = field.getVarValue("fieldValue[" + i + "]");
             String dependIndexed = field.getVarValue("fieldIndexed[" + i + "]");
-            if (dependIndexed == null)
+            if (dependIndexed == null) {
                 dependIndexed = "false";
+            }
             String dependVal = null;
             boolean this_required = false;
             if (field.isIndexed() && dependIndexed.equalsIgnoreCase("true")) {
@@ -267,7 +268,9 @@ public class GenericValidatorImpl {
   private static Class stringClass = new String().getClass();
 
   private static boolean isString(Object o) {
-    if (o == null) return true;
+    if (o == null) {
+        return true;
+    }
     return (stringClass.isInstance(o));
   }
       

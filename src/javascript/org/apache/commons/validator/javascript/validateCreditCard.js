@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-    /*$RCSfile: validateCreditCard.js,v $ $Rev: 478676 $ $Date: 2006-11-23 22:35:44 +0100 (Thu, 23 Nov 2006) $ */
+    /*$RCSfile: validateCreditCard.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
     /**
     * Check to see if fields are a valid creditcard number based on Luhn checksum.
     * Fields are not checked if they are disabled.
     * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
     */
     function validateCreditCard(form) {
         var bValid = true;
@@ -58,6 +61,10 @@
      * Checks whether a given credit card number has a valid Luhn checksum.
      * This allows you to spot most randomly made-up or garbled credit card numbers immediately.
      * Reference: http://www.speech.cs.cmu.edu/~sburke/pub/luhn_lib.html
+     *
+     * @deprecated The JS part of commons validation is deprecated
+     *   Please consider using http://parsleyjs.org/ or another 
+     *   validation library.
      */
     function jcv_luhnCheck(cardNumber) {
         if (jcv_isLuhnNum(cardNumber)) {
@@ -78,6 +85,11 @@
         return false;
     }
 
+    /**
+     * @deprecated The JS part of commons validation is deprecated
+     *   Please consider using http://parsleyjs.org/ or another 
+     *   validation library.
+     */
     function jcv_isLuhnNum(argvalue) {
         argvalue = argvalue.toString();
         if (argvalue.length == 0) {

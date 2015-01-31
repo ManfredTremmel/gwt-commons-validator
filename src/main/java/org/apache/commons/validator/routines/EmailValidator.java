@@ -24,19 +24,14 @@ import com.google.gwt.regexp.shared.RegExp;
 /**
  * <p>Perform email validations.</p>
  * <p>
- * This class is a Singleton; you can retrieve the instance via the getInstance() method.
- * </p>
- * <p>
  * Based on a script by <a href="mailto:stamhankar@hotmail.com">Sandeep V. Tamhankar</a>
  * http://javascript.internet.com
  * </p>
  * <p>
  * This implementation is not guaranteed to catch all possible errors in an email address.
- * For example, an address like nobody@noplace.somedog will pass validator, even though there
- * is no TLD "somedog"
  * </p>.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649927 $
  * @since Validator 1.4
  */
 public class EmailValidator implements Serializable {
@@ -48,12 +43,10 @@ public class EmailValidator implements Serializable {
     private static final String QUOTED_USER = "(\"[^\"]*\")";
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
-    private static final String LEGAL_ASCII_REGEX = "^[\\x00-\\x7F]+$";
     private static final String EMAIL_REGEX = "^\\s*?(.+)@(.+?)\\s*$";
     private static final String IP_DOMAIN_REGEX = "^\\[(.*)\\]$";
     private static final String USER_REGEX = "^\\s*" + WORD + "(\\." + WORD + ")*$";
 
-    private static final RegExp MATCH_ASCII_PATTERN = RegExp.compile(LEGAL_ASCII_REGEX);
     private static final RegExp EMAIL_PATTERN = RegExp.compile(EMAIL_REGEX);
     private static final RegExp IP_DOMAIN_PATTERN = RegExp.compile(IP_DOMAIN_REGEX);
     private static final RegExp USER_PATTERN = RegExp.compile(USER_REGEX);
@@ -117,18 +110,13 @@ public class EmailValidator implements Serializable {
             return false;
         }
 
-        MatchResult asciiMatcher = MATCH_ASCII_PATTERN.exec(email);
-        if (asciiMatcher == null) {
+        if (email.endsWith(".")) { // check this first - it's cheap!
             return false;
         }
 
         // Check the whole email address structure
         MatchResult emailMatcher = EMAIL_PATTERN.exec(email);
         if (emailMatcher == null) {
-            return false;
-        }
-
-        if (email.endsWith(".")) {
             return false;
         }
 
@@ -146,7 +134,7 @@ public class EmailValidator implements Serializable {
     /**
      * Returns true if the domain component of an email address is valid.
      *
-     * @param domain being validated.
+     * @param domain being validated, may be in IDN format
      * @return true if the email address's domain is valid.
      */
     protected boolean isValidDomain(String domain) {
@@ -157,12 +145,12 @@ public class EmailValidator implements Serializable {
             InetAddressValidator inetAddressValidator =
                     InetAddressValidator.getInstance();
             return inetAddressValidator.isValid(ipDomainMatcher.getGroup(1));
-        } else {
-            // Domain is symbolic name
-            DomainValidator domainValidator =
-                    DomainValidator.getInstance(allowLocal);
-            return domainValidator.isValid(domain);
         }
+        // Domain is symbolic name
+        DomainValidator domainValidator =
+                DomainValidator.getInstance(allowLocal);
+        return domainValidator.isValid(domain) ||
+                domainValidator.isValidTld(domain);
     }
 
     /**

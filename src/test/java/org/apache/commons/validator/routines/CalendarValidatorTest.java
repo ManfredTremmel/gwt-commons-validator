@@ -26,7 +26,7 @@ import java.util.TimeZone;
 /**
  * Test Case for CalendarValidator.
  * 
- * @version $Revision: 1094751 $ $Date: 2011-04-18 23:17:40 +0200 (Mon, 18 Apr 2011) $
+ * @version $Revision: 1649191 $
  */
 public class CalendarValidatorTest extends AbstractCalendarValidatorTest {
     
@@ -185,7 +185,9 @@ public class CalendarValidatorTest extends AbstractCalendarValidatorTest {
         Locale.setDefault(Locale.UK);
 
         AbstractCalendarValidator dateTimeValidator = 
-               new AbstractCalendarValidator(true, DateFormat.SHORT, DateFormat.SHORT) {
+            new AbstractCalendarValidator(true, DateFormat.SHORT, DateFormat.SHORT) {
+                private static final long serialVersionUID = 1L;
+
             protected Object processParsedValue(Object value, Format formatter) {
                 return value;
             }

@@ -25,26 +25,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.core.shared.GwtIncompatible;
 
 /**
- *  This class contains basic methods for performing validations that return the
- *  correctly typed class based on the validation performed.
+ * This class contains basic methods for performing validations that return the
+ * correctly typed class based on the validation performed.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 public class GenericTypeValidator implements Serializable {
 
     private static final long serialVersionUID = 5487162314134261703L;
 
     /**
-     *  Checks if the value can safely be converted to a byte primitive.
+     * Checks if the value can safely be converted to a byte primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Byte value.
+     * @param value The value validation is being performed on.
+     * @return the converted Byte value.
      */
     public static Byte formatByte(String value) {
         if (value == null) {
@@ -60,12 +58,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a byte primitive.
+     * Checks if the value can safely be converted to a byte primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)
-     *@return the converted Byte value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Byte value.
      */
     @GwtIncompatible("incompatible method")
     public static Byte formatByte(String value, Locale locale) {
@@ -83,11 +81,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= Byte.MIN_VALUE &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= Byte.MIN_VALUE &&
                     num.doubleValue() <= Byte.MAX_VALUE) {
-                    result = new Byte(num.byteValue());
-                }
+                result = new Byte(num.byteValue());
             }
         }
 
@@ -95,10 +92,10 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a short primitive.
+     * Checks if the value can safely be converted to a short primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Short value.
+     * @param value The value validation is being performed on.
+     * @return the converted Short value.
      */
     public static Short formatShort(String value) {
         if (value == null) {
@@ -114,12 +111,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a short primitive.
+     * Checks if the value can safely be converted to a short primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)vv
-     *@return the converted Short value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Short value.
      */
     @GwtIncompatible("incompatible method")
     public static Short formatShort(String value, Locale locale) {
@@ -137,11 +134,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= Short.MIN_VALUE &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= Short.MIN_VALUE &&
                     num.doubleValue() <= Short.MAX_VALUE) {
-                    result = new Short(num.shortValue());
-                }
+                result = new Short(num.shortValue());
             }
         }
 
@@ -149,10 +145,10 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a int primitive.
+     * Checks if the value can safely be converted to a int primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Integer value.
+     * @param value The value validation is being performed on.
+     * @return the converted Integer value.
      */
     public static Integer formatInt(String value) {
         if (value == null) {
@@ -168,12 +164,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to an int primitive.
+     * Checks if the value can safely be converted to an int primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)
-     *@return the converted Integer value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Integer value.
      */
     @GwtIncompatible("incompatible method")
     public static Integer formatInt(String value, Locale locale) {
@@ -191,11 +187,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= Integer.MIN_VALUE &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= Integer.MIN_VALUE &&
                     num.doubleValue() <= Integer.MAX_VALUE) {
-                    result = new Integer(num.intValue());
-                }
+                result = new Integer(num.intValue());
             }
         }
 
@@ -203,10 +198,10 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a long primitive.
+     * Checks if the value can safely be converted to a long primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Long value.
+     * @param value The value validation is being performed on.
+     * @return the converted Long value.
      */
     public static Long formatLong(String value) {
         if (value == null) {
@@ -222,12 +217,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a long primitive.
+     * Checks if the value can safely be converted to a long primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)
-     *@return the converted Long value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Long value.
      */
     @GwtIncompatible("incompatible method")
     public static Long formatLong(String value, Locale locale) {
@@ -245,11 +240,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= Long.MIN_VALUE &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= Long.MIN_VALUE &&
                     num.doubleValue() <= Long.MAX_VALUE) {
-                    result = new Long(num.longValue());
-                }
+                result = new Long(num.longValue());
             }
         }
 
@@ -257,10 +251,10 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a float primitive.
+     * Checks if the value can safely be converted to a float primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Float value.
+     * @param value The value validation is being performed on.
+     * @return the converted Float value.
      */
     public static Float formatFloat(String value) {
         if (value == null) {
@@ -276,12 +270,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a float primitive.
+     * Checks if the value can safely be converted to a float primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)
-     *@return the converted Float value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Float value.
      */
     @GwtIncompatible("incompatible method")
     public static Float formatFloat(String value, Locale locale) {
@@ -298,11 +292,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= (Float.MAX_VALUE * -1) &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= (Float.MAX_VALUE * -1) &&
                     num.doubleValue() <= Float.MAX_VALUE) {
-                    result = new Float(num.floatValue());
-                }
+                result = new Float(num.floatValue());
             }
         }
 
@@ -310,10 +303,10 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a double primitive.
+     * Checks if the value can safely be converted to a double primitive.
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Double value.
+     * @param value The value validation is being performed on.
+     * @return the converted Double value.
      */
     public static Double formatDouble(String value) {
         if (value == null) {
@@ -329,12 +322,12 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     *  Checks if the value can safely be converted to a double primitive.
+     * Checks if the value can safely be converted to a double primitive.
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The locale to use to parse the number (system default if
-     *      null)
-     *@return the converted Double value.
+     * @param value  The value validation is being performed on.
+     * @param locale The locale to use to parse the number (system default if
+     *               null)
+     * @return the converted Double value.
      */
     @GwtIncompatible("incompatible method")
     public static Double formatDouble(String value, Locale locale) {
@@ -351,11 +344,10 @@ public class GenericTypeValidator implements Serializable {
             Number num = formatter.parse(value, pos);
 
             // If there was no error      and we used the whole string
-            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length()) {
-                if (num.doubleValue() >= (Double.MAX_VALUE * -1) &&
+            if (pos.getErrorIndex() == -1 && pos.getIndex() == value.length() &&
+                    num.doubleValue() >= (Double.MAX_VALUE * -1) &&
                     num.doubleValue() <= Double.MAX_VALUE) {
-                    result = new Double(num.doubleValue());
-                }
+                result = new Double(num.doubleValue());
             }
         }
 
@@ -364,16 +356,15 @@ public class GenericTypeValidator implements Serializable {
 
 
     /**
-     *  <p>
+     * Checks if the field is a valid date.
      *
-     *  Checks if the field is a valid date. The <code>Locale</code> is used
-     *  with <code>java.text.DateFormat</code>. The setLenient method is set to
-     *  <code>false</code> for all.</p>
+     * <p>The {@code Locale} is used with {@code java.text.DateFormat}. The {@link java.text.DateFormat#setLenient(boolean)}
+     * method is set to {@code false} for all.
+     * </p>
      *
-     *@param  value   The value validation is being performed on.
-     *@param  locale  The Locale to use to parse the date (system default if
-     *      null)
-     *@return the converted Date value.
+     * @param value  The value validation is being performed on.
+     * @param locale The Locale to use to parse the date (system default if null)
+     * @return the converted Date value.
      */
     @GwtIncompatible("incompatible method")
     public static Date formatDate(String value, Locale locale) {
@@ -389,18 +380,18 @@ public class GenericTypeValidator implements Serializable {
             DateFormat formatterDefault = null;
             if (locale != null) {
                 formatterShort =
-                   DateFormat.getDateInstance(DateFormat.SHORT, locale);
+                        DateFormat.getDateInstance(DateFormat.SHORT, locale);
                 formatterDefault =
-                   DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+                        DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
             } else {
                 formatterShort =
-                    DateFormat.getDateInstance(
-                    DateFormat.SHORT,
-                    Locale.getDefault());
+                        DateFormat.getDateInstance(
+                                DateFormat.SHORT,
+                                Locale.getDefault());
                 formatterDefault =
-                   DateFormat.getDateInstance(
-                   DateFormat.DEFAULT,
-                   Locale.getDefault());
+                        DateFormat.getDateInstance(
+                                DateFormat.DEFAULT,
+                                Locale.getDefault());
             }
 
             // Turn off lenient parsing
@@ -409,44 +400,43 @@ public class GenericTypeValidator implements Serializable {
 
             // Firstly, try with the short form
             try {
-               date = formatterShort.parse(value);
+                date = formatterShort.parse(value);
             } catch (ParseException e) {
-               // Fall back on the default one
-               date = formatterDefault.parse(value);
+                // Fall back on the default one
+                date = formatterDefault.parse(value);
             }
         } catch (ParseException e) {
-            // Bad date, so log and return null
-            Log log = LogFactory.getLog(GenericTypeValidator.class);
-            if (log.isDebugEnabled()) {
-                log.debug("Date parse failed value=[" + value  + "], " +
-                                           "locale=[" + locale + "] "  + e);
-            }
+            // Bad date, so LOG and return null
+                GWT.log("Date parse failed value=[" + value + "], " +
+                        "locale=[" + locale + "] ", e);
         }
 
         return date;
     }
 
     /**
-     *  <p>
-     *  Checks if the field is a valid date. The pattern is used with <code>java.text.SimpleDateFormat</code>
-     *  . If strict is true, then the length will be checked so '2/12/1999' will
-     *  not pass validation with the format 'MM/dd/yyyy' because the month isn't
-     *  two digits. The setLenient method is set to <code>false</code> for all.
-     *  </p>
+     * Checks if the field is a valid date.
      *
-     *@param  value        The value validation is being performed on.
-     *@param  datePattern  The pattern passed to <code>SimpleDateFormat</code>.
-     *@param  strict       Whether or not to have an exact match of the
-     *      datePattern.
-     *@return the converted Date value.
+     * <p>The pattern is used with {@code java.text.SimpleDateFormat}.
+     * If strict is true, then the length will be checked so '2/12/1999' will
+     * not pass validation with the format 'MM/dd/yyyy' because the month isn't
+     * two digits. The {@link java.text.SimpleDateFormat#setLenient(boolean)}
+     * method is set to {@code false} for all.
+     * </p>
+     *
+     * @param value       The value validation is being performed on.
+     * @param datePattern The pattern passed to {@code SimpleDateFormat}.
+     * @param strict      Whether or not to have an exact match of the
+     *                    datePattern.
+     * @return the converted Date value.
      */
     @GwtIncompatible("incompatible method")
     public static Date formatDate(String value, String datePattern, boolean strict) {
         Date date = null;
 
         if (value == null
-             || datePattern == null
-             || datePattern.length() == 0) {
+                || datePattern == null
+                || datePattern.length() == 0) {
             return null;
         }
 
@@ -456,33 +446,27 @@ public class GenericTypeValidator implements Serializable {
 
             date = formatter.parse(value);
 
-            if (strict) {
-                if (datePattern.length() != value.length()) {
-                    date = null;
-                }
+            if (strict && datePattern.length() != value.length()) {
+                date = null;
             }
         } catch (ParseException e) {
             // Bad date so return null
-            Log log = LogFactory.getLog(GenericTypeValidator.class);
-            if (log.isDebugEnabled()) {
-                log.debug("Date parse failed value=[" + value       + "], " +
-                                          "pattern=[" + datePattern + "], " +
-                                           "strict=[" + strict      + "] "  + e);
-            }
+                GWT.log("Date parse failed value=[" + value + "], " +
+                        "pattern=[" + datePattern + "], " +
+                        "strict=[" + strict + "] ", e);
         }
 
         return date;
     }
 
     /**
-     *  <p>
-     *  Checks if the field is a valid credit card number.</p> <p>
+     * Checks if the field is a valid credit card number.
      *
-     *  Reference Sean M. Burke's <a href="http://www.ling.nwu.edu/~sburke/pub/luhn_lib.pl">
-     *  script</a> .</p>
+     * <p>Reference Sean M. Burke's <a href="http://www.ling.nwu.edu/~sburke/pub/luhn_lib.pl">
+     * script</a>.</p>
      *
-     *@param  value  The value validation is being performed on.
-     *@return the converted Credit Card number.
+     * @param value The value validation is being performed on.
+     * @return the converted Credit Card number.
      */
     public static Long formatCreditCard(String value) {
         return GenericValidator.isCreditCard(value) ? new Long(value) : null;

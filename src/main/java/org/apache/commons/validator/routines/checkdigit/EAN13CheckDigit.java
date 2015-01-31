@@ -37,7 +37,7 @@ package org.apache.commons.validator.routines.checkdigit;
  *       Standard Book Number (ISBN)</a>.</li>
  * </ul>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class EAN13CheckDigit extends ModulusCheckDigit {
@@ -72,6 +72,6 @@ public final class EAN13CheckDigit extends ModulusCheckDigit {
      */
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
         int weight = POSITION_WEIGHT[rightPos % 2];
-        return (charValue * weight);
+        return charValue * weight;
     }
 }

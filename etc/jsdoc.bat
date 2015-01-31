@@ -1,6 +1,6 @@
 @echo off
 
-rem * $Id: jsdoc.bat 1228187 2012-01-06 13:56:52Z simonetripodi $
+rem * $Id: jsdoc.bat 1608569 2014-07-07 19:28:41Z britter $
 rem * ====================================================================
 rem *
 rem * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -37,5 +37,5 @@ set _PACKAGE=/org/apache/commons/validator/javascript
 set _JSDOC_HOME=%1
 set _JAVASCRIPT_DIR=%2%_PACKAGE%
 set _OUTPUT_DIR=%3%_PACKAGE%
-set _COPYRIGHT="Copyright © 2000-2012 - Apache Software Foundation"
+set _COPYRIGHT="Copyright © 2000-2014 - Apache Software Foundation"
 perl %_JSDOC_HOME%/jsdoc.pl --project-summary %_JAVASCRIPT_DIR%/package.html --project-name "Package %_PACKAGE%" --page-footer %_COPYRIGHT% -d %_OUTPUT_DIR% %_JAVASCRIPT_DIR% 

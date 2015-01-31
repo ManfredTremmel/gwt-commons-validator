@@ -31,7 +31,7 @@ import java.io.Serializable;
  * ISBN number (rather than this 10 digit ISBN number) which uses the EAN-13 / UPC
  * standard.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class ISBNCheckDigit implements CheckDigit, Serializable {

@@ -29,7 +29,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * <p>This is a <i>base</i> class for building Date and Number
  *    Validators using format parsing.</p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")

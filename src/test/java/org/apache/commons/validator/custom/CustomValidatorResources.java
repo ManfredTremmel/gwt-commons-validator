@@ -24,9 +24,11 @@ import org.apache.commons.validator.ValidatorResources;
 /**                                                       
  * Custom ValidatorResources implementation.
  *
- * @version $Revision: 493905 $ $Date: 2007-01-08 03:11:38 +0100 (Mon, 08 Jan 2007) $
+ * @version $Revision: 1649191 $
  */
 public class CustomValidatorResources extends ValidatorResources {
+
+    private static final long serialVersionUID = 1272843199141974642L;
 
     /**
      * Create a custom ValidatorResources object from an uri

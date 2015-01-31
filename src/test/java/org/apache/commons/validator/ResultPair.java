@@ -19,7 +19,7 @@
 /**
  * Groups tests and expected results.
  *
- * @version $Revision: 588091 $ $Date: 2007-10-25 02:17:42 +0200 (Thu, 25 Oct 2007) $
+ * @version $Revision: 1649191 $
  */
  public class ResultPair {
       public String item;

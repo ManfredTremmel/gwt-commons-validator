@@ -44,9 +44,9 @@ import org.xml.sax.SAXException;
  * the Validator against raw Beans in a pure Java application, you
  * can see everything you need to know to get it working here.
  *
- * @version $Revision: 478334 $ $Date: 2006-11-22 22:31:54 +0100 (Wed, 22 Nov 2006) $
+ * @version $Revision: 1649191 $
  */
-public class ValidateExample extends Object {
+public class ValidateExample {
 
     /**
      * We need a resource bundle to get our field names and errors messages 

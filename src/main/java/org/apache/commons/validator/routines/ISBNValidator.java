@@ -50,7 +50,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
  *       Transition details</a>.</li>
  * </ul>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public class ISBNValidator implements Serializable {
@@ -86,10 +86,10 @@ public class ISBNValidator implements Serializable {
 
 
     /** ISBN-10 Code Validator */
-    private CodeValidator isbn10Validator = new CodeValidator(ISBN10_REGEX, 10, ISBN10CheckDigit.ISBN10_CHECK_DIGIT);
+    private final CodeValidator isbn10Validator = new CodeValidator(ISBN10_REGEX, 10, ISBN10CheckDigit.ISBN10_CHECK_DIGIT);
 
     /** ISBN-13 Code Validator */
-    private CodeValidator isbn13Validator = new CodeValidator(ISBN13_REGEX, 13, EAN13CheckDigit.EAN13_CHECK_DIGIT);
+    private final CodeValidator isbn13Validator = new CodeValidator(ISBN13_REGEX, 13, EAN13CheckDigit.EAN13_CHECK_DIGIT);
 
     private final boolean convert;
 

@@ -19,7 +19,7 @@ package org.apache.commons.validator;
 /**                                                       
  * Value object for storing a value to run tests on. 
  *
- * @version $Revision: 658832 $ $Date: 2008-05-21 21:57:21 +0200 (Wed, 21 May 2008) $
+ * @version $Revision: 1649191 $
  */
 public class ValueBean {
    

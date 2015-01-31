@@ -23,22 +23,33 @@ import java.util.Iterator;
 import org.apache.commons.validator.util.Flags;
 
 /**
- * <p>Perform credit card validations.</p>
+ * Perform credit card validations.
+ *
  * <p>
  * By default, all supported card types are allowed.  You can specify which
- * cards should pass validation by configuring the validation options.  For
- * example,<br/><code>CreditCardValidator ccv = new CreditCardValidator(CreditCardValidator.AMEX + CreditCardValidator.VISA);</code>
+ * cards should pass validation by configuring the validation options. For
+ * example,
+ * </p>
+ *
+ * <pre>
+ * <code>CreditCardValidator ccv = new CreditCardValidator(CreditCardValidator.AMEX + CreditCardValidator.VISA);</code>
+ * </pre>
+ *
+ * <p>
  * configures the validator to only pass American Express and Visa cards.
  * If a card type is not directly supported by this class, you can implement
  * the CreditCardType interface and pass an instance into the
  * <code>addAllowedCardType</code> method.
  * </p>
+ *
+ * <p>
  * For a similar implementation in Perl, reference Sean M. Burke's
  * <a href="http://www.speech.cs.cmu.edu/~sburke/pub/luhn_lib.html">script</a>.
  * More information is also available
  * <a href="http://www.merriampark.com/anatomycc.htm">here</a>.
+ * </p>
  *
- * @version $Revision: 1227688 $ $Date: 2012-01-05 17:43:11 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.1
  * @deprecated Use the new CreditCardValidator in the routines package. This class
  * will be removed in a future release.
@@ -49,11 +60,12 @@ public class CreditCardValidator {
      * Option specifying that no cards are allowed.  This is useful if
      * you want only custom card types to validate so you turn off the
      * default cards with this option.
-     * <br/>
      * <pre>
+     * <code>
      * CreditCardValidator v = new CreditCardValidator(CreditCardValidator.NONE);
      * v.addAllowedCardType(customType);
      * v.isValid(aCardNumber);
+     * </code>
      * </pre>
      * @since Validator 1.1.2
      */
@@ -82,7 +94,7 @@ public class CreditCardValidator {
     /**
      * The CreditCardTypes that are allowed to pass validation.
      */
-    private Collection cardTypes = new ArrayList();
+    private final Collection cardTypes = new ArrayList();
 
     /**
      * Create a new CreditCardValidator with default options.
@@ -92,7 +104,7 @@ public class CreditCardValidator {
     }
 
     /**
-     * Create a new CreditCardValidator with the specified options.
+     * Creates a new CreditCardValidator with the specified options.
      * @param options Pass in
      * CreditCardValidator.VISA + CreditCardValidator.AMEX to specify that
      * those are the only valid card types.
@@ -144,7 +156,7 @@ public class CreditCardValidator {
     }
 
     /**
-     * Add an allowed CreditCardType that participates in the card
+     * Adds an allowed CreditCardType that participates in the card
      * validation algorithm.
      * @param type The type that is now allowed to pass validation.
      * @since Validator 1.1.2

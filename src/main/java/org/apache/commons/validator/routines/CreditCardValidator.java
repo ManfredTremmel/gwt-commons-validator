@@ -23,22 +23,33 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * <p>Perform credit card validations.</p>
+ * Perform credit card validations.
+ *
  * <p>
  * By default, all supported card types are allowed.  You can specify which
- * cards should pass validation by configuring the validation options.  For
- * example,<br/><code>CreditCardValidator ccv = new CreditCardValidator(CreditCardValidator.AMEX + CreditCardValidator.VISA);</code>
+ * cards should pass validation by configuring the validation options. For
+ * example,
+ * </p>
+ *
+ * <pre>
+ * <code>CreditCardValidator ccv = new CreditCardValidator(CreditCardValidator.AMEX + CreditCardValidator.VISA);</code>
+ * </pre>
+ *
+ * <p>
  * configures the validator to only pass American Express and Visa cards.
  * If a card type is not directly supported by this class, you can implement
  * the CreditCardType interface and pass an instance into the
  * <code>addAllowedCardType</code> method.
  * </p>
+ *
+ * <p>
  * For a similar implementation in Perl, reference Sean M. Burke's
  * <a href="http://www.speech.cs.cmu.edu/~sburke/pub/luhn_lib.html">script</a>.
- * More information is also available
- * <a href="http://www.merriampark.com/anatomycc.htm">here</a>.
+ * More information can be found in Michael Gilleland's essay 
+ * <a href="http://web.archive.org/web/20120614072656/http://www.merriampark.com/anatomycc.htm">Anatomy of Credit Card Numbers</a>.
+ * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public class CreditCardValidator implements Serializable {
@@ -49,11 +60,13 @@ public class CreditCardValidator implements Serializable {
      * Option specifying that no cards are allowed.  This is useful if
      * you want only custom card types to validate so you turn off the
      * default cards with this option.
-     * <br/>
+     *
      * <pre>
+     * <code>
      * CreditCardValidator v = new CreditCardValidator(CreditCardValidator.NONE);
      * v.addAllowedCardType(customType);
      * v.isValid(aCardNumber);
+     * </code>
      * </pre>
      */
     public static final long NONE = 0;

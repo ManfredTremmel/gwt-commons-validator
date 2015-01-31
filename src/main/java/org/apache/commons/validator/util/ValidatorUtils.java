@@ -31,6 +31,7 @@ import org.apache.commons.validator.Arg;
 import org.apache.commons.validator.Msg;
 import org.apache.commons.validator.Var;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.core.shared.GwtIncompatible;
 
 /**
@@ -40,7 +41,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1227703 $ $Date: 2012-01-05 18:15:19 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 public class ValidatorUtils {
 
@@ -106,14 +107,11 @@ public class ValidatorUtils {
             value = PropertyUtils.getProperty(bean, property);
 
         } catch(IllegalAccessException e) {
-            Log log = LogFactory.getLog(ValidatorUtils.class);
-            log.error(e.getMessage(), e);
+            GWT.log(e.getMessage(), e);
         } catch(InvocationTargetException e) {
-            Log log = LogFactory.getLog(ValidatorUtils.class);
-            log.error(e.getMessage(), e);
+        	GWT.log(e.getMessage(), e);
         } catch(NoSuchMethodException e) {
-            Log log = LogFactory.getLog(ValidatorUtils.class);
-            log.error(e.getMessage(), e);
+        	GWT.log(e.getMessage(), e);
         }
 
         if (value == null) {

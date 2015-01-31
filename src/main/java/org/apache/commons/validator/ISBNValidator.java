@@ -25,7 +25,7 @@ package org.apache.commons.validator;
  * <b>NOTE:</b> This has been replaced by the new
  *  {@link org.apache.commons.validator.routines.ISBNValidator}.
  *
- * @version $Revision: 591503 $ $Date: 2007-11-03 00:00:06 +0100 (Sat, 03 Nov 2007) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.2.0
  * @deprecated Use the new ISBNValidator in the routines package
  */

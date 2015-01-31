@@ -52,7 +52,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 @GwtIncompatible("incompatible class")
 public class ValidatorResources implements Serializable {
@@ -130,10 +130,9 @@ public class ValidatorResources implements Serializable {
      *
      * @param in InputStream to a validation.xml configuration file.  It's the client's
      * responsibility to close this stream.
-     * @throws IOException
      * @throws SAXException if the validation XML files are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.1
      */
     public ValidatorResources(InputStream in) throws IOException, SAXException {
@@ -146,10 +145,9 @@ public class ValidatorResources implements Serializable {
      * @param streams An array of InputStreams to several validation.xml
      * configuration files that will be read in order and merged into this object.
      * It's the client's responsibility to close these streams.
-     * @throws IOException
      * @throws SAXException if the validation XML files are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.1
      */
     public ValidatorResources(InputStream[] streams)
@@ -173,10 +171,9 @@ public class ValidatorResources implements Serializable {
      * Create a ValidatorResources object from an uri
      *
      * @param uri The location of a validation.xml configuration file.
-     * @throws IOException
      * @throws SAXException if the validation XML files are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.2
      */
     public ValidatorResources(String uri) throws IOException, SAXException {
@@ -188,10 +185,9 @@ public class ValidatorResources implements Serializable {
      *
      * @param uris An array of uris to several validation.xml
      * configuration files that will be read in order and merged into this object.
-     * @throws IOException
      * @throws SAXException if the validation XML files are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.2
      */
     public ValidatorResources(String[] uris)
@@ -213,10 +209,9 @@ public class ValidatorResources implements Serializable {
      *
      * @param url The URL for the validation.xml
      * configuration file that will be read into this object.
-     * @throws IOException
      * @throws SAXException if the validation XML file are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.3.1
      */
     public ValidatorResources(URL url)
@@ -229,10 +224,9 @@ public class ValidatorResources implements Serializable {
      *
      * @param urls An array of URL to several validation.xml
      * configuration files that will be read in order and merged into this object.
-     * @throws IOException
      * @throws SAXException if the validation XML files are not valid or well
      * formed.
-     * @throws IOException  if an I/O error occurs processing the XML files
+     * @throws IOException if an I/O error occurs processing the XML files
      * @since Validator 1.3.1
      */
     public ValidatorResources(URL[] urls)

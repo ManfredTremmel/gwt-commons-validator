@@ -26,12 +26,12 @@ The Package itself has to be includes as binary and source package. I've done it
     <dependency>
       <groupId>gwt-commons-validator</groupId>
       <artifactId>gwt-commons-validator</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
+      <version>1.4.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>gwt-commons-validator</groupId>
       <artifactId>gwt-commons-validator</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
+      <version>1.4.1-SNAPSHOT</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>

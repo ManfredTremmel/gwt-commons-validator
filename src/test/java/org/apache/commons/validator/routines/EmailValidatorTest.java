@@ -24,7 +24,7 @@ import org.apache.commons.validator.ResultPair;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1207110 $ $Date: 2011-11-28 13:42:01 +0100 (Mon, 28 Nov 2011) $
+ * @version $Revision: 1649927 $
  */
 public class EmailValidatorTest extends TestCase {
 
@@ -136,7 +136,31 @@ public class EmailValidatorTest extends TestCase {
 
     }
 
-   /**
+    public void testVALIDATOR_315() {
+        assertFalse(validator.isValid("me@at&t.net"));
+        assertTrue(validator.isValid("me@att.net")); // Make sure TLD is not the cause of the failure
+    }
+
+    public void testVALIDATOR_278() {
+        assertFalse(validator.isValid("someone@-test.com"));// hostname starts with dash/hyphen
+        assertFalse(validator.isValid("someone@test-.com"));// hostname ends with dash/hyphen
+    }
+
+    public void testValidator235() {
+        String version = System.getProperty("java.version");
+        if (version.compareTo("1.6") < 0) {
+            System.out.println("Cannot run Unicode IDN tests");
+            return; // Cannot run the test
+        }
+        assertTrue("xn--d1abbgf6aiiy.xn--p1ai should validate", validator.isValid("someone@xn--d1abbgf6aiiy.xn--p1ai"));
+        assertTrue("президент.рф should validate", validator.isValid("someone@президент.рф"));
+        assertTrue("www.b\u00fccher.ch should validate", validator.isValid("someone@www.b\u00fccher.ch"));
+        assertFalse("www.\uFFFD.ch FFFD should fail", validator.isValid("someone@www.\uFFFD.ch"));
+        assertTrue("www.b\u00fccher.ch should validate", validator.isValid("someone@www.b\u00fccher.ch"));
+        assertFalse("www.\uFFFD.ch FFFD should fail", validator.isValid("someone@www.\uFFFD.ch"));
+    }
+
+    /**
     * Tests the email validation with commas.
     */
     public void testEmailWithCommas()  {

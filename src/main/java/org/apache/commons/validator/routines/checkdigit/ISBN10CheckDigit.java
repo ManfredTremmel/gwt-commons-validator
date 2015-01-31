@@ -39,7 +39,7 @@ package org.apache.commons.validator.routines.checkdigit;
  *       Transition details</a>.</li>
  * </ul>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class ISBN10CheckDigit extends ModulusCheckDigit {
@@ -69,7 +69,7 @@ public final class ISBN10CheckDigit extends ModulusCheckDigit {
      * @return The weighted value of the character.
      */
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
-        return (charValue * rightPos);
+        return charValue * rightPos;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class ISBN10CheckDigit extends ModulusCheckDigit {
      *
      * @param character The character to convert.
      * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The positionof the character in the code, counting from right to left
+     * @param rightPos The position of the character in the code, counting from right to left
      * @return The integer value of the character.
      * @throws CheckDigitException if an error occurs.
      */
@@ -88,9 +88,8 @@ public final class ISBN10CheckDigit extends ModulusCheckDigit {
             throws CheckDigitException {
         if (rightPos == 1 && character == 'X') {
             return 10;
-        } else {
-            return super.toInt(character, leftPos, rightPos);
         }
+        return super.toInt(character, leftPos, rightPos);
     }
 
     /**
@@ -106,9 +105,8 @@ public final class ISBN10CheckDigit extends ModulusCheckDigit {
             throws CheckDigitException {
         if (charValue == 10) {
             return "X";
-        } else {
-            return super.toCheckDigit(charValue);
         }
+        return super.toCheckDigit(charValue);
     }
 
 }

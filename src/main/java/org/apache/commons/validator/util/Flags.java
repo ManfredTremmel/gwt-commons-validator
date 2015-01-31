@@ -22,23 +22,23 @@ import com.google.gwt.core.shared.GwtIncompatible;
 
 /**
  * Represents a collection of 64 boolean (on/off) flags.  Individual flags
- * are represented by powers of 2.  For example,<br/>
- * Flag 1 = 1<br/>
- * Flag 2 = 2<br/>
- * Flag 3 = 4<br/>
- * Flag 4 = 8<br/><br/>
- * or using shift operator to make numbering easier:<br/>
- * Flag 1 = 1 &lt;&lt; 0<br/>
- * Flag 2 = 1 &lt;&lt; 1<br/>
- * Flag 3 = 1 &lt;&lt; 2<br/>
- * Flag 4 = 1 &lt;&lt; 3<br/>
+ * are represented by powers of 2.  For example,<br>
+ * Flag 1 = 1<br>
+ * Flag 2 = 2<br>
+ * Flag 3 = 4<br>
+ * Flag 4 = 8<br><br>
+ * or using shift operator to make numbering easier:<br>
+ * Flag 1 = 1 &lt;&lt; 0<br>
+ * Flag 2 = 1 &lt;&lt; 1<br>
+ * Flag 3 = 1 &lt;&lt; 2<br>
+ * Flag 4 = 1 &lt;&lt; 3<br>
  *
  * <p>
  * There cannot be a flag with a value of 3 because that represents Flag 1
  * and Flag 2 both being on/true.
  * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649290 $
  */
 public class Flags implements Serializable, Cloneable {
 
@@ -84,7 +84,7 @@ public class Flags implements Serializable, Cloneable {
      * @return whether the specified flag value is on.
      */
     public boolean isOn(long flag) {
-        return (this.flags & flag) > 0;
+        return (this.flags & flag) == flag;
     }
 
     /**
@@ -138,7 +138,7 @@ public class Flags implements Serializable, Cloneable {
      * Turn on all 64 flags.
      */
     public void turnOnAll() {
-        this.flags = Long.MAX_VALUE;
+        this.flags = 0xFFFFFFFFFFFFFFFFl;
     }
 
     /**

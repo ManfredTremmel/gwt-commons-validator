@@ -33,7 +33,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * based on the country, language, and variant specified. Instances of this
  * class are configured with a &lt;formset&gt; xml element.
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  */
 @GwtIncompatible("incompatible class")
 public class FormSet implements Serializable {
@@ -62,13 +62,13 @@ public class FormSet implements Serializable {
      * A <code>Map</code> of <code>Form</code>s using the name field of the
      * <code>Form</code> as the key.
      */
-    private Map forms = new HashMap();
+    private final Map forms = new HashMap();
 
     /**
      * A <code>Map</code> of <code>Constant</code>s using the name field of the
      * <code>Constant</code> as the key.
      */
-    private Map constants = new HashMap();
+    private final Map constants = new HashMap();
 
     /**
      * This is the type of <code>FormSet</code>s where no locale is specified.

@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1128342 $ $Date: 2011-05-27 17:00:45 +0200 (Fri, 27 May 2011) $
+ * @version $Revision: 1649191 $
  * @deprecated to be removed when target class is removed
  */
 public class EmailTest extends AbstractCommonTest {
@@ -210,6 +210,18 @@ public class EmailTest extends AbstractCommonTest {
         assertFalse("Test control char 127", validator.isValid("foo" + ((char)127) + "bar@domain.com"));
     }
 
+   /**
+    * Tests the e-mail validation with a user at a TLD
+    */
+   public void testEmailAtTLD() throws ValidatorException {
+      // Create bean to run test on.
+      ValueBean info = new ValueBean();
+
+      info.setValue("m@de");
+      valueTest(info, true);
+
+   }
+
     /**
      * Test that @localhost and @localhost.localdomain
      *  addresses aren't declared valid by default 
@@ -374,7 +386,7 @@ public class EmailTest extends AbstractCommonTest {
         new ResultPair("abigail@", false),
         new ResultPair("@example.com", false),
         new ResultPair("phrase: abigail@example.com abigail@example.com ;", false),
-        new ResultPair("invalid£char@example.com", false)
+        new ResultPair("invalidï¿½char@example.com", false)
     };
 
     /**

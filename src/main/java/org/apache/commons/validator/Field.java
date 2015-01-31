@@ -44,7 +44,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @see org.apache.commons.validator.Form
  */
 @GwtIncompatible("incompatible class")
@@ -127,7 +127,7 @@ public class Field implements Cloneable, Serializable {
      * synchronized so a call to setDepends() (which clears the List) won't
      * interfere with a call to isDependency().
      */
-    private List dependencyList = Collections.synchronizedList(new ArrayList());
+    private final List dependencyList = Collections.synchronizedList(new ArrayList());
 
     /**
      * @deprecated Subclasses should use getVarMap() instead.

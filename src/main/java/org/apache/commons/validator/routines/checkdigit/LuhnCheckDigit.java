@@ -18,7 +18,7 @@ package org.apache.commons.validator.routines.checkdigit;
 
 /**
  * Modulus 10 <b>Luhn</b> Check Digit calculation/validation.
- * <p>
+ *
  * Luhn check digits are used, for example, by:
  * <ul>
  *    <li><a href="http://en.wikipedia.org/wiki/Credit_card">Credit Card Numbers</a></li>
@@ -28,11 +28,13 @@ package org.apache.commons.validator.routines.checkdigit;
  * Check digit calculation is based on <i>modulus 10</i> with digits in
  * an <i>odd</i> position (from right to left) being weighted 1 and <i>even</i>
  * position digits being weighted 2 (weighted values greater than 9 have 9 subtracted).
+ *
  * <p>
  * See <a href="http://en.wikipedia.org/wiki/Luhn_algorithm">Wikipedia</a>
  * for more details.
+ * </p>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.4
  */
 public final class LuhnCheckDigit extends ModulusCheckDigit {
@@ -58,7 +60,7 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
      *
      * <p>For Luhn (from right to left) <b>odd</b> digits are weighted
      * with a factor of <b>one</b> and <b>even</b> digits with a factor
-     * of <b>two</b>. Weighted values > 9, have 9 subtracted</p>
+     * of <b>two</b>. Weighted values &gt; 9, have 9 subtracted</p>
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right
@@ -67,7 +69,7 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
      */
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
         int weight = POSITION_WEIGHT[rightPos % 2];
-        int weightedValue = (charValue * weight);
-        return (weightedValue > 9 ? (weightedValue - 9) : weightedValue);
+        int weightedValue = charValue * weight;
+        return weightedValue > 9 ? (weightedValue - 9) : weightedValue;
     }
 }

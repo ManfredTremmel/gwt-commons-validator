@@ -36,7 +36,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * is no TLD "somedog"
  * </p>.
  *
- * @version $Revision: 1195321 $ $Date: 2011-10-31 04:46:07 +0100 (Mon, 31 Oct 2011) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.1
  * @deprecated Use the new EmailValidator in the routines package. This class
  * will be removed in a future release.
@@ -49,8 +49,8 @@ public class EmailValidator {
     private static final String ATOM = VALID_CHARS + '+';
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
-    private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^[\\x00-\\x7F]+$");
-    private static final RegExp EMAIL_PATTERN = RegExp.compile("^(.+)@(.+)$");
+// NOT USED   private static final Pattern LEGAL_ASCII_PATTERN = Pattern.compile("^\\p{ASCII}+$");
+// NOT USED   private static final Pattern EMAIL_PATTERN = Pattern.compile("^(.+)@(.+)$");
     private static final RegExp IP_DOMAIN_PATTERN = RegExp.compile("^\\[(.*)\\]$");
     private static final RegExp TLD_PATTERN = RegExp.compile("^([a-zA-Z]+)$");
             

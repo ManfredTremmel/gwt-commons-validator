@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 /**                                                       
  * Performs Validation Test for exception handling.
  *
- * @version $Revision: 493905 $ $Date: 2007-01-08 03:11:38 +0100 (Mon, 08 Jan 2007) $
+ * @version $Revision: 1649191 $
  */
 public class ExceptionTest extends AbstractCommonTest {
 

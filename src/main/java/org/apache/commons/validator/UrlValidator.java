@@ -30,12 +30,14 @@ import com.google.gwt.regexp.shared.RegExp;
 /**
  * <p>Validates URLs.</p>
  * Behavour of validation is modified by passing in options:
+ * <ul>
  * <li>ALLOW_2_SLASHES - [FALSE]  Allows double '/' characters in the path
  * component.</li>
  * <li>NO_FRAGMENT- [FALSE]  By default fragments are allowed, if this option is
  * included then fragments are flagged as illegal.</li>
  * <li>ALLOW_ALL_SCHEMES - [FALSE] By default only http, https, and ftp are
  * considered valid schemes.  Enabling this option will let any scheme pass validation.</li>
+ * </ul>
  *
  * <p>Originally based in on php script by Debbie Dyer, validation.php v1.2b, Date: 03/07/02,
  * http://javascript.internet.com. However, this validation now bears little resemblance
@@ -70,7 +72,7 @@ import com.google.gwt.regexp.shared.RegExp;
  *  Uniform Resource Identifiers (URI): Generic Syntax
  * </a>
  *
- * @version $Revision: 1227719 $ $Date: 2012-01-05 18:45:51 +0100 (Thu, 05 Jan 2012) $
+ * @version $Revision: 1649191 $
  * @since Validator 1.1
  * @deprecated Use the new UrlValidator in the routines package. This class
  * will be removed in a future release.
@@ -97,7 +99,7 @@ public class UrlValidator implements Serializable {
 
     private static final String ALPHA_CHARS = "a-zA-Z";
 
-    private static final String ALPHA_NUMERIC_CHARS = ALPHA_CHARS + "\\d";
+// NOT USED   private static final String ALPHA_NUMERIC_CHARS = ALPHA_CHARS + "\\d";
 
     private static final String SPECIAL_CHARS = ";/@&=,.?:+$";
 
@@ -135,7 +137,7 @@ public class UrlValidator implements Serializable {
     /**
      * Protocol (ie. http:, ftp:,https:).
      */
-    private static final RegExp SCHEME_PATTERN = RegExp.compile("^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*");
+    private static final RegExp SCHEME_PATTERN = RegExp.compile("^[a-zA-Z][0-9a-zA-Z\\+\\-\\.]*");
 
     private static final String AUTHORITY_REGEX =
        "^([" + AUTHORITY_CHARS_REGEX + "]*)(:\\d*)?(.*)?";
@@ -169,12 +171,12 @@ public class UrlValidator implements Serializable {
     /**
      * Holds the set of current validation options.
      */
-    private Flags options = null;
+    private final Flags options;
 
     /**
      * The set of schemes that are allowed to be in a URL.
      */
-    private Set allowedSchemes = new HashSet();
+    private final Set allowedSchemes = new HashSet();
 
     /**
      * If no schemes are provided, default to this set.
@@ -292,11 +294,8 @@ public class UrlValidator implements Serializable {
             return false;
         }
 
-        if (this.options.isOff(ALLOW_ALL_SCHEMES)) {
-
-            if (!this.allowedSchemes.contains(scheme)) {
-                return false;
-            }
+        if (options.isOff(ALLOW_ALL_SCHEMES) && !allowedSchemes.contains(scheme)) {
+            return false;
         }
 
         return true;
@@ -382,10 +381,8 @@ public class UrlValidator implements Serializable {
         }
 
         String port = authorityMatcher.getGroup(PARSE_AUTHORITY_PORT);
-        if (port != null) {
-            if (PORT_PATTERN.exec(port) == null) {
-                return false;
-            }
+        if (port != null && PORT_PATTERN.exec(port) == null) {
+            return false;
         }
 
         String extra = authorityMatcher.getGroup(PARSE_AUTHORITY_EXTRA);
@@ -411,16 +408,14 @@ public class UrlValidator implements Serializable {
         }
 
         int slash2Count = countToken("//", path);
-        if (this.options.isOff(ALLOW_2_SLASHES) && (slash2Count > 0)) {
+        if (options.isOff(ALLOW_2_SLASHES) && (slash2Count > 0)) {
             return false;
         }
 
         int slashCount = countToken("/", path);
         int dot2Count = countToken("..", path);
-        if (dot2Count > 0) {
-            if ((slashCount - slash2Count - 1) <= dot2Count) {
-                return false;
-            }
+        if (dot2Count > 0 && (slashCount - slash2Count - 1) <= dot2Count){
+            return false;
         }
 
         return true;
@@ -449,7 +444,7 @@ public class UrlValidator implements Serializable {
             return true;
         }
 
-        return this.options.isOff(NO_FRAGMENTS);
+        return options.isOff(NO_FRAGMENTS);
     }
 
     /**

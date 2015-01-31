@@ -23,7 +23,7 @@
 <h1>Table of Contents</h1>
 
 <ul>
-<li>1. <a href="#overview">Overview</a>
+<li>1. <a href="#overview">Overview</a></li>
 <li>2. <a href="#date">Date and Time Validators</a>
     <ul>
     <li>2.1 <a href="#date.overview">Overview</a></li>
@@ -31,7 +31,8 @@
     <li>2.3 <a href="#date.format">Formatting</a></li>
     <li>2.4 <a href="#date.timezone">Time Zones</a></li>
     <li>2.5 <a href="#date.compare">Comparing Dates and Times</a></li>
-    </ul></li>
+    </ul>
+</li>
 <li>3. <a href="#numeric">Numeric Validators</a>
     <ul>
     <li>3.1 <a href="#numeric.overview">Overview</a></li>
@@ -40,7 +41,8 @@
     <li>3.4 <a href="#numeric.compare">Comparing Numbers</a></li>
     <li>3.5 <a href="#numeric.currency">Currency Validation</a></li>
     <li>3.6 <a href="#numeric.percent">Percent Validation</a></li>
-    </ul></li>
+    </ul>
+</li>
 <li>4. <a href="#other">Other Validators</a>
     <ul>
     <li>4.1 <a href="#other.overview">Overview</a></li>
@@ -52,7 +54,8 @@
     <li>4.7 <a href="#other.email">Email Address Validation</a></li>
     <li>4.8 <a href="#other.url">URL Validation</a></li>
     <li>4.9 <a href="#other.domain">Domain Name Validation</a></li>
-    </ul></li>
+    </ul>
+</li>
 </ul>
 
 <a name="overview"></a>
@@ -61,12 +64,12 @@
    Commons Validator serves two purposes:
 </p>
     <ul>
-       <li>To provide standard, independant validation routines/functions.</li>
+       <li>To provide standard, independent validation routines/functions.</li>
        <li>To provide a <i>mini</i> framework for Validation.</li>
     </ul>
 <p>
    This package has been created, since version 1.3.0, in an attempt to clearly
-   separate these two concerns and is the location for the standard, independant
+   separate these two concerns and is the location for the standard, independent
    validation routines/functions in <em>Commons Validator</em>.
 </p>
 
@@ -162,7 +165,7 @@
       Date fooDate = validator.validate(fooString, "dd/MM/yyyy", GMT);
 </pre>
 
-<p>The followng Time Zone <i>flavours</i> of the Validation/Conversion methods
+<p>The following Time Zone <i>flavours</i> of the Validation/Conversion methods
    are provided:</p>
 <ul>
     <li><code>validate(<i>value</i>, TimeZone)</code></li>
@@ -193,14 +196,14 @@
 
       // Check if the date is in the previous quarter
       compare = validator.compareQuarters(fooDate, new Date(), null);
-      if (compare < 0) {
+      if (compare &lt; 0) {
           // do previous quarter processing
           return;
       }
 
       // Check if the date is in the next year
       compare = validator.compareYears(fooDate, new Date(), null);
-      if (compare > 0) {
+      if (compare &gt; 0) {
           // do next year processing
           return;
       }
@@ -536,17 +539,27 @@
    The following implementations are provided:
 </p>
 <ul>
-    <li><a href="checkdigit/ModulusCheckDigit.html">ModulusCheckDigit</a>
-        - <b>abstract</b> class for custom <b>modulus</b> check digit
-        implementations.</li>
-    <li><a href="checkdigit/LuhnCheckDigit.html">LuhnCheckDigit</a>
-        for <b>Luhn</b> check digit calculation - used by <b>credit cards</b>.</li>
+    <li><a href="checkdigit/ABANumberheckDigit.html">ABANumberCheckDigit</a>
+        for <b>ABA Number</b> (or <b>Routing Transit Number</b> (RTN)) check digit calculation.</li>
+    <li><a href="checkdigit/CUSIPCheckDigit.html">CUSIPCheckDigit</a>
+        for <b>CUSIP</b> (North American Securities) check digit calculation.</li>
     <li><a href="checkdigit/EAN13CheckDigit.html">EAN13CheckDigit</a>
         for <b>EAN-13</b>, <b>UPC</b>, <b>ISBN-13</b> check digit calculation.</li>
     <li><a href="checkdigit/ISBNCheckDigit.html">ISBNCheckDigit</a>
         for <b>ISBN-10</b> and <b>ISBN-13</b> check digit calculation.</li>
     <li><a href="checkdigit/ISBN10CheckDigit.html">ISBN10CheckDigit</a>
         for <b>ISBN-10</b> check digit calculation.</li>
+    <li><a href="checkdigit/ISINCheckDigit.html">ISINCheckDigit</a>
+        for <b>ISIN</b> International Securities Identifying Number check digit calculation.</li>
+    <li><a href="checkdigit/LuhnCheckDigit.html">LuhnCheckDigit</a>
+        for <b>Luhn</b> check digit calculation - used by <b>credit cards</b>.</li>
+    <li><a href="checkdigit/ModulusCheckDigit.html">ModulusCheckDigit</a>
+        - <b>abstract</b> class for custom <b>modulus</b> check digit
+        implementations.</li>
+    <li><a href="checkdigit/SedolCheckDigit.html">SedolCheckDigit</a>
+        for <b>SEDOL</b> (UK Securities) check digit calculation.</li>
+    <li><a href="checkdigit/VerhoeffCheckDigit.html">VerhoeffCheckDigit</a>
+        for <b>Verhoeff</b> (Dihedral) check digit calculation.</li>
 </ul>
 <p>
    The following examples show validating the check digit of a code:
