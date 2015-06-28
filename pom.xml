@@ -157,7 +157,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <gwt.version>2.7.0</gwt.version>
-    <wagonSSH.version>2.4</wagonSSH.version>
+    <wagonSSH.version>2.9</wagonSSH.version>
   </properties>
 
   <repositories>
