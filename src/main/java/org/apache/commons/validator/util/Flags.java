@@ -38,7 +38,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * and Flag 2 both being on/true.
  * </p>
  *
- * @version $Revision: 1649290 $
+ * @version $Revision: 1713331 $
  */
 public class Flags implements Serializable, Cloneable {
 
@@ -195,7 +195,7 @@ public class Flags implements Serializable, Cloneable {
      * @return string representation of this object.
      */
     public String toString() {
-        StringBuffer bin = new StringBuffer(Long.toBinaryString(this.flags));
+        StringBuilder bin = new StringBuilder(Long.toBinaryString(this.flags));
         for (int i = 64 - bin.length(); i > 0; i--) {
             bin.insert(0, "0");
         }

@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Performs Validation Test for url validations.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  * @deprecated to be removed when org.apache.commons.validator.UrlValidator is removed
  */
 public class UrlTest extends TestCase {
@@ -91,7 +91,7 @@ public class UrlTest extends TestCase {
          statusPerLine = 6;
       }
       do {
-         StringBuffer testBuffer = new StringBuffer();
+          StringBuilder testBuffer = new StringBuilder();
          boolean expected = true;
          for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
             int index = testPartsIndex[testPartsIndexIndex];
@@ -160,7 +160,7 @@ public class UrlTest extends TestCase {
    }
 
    private String testPartsIndextoString() {
-      StringBuffer carryMsg = new StringBuffer("{");
+       StringBuilder carryMsg = new StringBuilder("{");
       for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
          carryMsg.append(testPartsIndex[testPartsIndexIndex]);
          if (testPartsIndexIndex < testPartsIndex.length - 1) {

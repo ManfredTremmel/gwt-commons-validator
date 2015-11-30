@@ -72,7 +72,7 @@ import com.google.gwt.regexp.shared.RegExp;
  *  Uniform Resource Identifiers (URI): Generic Syntax
  * </a>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651811 $
  * @since Validator 1.1
  * @deprecated Use the new UrlValidator in the routines package. This class
  * will be removed in a future release.
@@ -176,7 +176,7 @@ public class UrlValidator implements Serializable {
     /**
      * The set of schemes that are allowed to be in a URL.
      */
-    private final Set allowedSchemes = new HashSet();
+    private final Set<String> allowedSchemes = new HashSet<String>();
 
     /**
      * If no schemes are provided, default to this set.

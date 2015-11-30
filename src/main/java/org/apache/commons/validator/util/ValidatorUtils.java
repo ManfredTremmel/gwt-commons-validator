@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.FastHashMap;
+import org.apache.commons.collections.FastHashMap; // DEPRECATED
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.Arg;
@@ -41,7 +41,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713452 $
  */
 public class ValidatorUtils {
 
@@ -109,9 +109,9 @@ public class ValidatorUtils {
         } catch(IllegalAccessException e) {
             GWT.log(e.getMessage(), e);
         } catch(InvocationTargetException e) {
-        	GWT.log(e.getMessage(), e);
+            GWT.log(e.getMessage(), e);
         } catch(NoSuchMethodException e) {
-        	GWT.log(e.getMessage(), e);
+            GWT.log(e.getMessage(), e);
         }
 
         if (value == null) {
@@ -122,7 +122,7 @@ public class ValidatorUtils {
             return ((String[]) value).length > 0 ? value.toString() : "";
 
         } else if (value instanceof Collection) {
-            return ((Collection) value).isEmpty() ? "" : value.toString();
+            return ((Collection<?>) value).isEmpty() ? "" : value.toString();
 
         } else {
             return value.toString();
@@ -146,9 +146,10 @@ public class ValidatorUtils {
     public static FastHashMap copyFastHashMap(FastHashMap map) {
         FastHashMap results = new FastHashMap();
 
-        Iterator i = map.entrySet().iterator();
+        @SuppressWarnings("unchecked") // FastHashMap is not generic
+        Iterator<Entry<String, ?>> i = map.entrySet().iterator();
         while (i.hasNext()) {
-            Entry entry = (Entry) i.next();
+            Entry<String, ?> entry = i.next();
             String key = (String) entry.getKey();
             Object value = entry.getValue();
 
@@ -177,13 +178,13 @@ public class ValidatorUtils {
      * @return A copy of the <code>Map</code> that was passed in.
      */
     @GwtIncompatible("incompatible method")
-    public static Map copyMap(Map map) {
-        Map results = new HashMap();
+    public static Map<String, Object> copyMap(Map<String, Object> map) {
+        Map<String, Object> results = new HashMap<String, Object>();
 
-        Iterator i = map.entrySet().iterator();
+        Iterator<Entry<String, Object>> i = map.entrySet().iterator();
         while (i.hasNext()) {
-            Entry entry = (Entry) i.next();
-            String key = (String) entry.getKey();
+            Entry<String, Object> entry = i.next();
+            String key = entry.getKey();
             Object value = entry.getValue();
 
             if (value instanceof Msg) {

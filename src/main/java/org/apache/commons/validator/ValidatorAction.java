@@ -43,7 +43,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *
  * <strong>Note</strong>: The validation method is assumed to be thread safe.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  */
 @GwtIncompatible("incompatible class")
 public class ValidatorAction implements Serializable {
@@ -69,7 +69,7 @@ public class ValidatorAction implements Serializable {
     /**
      * The Class object loaded from the classname.
      */
-    private Class validationClass = null;
+    private Class<?> validationClass = null;
 
     /**
      * The full method name of the validation to be performed.  The method
@@ -106,7 +106,7 @@ public class ValidatorAction implements Serializable {
     /**
      * The Class objects for each entry in methodParameterList.
      */
-    private Class[] parameterClasses = null;
+    private Class<?>[] parameterClasses = null;
 
     /**
      * The other <code>ValidatorAction</code>s that this one depends on.  If
@@ -152,13 +152,13 @@ public class ValidatorAction implements Serializable {
      * setDepends() (which clears the List) won't interfere with a call to
      * isDependency().
      */
-    private final List dependencyList = Collections.synchronizedList(new ArrayList());
+    private final List<String> dependencyList = Collections.synchronizedList(new ArrayList<String>());
 
     /**
      * An internal List representation of all the validation method's
      * parameters defined in the methodParams String.
      */
-    private final List methodParameterList = new ArrayList();
+    private final List<String> methodParameterList = new ArrayList<String>();
 
     /**
      * Gets the name of the validator action.
@@ -422,7 +422,7 @@ public class ValidatorAction implements Serializable {
             return null;
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
             String line = null;
@@ -470,8 +470,8 @@ public class ValidatorAction implements Serializable {
      * Used to generate the javascript name when it is not specified.
      */
     private String generateJsFunction() {
-        StringBuffer jsName =
-                new StringBuffer("org.apache.commons.validator.javascript");
+        StringBuilder jsName =
+                new StringBuilder("org.apache.commons.validator.javascript");
 
         jsName.append(".validate");
         jsName.append(name.substring(0, 1).toUpperCase());
@@ -494,7 +494,7 @@ public class ValidatorAction implements Serializable {
      * <code>List</code>.
      * @return List of the validator action's depedents.
      */
-    public List getDependencyList() {
+    public List<String> getDependencyList() {
         return Collections.unmodifiableList(this.dependencyList);
     }
 
@@ -503,7 +503,7 @@ public class ValidatorAction implements Serializable {
      * @return a string representation.
      */
     public String toString() {
-        StringBuffer results = new StringBuffer("ValidatorAction: ");
+        StringBuilder results = new StringBuilder("ValidatorAction: ");
         results.append(name);
         results.append("\n");
 
@@ -521,7 +521,9 @@ public class ValidatorAction implements Serializable {
      */
     boolean executeValidationMethod(
         Field field,
-        Map params,
+        // TODO What is this the correct value type?
+        // both ValidatorAction and Validator are added as parameters
+        Map<String, Object> params,
         ValidatorResults results,
         int pos)
         throws ValidatorException {
@@ -644,7 +646,7 @@ public class ValidatorAction implements Serializable {
             return;
         }
 
-        Class[] parameterClasses = new Class[this.methodParameterList.size()];
+        Class<?>[] parameterClasses = new Class[this.methodParameterList.size()];
 
         for (int i = 0; i < this.methodParameterList.size(); i++) {
             String paramClassName = (String) this.methodParameterList.get(i);
@@ -668,12 +670,12 @@ public class ValidatorAction implements Serializable {
      * array is in the same order as the given List and is suitable for passing
      * to the validation method.
      */
-    private Object[] getParameterValues(Map params) {
+    private Object[] getParameterValues(Map<String, ? super Object> params) {
 
         Object[] paramValue = new Object[this.methodParameterList.size()];
 
         for (int i = 0; i < this.methodParameterList.size(); i++) {
-            String paramClassName = (String) this.methodParameterList.get(i);
+            String paramClassName = this.methodParameterList.get(i);
             paramValue[i] = params.get(paramClassName);
         }
 
@@ -763,7 +765,7 @@ public class ValidatorAction implements Serializable {
      * Returns the ClassLoader set in the Validator contained in the parameter
      * Map.
      */
-    private ClassLoader getClassLoader(Map params) {
+    private ClassLoader getClassLoader(Map<String, Object> params) {
         Validator v = (Validator) params.get(Validator.VALIDATOR_PARAM);
         return v.getClassLoader();
     }
@@ -772,7 +774,7 @@ public class ValidatorAction implements Serializable {
      * Returns the onlyReturnErrors setting in the Validator contained in the
      * parameter Map.
      */
-    private boolean onlyReturnErrors(Map params) {
+    private boolean onlyReturnErrors(Map<String, Object> params) {
         Validator v = (Validator) params.get(Validator.VALIDATOR_PARAM);
         return v.getOnlyReturnErrors();
     }

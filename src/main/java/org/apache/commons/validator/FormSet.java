@@ -33,7 +33,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * based on the country, language, and variant specified. Instances of this
  * class are configured with a &lt;formset&gt; xml element.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  */
 @GwtIncompatible("incompatible class")
 public class FormSet implements Serializable {
@@ -62,13 +62,13 @@ public class FormSet implements Serializable {
      * A <code>Map</code> of <code>Form</code>s using the name field of the
      * <code>Form</code> as the key.
      */
-    private final Map forms = new HashMap();
+    private final Map<String, Form> forms = new HashMap<String, Form>();
 
     /**
      * A <code>Map</code> of <code>Constant</code>s using the name field of the
      * <code>Constant</code> as the key.
      */
-    private final Map constants = new HashMap();
+    private final Map<String, String> constants = new HashMap<String, String>();
 
     /**
      * This is the type of <code>FormSet</code>s where no locale is specified.
@@ -152,18 +152,18 @@ public class FormSet implements Serializable {
      */
     protected void merge(FormSet depends) {
         if (depends != null) {
-            Map pForms = getForms();
-            Map dForms = depends.getForms();
-            for (Iterator it = dForms.entrySet().iterator(); it.hasNext(); ) {
-                Entry entry = (Entry) it.next();
-                Object key = entry.getKey();
-                Form pForm = (Form) pForms.get(key);
+            Map<String, Form> pForms = getForms();
+            Map<String, Form> dForms = depends.getForms();
+            for (Iterator<Entry<String, Form>> it = dForms.entrySet().iterator(); it.hasNext(); ) {
+                Entry<String, Form> entry = it.next();
+                String key = entry.getKey();
+                Form pForm = pForms.get(key);
                 if (pForm != null) {//merge, but principal 'rules', don't overwrite
                     // anything
-                    pForm.merge((Form) entry.getValue());
+                    pForm.merge(entry.getValue());
                 }
                 else {//just add
-                    addForm((Form) entry.getValue());
+                    addForm(entry.getValue());
                 }
             }
         }
@@ -286,7 +286,7 @@ public class FormSet implements Serializable {
      *
      * @return   The forms map
      */
-    public Map getForms() {
+    public Map<String, Form> getForms() {
         return Collections.unmodifiableMap(forms);
     }
 
@@ -295,9 +295,9 @@ public class FormSet implements Serializable {
      *
      * @param globalConstants  Global constants
      */
-    synchronized void process(Map globalConstants) {
-        for (Iterator i = forms.values().iterator(); i.hasNext(); ) {
-            Form f = (Form) i.next();
+    synchronized void process(Map<String, String> globalConstants) {
+        for (Iterator<Form> i = forms.values().iterator(); i.hasNext(); ) {
+            Form f = i.next();
             f.process(globalConstants, constants, forms);
         }
 
@@ -310,7 +310,7 @@ public class FormSet implements Serializable {
      * @return   A string representation of the key
      */
     public String displayKey() {
-        StringBuffer results = new StringBuffer();
+        StringBuilder results = new StringBuilder();
         if (language != null && language.length() > 0) {
             results.append("language=");
             results.append(language);
@@ -342,7 +342,7 @@ public class FormSet implements Serializable {
      * @return   A string representation
      */
     public String toString() {
-        StringBuffer results = new StringBuffer();
+        StringBuilder results = new StringBuilder();
 
         results.append("FormSet: language=");
         results.append(language);
@@ -352,7 +352,7 @@ public class FormSet implements Serializable {
         results.append(variant);
         results.append("\n");
 
-        for (Iterator i = getForms().values().iterator(); i.hasNext(); ) {
+        for (Iterator<?> i = getForms().values().iterator(); i.hasNext(); ) {
             results.append("   ");
             results.append(i.next());
             results.append("\n");

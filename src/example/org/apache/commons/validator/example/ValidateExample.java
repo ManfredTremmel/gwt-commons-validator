@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.validator.Field;
@@ -44,7 +43,7 @@ import org.xml.sax.SAXException;
  * the Validator against raw Beans in a pure Java application, you
  * can see everything you need to know to get it working here.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651909 $
  */
 public class ValidateExample {
 
@@ -145,9 +144,9 @@ public class ValidateExample {
         System.out.println(bean);
 
         // Iterate over each of the properties of the Bean which had messages.
-        Iterator propertyNames = results.getPropertyNames().iterator();
+        Iterator<String> propertyNames = results.getPropertyNames().iterator();
         while (propertyNames.hasNext()) {
-            String propertyName = (String) propertyNames.next();
+            String propertyName = propertyNames.next();
 
             // Get the Field associated with that property in the Form
             Field field = form.getField(propertyName);
@@ -159,10 +158,9 @@ public class ValidateExample {
             ValidatorResult result = results.getValidatorResult(propertyName);
 
             // Get all the actions run against the property, and iterate over their names.
-            Map actionMap = result.getActionMap();
-            Iterator keys = actionMap.keySet().iterator();
+            Iterator<String> keys = result.getActions();
             while (keys.hasNext()) {
-                String actName = (String) keys.next();
+                String actName = keys.next();
 
                 // Get the Action for that name.
                 ValidatorAction action = resources.getValidatorAction(actName);

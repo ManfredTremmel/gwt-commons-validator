@@ -1,7 +1,7 @@
 #!/bin/sh
 #  $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//validator/etc/jsdoc.sh,v 1.4 2004/05/21 14:28:12 rleland Exp $
 #  $Revision: 1608569 $
-#  $Date: 2014-07-07 21:28:41 +0200 (Mo, 07 Jul 2014) $
+#  $Date: 2014-07-07 20:28:41 +0100 (Mon, 07 Jul 2014) $
 # 
 #  ====================================================================
 #  Licensed to the Apache Software Foundation (ASF) under one or more

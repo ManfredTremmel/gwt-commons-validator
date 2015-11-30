@@ -19,6 +19,7 @@ package org.apache.commons.validator.routines;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ import java.util.ArrayList;
  * <a href="http://web.archive.org/web/20120614072656/http://www.merriampark.com/anatomycc.htm">Anatomy of Credit Card Numbers</a>.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713225 $
  * @since Validator 1.4
  */
 public class CreditCardValidator implements Serializable {
@@ -97,9 +98,16 @@ public class CreditCardValidator implements Serializable {
     public static final long DINERS = 1 << 4;
 
     /**
+     * Option specifying that VPay (Visa) cards are allowed.
+     * @since 1.5.0
+     */
+    public static final long VPAY = 1 << 5;
+
+
+    /**
      * The CreditCardTypes that are allowed to pass validation.
      */
-    private final List cardTypes = new ArrayList();
+    private final List<CodeValidator> cardTypes = new ArrayList<CodeValidator>();
 
     /**
      * Luhn checkdigit validator for the card numbers.
@@ -124,6 +132,11 @@ public class CreditCardValidator implements Serializable {
     /** Visa Card Validator */
     public static final CodeValidator VISA_VALIDATOR = new CodeValidator("^(4)(\\d{12}|\\d{15})$", LUHN_VALIDATOR);
 
+    /** VPay (Visa) Card Validator 
+     * @since 1.5.0
+     */
+    public static final CodeValidator VPAY_VALIDATOR = new CodeValidator("^(4)(\\d{12,18})$", LUHN_VALIDATOR);
+
     /**
      * Create a new CreditCardValidator with default options.
      */
@@ -142,6 +155,10 @@ public class CreditCardValidator implements Serializable {
 
         if (isOn(options, VISA)) {
             this.cardTypes.add(VISA_VALIDATOR);
+        }
+
+        if (isOn(options, VPAY)) {
+            this.cardTypes.add(VPAY_VALIDATOR);
         }
 
         if (isOn(options, AMEX)) {
@@ -169,9 +186,7 @@ public class CreditCardValidator implements Serializable {
         if (creditCardValidators == null) {
             throw new IllegalArgumentException("Card validators are missing");
         }
-        for (int i = 0; i < creditCardValidators.length; i++) {
-            cardTypes.add(creditCardValidators[i]);
-        }
+        Collections.addAll(cardTypes, creditCardValidators);
     }
 
     /**
@@ -183,9 +198,8 @@ public class CreditCardValidator implements Serializable {
         if (card == null || card.length() == 0) {
             return false;
         }
-        for (int i = 0; i < cardTypes.size(); i++) {
-            CodeValidator type = (CodeValidator)cardTypes.get(i);
-            if (type.isValid(card)) {
+        for (CodeValidator cardType : cardTypes) {
+            if (cardType.isValid(card)) {
                 return true;
             }
         }
@@ -203,11 +217,10 @@ public class CreditCardValidator implements Serializable {
             return null;
         }
         Object result = null;
-        for (int i = 0; i < cardTypes.size(); i++) {
-            CodeValidator type = (CodeValidator)cardTypes.get(i);
-            result = type.validate(card);
+        for (CodeValidator cardType : cardTypes) {
+            result = cardType.validate(card);
             if (result != null) {
-                return result ;
+                return result;
             }
         }
         return null;

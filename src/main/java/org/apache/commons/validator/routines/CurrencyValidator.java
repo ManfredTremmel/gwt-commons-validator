@@ -41,7 +41,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *    you want the currency converted to. One thing to note - only the CurrencyValidator
  *    implements <i>lenient</i> behaviour regarding the currency symbol.</p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -106,7 +106,7 @@ public class CurrencyValidator extends BigDecimalValidator {
         DecimalFormat decimalFormat = (DecimalFormat)formatter;
         String pattern = decimalFormat.toPattern();
         if (pattern.indexOf(CURRENCY_SYMBOL) >= 0) {
-            StringBuffer buffer = new StringBuffer(pattern.length());
+            StringBuilder buffer = new StringBuilder(pattern.length());
             for (int i = 0; i < pattern.length(); i++) {
                 if (pattern.charAt(i) != CURRENCY_SYMBOL) {
                     buffer.append(pattern.charAt(i));

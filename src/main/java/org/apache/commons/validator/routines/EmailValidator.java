@@ -31,7 +31,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * This implementation is not guaranteed to catch all possible errors in an email address.
  * </p>.
  *
- * @version $Revision: 1649927 $
+ * @version $Revision: 1715080 $
  * @since Validator 1.4
  */
 public class EmailValidator implements Serializable {
@@ -39,7 +39,7 @@ public class EmailValidator implements Serializable {
     private static final long serialVersionUID = 1705927040799295880L;
 
     private static final String SPECIAL_CHARS = "\\x00-\\x1F\\x7F\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
-    private static final String VALID_CHARS = "[^\\s" + SPECIAL_CHARS + "]";
+    private static final String VALID_CHARS = "(\\\\.)|[^\\s" + SPECIAL_CHARS + "]";
     private static final String QUOTED_USER = "(\"[^\"]*\")";
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
@@ -52,18 +52,32 @@ public class EmailValidator implements Serializable {
     private static final RegExp USER_PATTERN = RegExp.compile(USER_REGEX);
 
     private final boolean allowLocal;
+    private final boolean allowTld;
 
     /**
      * Singleton instance of this class, which
      *  doesn't consider local addresses as valid.
      */
-    private static final EmailValidator EMAIL_VALIDATOR = new EmailValidator(false);
+    private static final EmailValidator EMAIL_VALIDATOR = new EmailValidator(false, false);
+
+    /**
+     * Singleton instance of this class, which
+     *  doesn't consider local addresses as valid.
+     */
+    private static final EmailValidator EMAIL_VALIDATOR_WITH_TLD = new EmailValidator(false, true);
 
     /**
      * Singleton instance of this class, which does
      *  consider local addresses valid.
      */
-    private static final EmailValidator EMAIL_VALIDATOR_WITH_LOCAL = new EmailValidator(true);
+    private static final EmailValidator EMAIL_VALIDATOR_WITH_LOCAL = new EmailValidator(true, false);
+
+
+    /**
+     * Singleton instance of this class, which does
+     *  consider local addresses valid.
+     */
+    private static final EmailValidator EMAIL_VALIDATOR_WITH_LOCAL_WITH_TLD = new EmailValidator(true, true);
 
     /**
      * Returns the Singleton instance of this validator.
@@ -81,11 +95,42 @@ public class EmailValidator implements Serializable {
      * @param allowLocal Should local addresses be considered valid?
      * @return singleton instance of this validator
      */
-    public static EmailValidator getInstance(boolean allowLocal) {
+    public static EmailValidator getInstance(boolean allowLocal, boolean allowTld) {
         if(allowLocal) {
-           return EMAIL_VALIDATOR_WITH_LOCAL;
+            if (allowTld) {
+                return EMAIL_VALIDATOR_WITH_LOCAL_WITH_TLD;
+            } else {
+                return EMAIL_VALIDATOR_WITH_LOCAL;
+            }
+        } else {
+            if (allowTld) {
+                return EMAIL_VALIDATOR_WITH_TLD;
+            } else {
+                return EMAIL_VALIDATOR;
+            }
         }
-        return EMAIL_VALIDATOR;
+    }
+
+    /**
+     * Returns the Singleton instance of this validator,
+     *  with local validation as required.
+     *
+     * @param allowLocal Should local addresses be considered valid?
+     * @return singleton instance of this validator
+     */
+    public static EmailValidator getInstance(boolean allowLocal) {
+        return getInstance(allowLocal, false);
+    }
+
+    /**
+     * Protected constructor for subclasses to use.
+     *
+     * @param allowLocal Should local addresses be considered valid?
+     */
+    protected EmailValidator(boolean allowLocal, boolean allowTld) {
+        super();
+        this.allowLocal = allowLocal;
+        this.allowTld = allowTld;
     }
 
     /**
@@ -96,6 +141,7 @@ public class EmailValidator implements Serializable {
     protected EmailValidator(boolean allowLocal) {
         super();
         this.allowLocal = allowLocal;
+        this.allowTld = false;
     }
 
     /**
@@ -139,7 +185,7 @@ public class EmailValidator implements Serializable {
      */
     protected boolean isValidDomain(String domain) {
         // see if domain is an IP address in brackets
-    	MatchResult ipDomainMatcher = IP_DOMAIN_PATTERN.exec(domain);
+        MatchResult ipDomainMatcher = IP_DOMAIN_PATTERN.exec(domain);
 
         if (ipDomainMatcher != null) {
             InetAddressValidator inetAddressValidator =
@@ -149,8 +195,11 @@ public class EmailValidator implements Serializable {
         // Domain is symbolic name
         DomainValidator domainValidator =
                 DomainValidator.getInstance(allowLocal);
-        return domainValidator.isValid(domain) ||
-                domainValidator.isValidTld(domain);
+        if (allowTld) {
+            return domainValidator.isValid(domain) || domainValidator.isValidTld(domain);
+        } else {
+            return domainValidator.isValid(domain);
+        }
     }
 
     /**
@@ -160,6 +209,11 @@ public class EmailValidator implements Serializable {
      * @return true if the user name is valid.
      */
     protected boolean isValidUser(String user) {
+        
+        if (user == null || user.length() > 64) {
+            return false;
+        }
+        
         return USER_PATTERN.exec(user) != null;
     }
 

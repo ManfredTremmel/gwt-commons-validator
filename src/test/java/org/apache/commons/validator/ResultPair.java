@@ -19,14 +19,14 @@
 /**
  * Groups tests and expected results.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713567 $
  */
  public class ResultPair {
-      public String item;
-      public boolean valid;
+      public final String item;
+      public final boolean valid;
 
       public ResultPair(String item, boolean valid) {
          this.item = item;
-         this.valid = valid;  //Weather the individual part of url is valid.
+         this.valid = valid;  //Whether the individual part of url is valid.
       }
    }

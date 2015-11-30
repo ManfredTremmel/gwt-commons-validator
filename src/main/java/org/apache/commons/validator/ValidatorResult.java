@@ -28,8 +28,9 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * This contains the results of a set of validation rules processed
  * on a JavaBean.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1652498 $
  */
+//TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
 public class ValidatorResult implements Serializable {
 
@@ -39,7 +40,7 @@ public class ValidatorResult implements Serializable {
      * Map of results.  The key is the name of the <code>ValidatorAction</code>
      * and the value is whether or not this field passed or not.
      */
-    protected Map hAction = new HashMap();
+    protected Map<String, ResultStatus> hAction = new HashMap<String, ResultStatus>();
 
     /**
      * <code>Field</code> being validated.
@@ -108,7 +109,7 @@ public class ValidatorResult implements Serializable {
      * Return an Iterator of the action names contained in this Result.
      * @return The set of action names.
      */
-    public Iterator getActions() {
+    public Iterator<String> getActions() {
         return Collections.unmodifiableMap(hAction).keySet().iterator();
     }
 
@@ -120,7 +121,7 @@ public class ValidatorResult implements Serializable {
      *             to determine the contents of ResultStatus.
      *
      */
-    public Map getActionMap() {
+    public Map<String, ResultStatus> getActionMap() {
         return Collections.unmodifiableMap(hAction);
     }
 

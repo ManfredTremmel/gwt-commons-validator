@@ -30,7 +30,7 @@ import java.io.Serializable;
  * <code>toChar()</code> methods.
  * <p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713562 $
  * @since Validator 1.4
  */
 public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
@@ -79,12 +79,12 @@ public abstract class ModulusCheckDigit implements CheckDigit, Serializable {
     }
 
     /**
-     * Calculate a modulus <i>Check Digit</i> for a code.
+     * Calculate a modulus <i>Check Digit</i> for a code which does not yet have one.
      *
-     * @param code The code to calculate the Check Digit for
+     * @param code The code for which to calculate the Check Digit; 
+     * the check digit should not be included
      * @return The calculated Check Digit
-     * @throws CheckDigitException if an error occurs calculating
-     * the check digit for the specified code
+     * @throws CheckDigitException if an error occurs calculating the check digit
      */
     public String calculate(String code) throws CheckDigitException {
         if (code == null || code.length() == 0) {

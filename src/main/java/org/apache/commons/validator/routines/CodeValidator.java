@@ -26,11 +26,28 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
  * <p>
  * Performs the following validations on a code:
  * <ul>
+ *   <li>if the code is null, return null/false as appropriate</li>
+ *   <li>trim the input. If the resulting code is empty, return null/false as appropriate</li>
  *   <li>Check the <i>format</i> of the code using a <i>regular expression.</i> (if specified)</li>
  *   <li>Check the <i>minimum</i> and <i>maximum</i> length  (if specified) of the <i>parsed</i> code
  *      (i.e. parsed by the <i>regular expression</i>).</li>
  *   <li>Performs {@link CheckDigit} validation on the parsed code (if specified).</li>
+ *   <li>The {@link #validate(String)} method returns the trimmed, parsed input (or null if validation failed)</li>
  * </ul>
+ * <p>
+ * <b>Note</b>
+ * The {@link #isValid(String)} method will return true if the input passes validation.
+ * Since this includes trimming as well as potentially dropping parts of the input,
+ * it is possible for a String to pass validation
+ * but fail the checkdigit test if passed directly to it (the check digit routines generally don't trim input
+ * nor do they generally check the format/length).
+ * To be sure that you are passing valid input to a method use {@link #validate(String)} as follows:
+ * <pre>
+ * Object valid = validator.validate(input); 
+ * if (valid != null) {
+ *    some_method(valid.toString());
+ * }
+ * </pre>
  * <p>
  * Configure the validator with the appropriate regular expression, minimum/maximum length
  * and {@link CheckDigit} validator and then call one of the two validation
@@ -44,8 +61,10 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
  * more easily human readable. These can be removed prior to length and check digit
  * validation by  specifying them as a <i>non-capturing</i> group in the regular
  * expression (i.e. use the <code>(?:   )</code> notation).
- *
- * @version $Revision: 1649191 $
+ * <br>
+ * Or just avoid using parentheses except for the parts you want to capture
+ * 
+ * @version $Revision: 1713388 $
  * @since Validator 1.4
  */
 public final class CodeValidator implements Serializable {
@@ -60,6 +79,7 @@ public final class CodeValidator implements Serializable {
     /**
      * Construct a code validator with a specified regular
      * expression and {@link CheckDigit}.
+     * The RegexValidator validator is created to be case-sensitive
      *
      * @param regex The format regular expression
      * @param checkdigit The check digit validation routine
@@ -71,6 +91,7 @@ public final class CodeValidator implements Serializable {
     /**
      * Construct a code validator with a specified regular
      * expression, length and {@link CheckDigit}.
+     * The RegexValidator validator is created to be case-sensitive
      *
      * @param regex The format regular expression.
      * @param length The length of the code
@@ -84,8 +105,9 @@ public final class CodeValidator implements Serializable {
     /**
      * Construct a code validator with a specified regular
      * expression, minimum/maximum length and {@link CheckDigit} validation.
+     * The RegexValidator validator is created to be case-sensitive
      *
-     * @param regex The regular expression validator
+     * @param regex The regular expression
      * @param minLength The minimum length of the code
      * @param maxLength The maximum length of the code
      * @param checkdigit The check digit validation routine

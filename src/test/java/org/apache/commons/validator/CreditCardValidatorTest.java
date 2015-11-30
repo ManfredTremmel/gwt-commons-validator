@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Test the CreditCardValidator class.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651476 $
  * @deprecated this test can be removed when the deprecated class is removed
  */
 public class CreditCardValidatorTest extends TestCase {
@@ -80,7 +80,7 @@ public class CreditCardValidatorTest extends TestCase {
         private static final String PREFIX = "300,301,302,303,304,305,";
         public boolean matches(String card) {
             String prefix = card.substring(0, 3) + ",";
-            return ((PREFIX.indexOf(prefix) != -1) && (card.length() == 14));
+            return ((PREFIX.contains(prefix)) && (card.length() == 14));
         }
     }
 

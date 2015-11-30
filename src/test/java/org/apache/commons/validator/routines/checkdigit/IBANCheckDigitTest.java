@@ -27,7 +27,7 @@ import junit.framework.Assert;
 /**
  * EAN-13 Check Digit Test.
  *
- * @version $Revision: 1649155 $
+ * @version $Revision: 1713572 $
  * @since Validator 1.4
  */
 public class IBANCheckDigitTest extends AbstractCheckDigitTest {
@@ -82,7 +82,7 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 "SE3550000000054910000003",      // Sweden
                 "SI56191000000123438",           // Slovenia
                 "SK3112000000198742637541",      // Slovak Republic
-                
+
                 // Codes AA and ZZ will never be used as ISO countries nor in IBANs
                 // add some dummy calculated codes to test the limits
                 // Current minimum length is Norway = 15
@@ -101,7 +101,12 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
          *  https://intranet.birmingham.ac.uk/finance/documents/public/IBAN.pdf
          *  http://www.paymentscouncil.org.uk/resources_and_publications/ibans_in_europe/
          */
-        invalid = new String[] {"510007+47061BE63"};
+        invalid = new String[] {
+                "510007+47061BE63",
+                "IE01AIBK93118702569045",
+                "AA0000000000089",
+                "AA9900000000053",
+        };
         zeroSum = null;
         missingMessage = "Invalid Code length=0";
 
@@ -112,7 +117,7 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
      */
     public void testZeroSum() {
         // ignore, don't run this test
-        
+
         // example code used to create dummy IBANs
 //        try {
 //            for(int i=0; i<97;i++) {
@@ -134,7 +139,7 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
      * @return Codes with invalid check digits
      */
     protected String[] createInvalidCodes(String[] codes) {
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
 
         // create invalid check digit values
         for (int i = 0; i < codes.length; i++) {
@@ -147,15 +152,15 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 }
             }
         }
-        
+
         return (String[])list.toArray(new String[list.size()]);
     }
 
     /**
-     * Returns a code with the Check Digit (i.e. last character) removed.
+     * Returns a code with the Check Digits (i.e. characters 3&4) set to "00".
      *
      * @param code The code
-     * @return The code without the check digit
+     * @return The code with the zeroed check digits
      */
     protected String removeCheckDigit(String code) {
         return code.substring(0, 2) + "00" + code.substring(4);
@@ -183,7 +188,12 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
             String line;
             while((line=rdr.readLine()) != null) {
                 if (!line.startsWith("#") && line.length() > 0) {
-                    Assert.assertTrue(line, routine.isValid(line.replaceAll(" ", "")));
+                    if (line.startsWith("-")) {
+                        line = line.substring(1);
+                        Assert.assertFalse(line, routine.isValid(line.replaceAll(" ", "")));
+                    } else {
+                        Assert.assertTrue(line, routine.isValid(line.replaceAll(" ", "")));
+                    }
                 }
             }
         } finally {

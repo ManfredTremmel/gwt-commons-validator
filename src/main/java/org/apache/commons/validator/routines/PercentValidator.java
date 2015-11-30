@@ -44,7 +44,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *    and BigInteger) since percentages are converted to fractions (i.e <code>50%</code> is
  *    converted to <code>0.5</code>).</p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -109,7 +109,7 @@ public class PercentValidator extends BigDecimalValidator {
         DecimalFormat decimalFormat = (DecimalFormat)formatter;
         String pattern = decimalFormat.toPattern();
         if (pattern.indexOf(PERCENT_SYMBOL) >= 0) {
-            StringBuffer buffer = new StringBuffer(pattern.length());
+            StringBuilder buffer = new StringBuilder(pattern.length());
             for (int i = 0; i < pattern.length(); i++) {
                 if (pattern.charAt(i) != PERCENT_SYMBOL) {
                     buffer.append(pattern.charAt(i));

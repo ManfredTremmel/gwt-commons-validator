@@ -21,7 +21,7 @@ import org.apache.commons.validator.util.ValidatorUtils;
 /**                                                       
  * Contains validation methods for different unit tests.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1652497 $
  */
 public class GenericValidatorImpl {
           
@@ -200,7 +200,7 @@ public class GenericValidatorImpl {
         Object form = validator.getParameterValue(Validator.BEAN_PARAM);
         String value = null;
         boolean required = false;
-        if (isString(bean)) {
+        if (isStringOrNull(bean)) {
             value = (String) bean;
         } else {
             value = ValidatorUtils.getValueAsString(bean, field.getProperty());
@@ -225,7 +225,7 @@ public class GenericValidatorImpl {
             boolean this_required = false;
             if (field.isIndexed() && dependIndexed.equalsIgnoreCase("true")) {
                 String key = field.getKey();
-                if ((key.indexOf("[") > -1) && (key.indexOf("]") > -1)) {
+                if ((key.contains("[")) && (key.contains("]"))) {
                     String ind = key.substring(0, key.indexOf(".") + 1);
                     dependProp = ind + dependProp;
                 }
@@ -265,13 +265,11 @@ public class GenericValidatorImpl {
         return true;
     }
   
-  private static Class stringClass = new String().getClass();
-
-  private static boolean isString(Object o) {
+  private static boolean isStringOrNull(Object o) {
     if (o == null) {
-        return true;
+        return true; // TODO this condition is not exercised by any tests currently
     }
-    return (stringClass.isInstance(o));
+    return (o instanceof String);
   }
       
 }                                                         

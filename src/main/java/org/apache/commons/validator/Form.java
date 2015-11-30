@@ -37,8 +37,9 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * The use of FastHashMap is deprecated and will be replaced in a future
  * release. </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  */
+//TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
 public class Form implements Serializable {
 
@@ -52,14 +53,14 @@ public class Form implements Serializable {
      * in although individual <code>Field</code>s can be retrieved using <code>Map</code>
      * of <code>Field</code>s.
      */
-    protected List lFields = new ArrayList();
+    protected List<Field> lFields = new ArrayList<Field>();
 
     /**
      * Map of <code>Field</code>s keyed on their property value.
      *
      * @deprecated   Subclasses should use getFieldMap() instead.
      */
-    protected FastHashMap hFields = new FastHashMap();
+    protected FastHashMap hFields = new FastHashMap(); // <String, Field>
 
     /**
      * The name/key of the form which this form extends from.
@@ -99,7 +100,7 @@ public class Form implements Serializable {
      */
     public void addField(Field f) {
         this.lFields.add(f);
-        this.hFields.put(f.getKey(), f);
+        getFieldMap().put(f.getKey(), f);
     }
 
     /**
@@ -108,7 +109,7 @@ public class Form implements Serializable {
      *
      * @return   The fields value
      */
-    public List getFields() {
+    public List<Field> getFields() {
         return Collections.unmodifiableList(lFields);
     }
 
@@ -121,7 +122,7 @@ public class Form implements Serializable {
      * @since            Validator 1.1
      */
     public Field getField(String fieldName) {
-        return (Field) this.hFields.get(fieldName);
+        return getFieldMap().get(fieldName);
     }
 
     /**
@@ -132,7 +133,7 @@ public class Form implements Serializable {
      * @since            Validator 1.1
      */
     public boolean containsField(String fieldName) {
-        return this.hFields.containsKey(fieldName);
+        return getFieldMap().containsKey(fieldName);
     }
 
     /**
@@ -145,9 +146,10 @@ public class Form implements Serializable {
      */
     protected void merge(Form depends) {
 
-        List templFields = new ArrayList();
-        Map temphFields = new FastHashMap();
-        Iterator dependsIt = depends.getFields().iterator();
+        List<Field> templFields = new ArrayList<Field>();
+        @SuppressWarnings("unchecked") // FastHashMap is not generic
+        Map<String, Field> temphFields = new FastHashMap();
+        Iterator<Field> dependsIt = depends.getFields().iterator();
         while (dependsIt.hasNext()) {
             Field defaultField = (Field) dependsIt.next();
             if (defaultField != null) {
@@ -158,7 +160,7 @@ public class Form implements Serializable {
                 }
                 else {
                     Field old = getField(fieldKey);
-                    hFields.remove(fieldKey);
+                    getFieldMap().remove(fieldKey);
                     lFields.remove(old);
                     templFields.add(old);
                     temphFields.put(fieldKey, old);
@@ -166,7 +168,7 @@ public class Form implements Serializable {
             }
         }
         lFields.addAll(0, templFields);
-        hFields.putAll(temphFields);
+        getFieldMap().putAll(temphFields);
     }
 
     /**
@@ -177,25 +179,25 @@ public class Form implements Serializable {
      * @param forms            Map of forms
      * @since                  Validator 1.2.0
      */
-    protected void process(Map globalConstants, Map constants, Map forms) {
+    protected void process(Map<String, String> globalConstants, Map<String, String> constants, Map<String, Form> forms) {
         if (isProcessed()) {
             return;
         }
 
         int n = 0;//we want the fields from its parent first
         if (isExtending()) {
-            Form parent = (Form) forms.get(inherit);
+            Form parent = forms.get(inherit);
             if (parent != null) {
                 if (!parent.isProcessed()) {
                     //we want to go all the way up the tree
                     parent.process(constants, globalConstants, forms);
                 }
-                for (Iterator i = parent.getFields().iterator(); i.hasNext(); ) {
-                    Field f = (Field) i.next();
+                for (Iterator<Field> i = parent.getFields().iterator(); i.hasNext(); ) {
+                    Field f = i.next();
                     //we want to be able to override any fields we like
-                    if (hFields.get(f.getKey()) == null) {
+                    if (getFieldMap().get(f.getKey()) == null) {
                         lFields.add(n, f);
-                        hFields.put(f.getKey(), f);
+                        getFieldMap().put(f.getKey(), f);
                         n++;
                     }
                 }
@@ -203,8 +205,8 @@ public class Form implements Serializable {
         }
         hFields.setFast(true);
         //no need to reprocess parent's fields, we iterate from 'n'
-        for (Iterator i = lFields.listIterator(n); i.hasNext(); ) {
-            Field f = (Field) i.next();
+        for (Iterator<Field> i = lFields.listIterator(n); i.hasNext(); ) {
+            Field f = i.next();
             f.process(globalConstants, constants);
         }
 
@@ -217,13 +219,13 @@ public class Form implements Serializable {
      * @return string representation
      */
     public String toString() {
-        StringBuffer results = new StringBuffer();
+        StringBuilder results = new StringBuilder();
 
         results.append("Form: ");
         results.append(name);
         results.append("\n");
 
-        for (Iterator i = lFields.iterator(); i.hasNext(); ) {
+        for (Iterator<Field> i = lFields.iterator(); i.hasNext(); ) {
             results.append("\tField: \n");
             results.append(i.next());
             results.append("\n");
@@ -245,7 +247,7 @@ public class Form implements Serializable {
      *      validation messages.
      * @throws ValidatorException
      */
-    ValidatorResults validate(Map params, Map actions, int page)
+    ValidatorResults validate(Map<String, Object> params, Map<String, ValidatorAction> actions, int page)
         throws ValidatorException {
         return validate(params, actions, page, null);
     }
@@ -264,15 +266,14 @@ public class Form implements Serializable {
      * @throws ValidatorException
      * @since 1.2.0
      */
-    ValidatorResults validate(Map params, Map actions, int page, String fieldName)
+    ValidatorResults validate(Map<String, Object> params, Map<String, ValidatorAction> actions, int page, String fieldName)
         throws ValidatorException {
-
         ValidatorResults results = new ValidatorResults();
         params.put(Validator.VALIDATOR_RESULTS_PARAM, results);
 
         // Only validate a single field if specified
         if (fieldName != null) {
-            Field field = (Field) this.hFields.get(fieldName);
+            Field field = getFieldMap().get(fieldName);
 
             if (field == null) {
                throw new ValidatorException("Unknown field "+fieldName+" in form "+getName());
@@ -283,9 +284,9 @@ public class Form implements Serializable {
                results.merge(field.validate(params, actions));
             }
         } else {
-            Iterator fields = this.lFields.iterator();
+            Iterator<Field> fields = this.lFields.iterator();
             while (fields.hasNext()) {
-                Field field = (Field) fields.next();
+                Field field = fields.next();
 
                 params.put(Validator.FIELD_PARAM, field);
 
@@ -345,7 +346,8 @@ public class Form implements Serializable {
      * @return   The fieldMap value
      * @since    Validator 1.2.0
      */
-    protected Map getFieldMap() {
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+    protected Map<String, Field> getFieldMap() {
         return hFields;
     }
 }

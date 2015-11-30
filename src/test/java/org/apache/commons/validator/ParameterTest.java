@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * This TestCase is a confirmation of the parameter of the validator's method.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651811 $
  */
 public class ParameterTest extends AbstractCommonTest {
 
@@ -95,7 +95,7 @@ public class ParameterTest extends AbstractCommonTest {
     }
 
     private void assertParameterValue(Validator validator, String name,
-            Class type) {
+            Class<?> type) {
         Object value = validator.getParameterValue(name);
         assertNotNull("Expected '" + type.getName() + "' but was null", value);
         assertTrue("Expected '" + type.getName() + "' but was '" + value.getClass().getName() + "'",

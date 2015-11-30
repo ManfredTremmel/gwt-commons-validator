@@ -59,12 +59,14 @@ import com.google.gwt.regexp.shared.RegExp;
  *   </li>
  * </ul>
  *
+ * <b>Note that patterns are matched against the entire input.</b>
+ *
  * <p>
  * Cached instances pre-compile and re-use {@link Pattern}(s) - which according
  * to the {@link Pattern} API are safe to use in a multi-threaded environment.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713331 $
  * @since Validator 1.4
  */
 public class RegexValidator implements Serializable {
@@ -127,9 +129,9 @@ public class RegexValidator implements Serializable {
                 throw new IllegalArgumentException("Regular expression[" + i + "] is missing");
             }
             if (caseSensitive) {
-            	patterns[i] =  RegExp.compile(regexs[i]);
+                patterns[i] =  RegExp.compile(regexs[i]);
             } else {
-            	patterns[i] =  RegExp.compile(regexs[i], "i");
+                patterns[i] =  RegExp.compile(regexs[i], "i");
             }
         }
     }
@@ -146,8 +148,8 @@ public class RegexValidator implements Serializable {
             return false;
         }
         for (int i = 0; i < patterns.length; i++) {
-        	final MatchResult result = patterns[i].exec(value);
-        	if (result != null && (result.getGroupCount() > 1 || value.equals(result.getGroup(0)))) {
+            final MatchResult result = patterns[i].exec(value);
+            if (result != null && (result.getGroupCount() > 1 || value.equals(result.getGroup(0)))) {
                 return true;
             }
         }
@@ -167,7 +169,7 @@ public class RegexValidator implements Serializable {
             return null;
         }
         for (int i = 0; i < patterns.length; i++) {
-        	MatchResult matcher = patterns[i].exec(value);
+            MatchResult matcher = patterns[i].exec(value);
             if (matcher != null) {
                 int count = matcher.getGroupCount() - 1;
                 String[] groups = new String[count];
@@ -194,13 +196,13 @@ public class RegexValidator implements Serializable {
             return null;
         }
         for (int i = 0; i < patterns.length; i++) {
-        	MatchResult matcher = patterns[i].exec(value);
+            MatchResult matcher = patterns[i].exec(value);
             if (matcher != null) {
                 int count = matcher.getGroupCount() - 1;
                 if (count == 1) {
                     return matcher.getGroup(1);
                 }
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 for (int j = 0; j < count; j++) {
                     String component = matcher.getGroup(j+1);
                     if (component != null) {
@@ -218,7 +220,7 @@ public class RegexValidator implements Serializable {
      * @return A String representation of this validator
      */
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("RegexValidator{");
         for (int i = 0; i < patterns.length; i++) {
             if (i > 0) {

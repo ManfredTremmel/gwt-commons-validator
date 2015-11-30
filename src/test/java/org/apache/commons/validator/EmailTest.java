@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1710414 $
  * @deprecated to be removed when target class is removed
  */
 public class EmailTest extends AbstractCommonTest {
@@ -218,7 +218,12 @@ public class EmailTest extends AbstractCommonTest {
       ValueBean info = new ValueBean();
 
       info.setValue("m@de");
-      valueTest(info, true);
+      valueTest(info, false);
+
+       org.apache.commons.validator.routines.EmailValidator validator =
+               org.apache.commons.validator.routines.EmailValidator.getInstance(true, true);
+      boolean result = validator.isValid("m@de");
+      assertTrue("Result should have been true", result);
 
    }
 

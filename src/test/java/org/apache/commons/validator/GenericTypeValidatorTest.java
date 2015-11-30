@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 /**                                                       
  * Performs Validation Test for type validations.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651910 $
  */
 public class GenericTypeValidatorTest extends AbstractCommonTest {
    
@@ -89,7 +89,7 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
       
       assertNotNull("Results are null.", results);
       
-      Map hResultValues = results.getResultValueMap();
+      Map<String, ?> hResultValues = results.getResultValueMap();
 
       assertTrue("Expecting byte result to be an instance of Byte.", (hResultValues.get("byte") instanceof Byte));
       assertTrue("Expecting short result to be an instance of Short.", (hResultValues.get("short") instanceof Short));
@@ -98,8 +98,8 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
       assertTrue("Expecting float result to be an instance of Float.", (hResultValues.get("float") instanceof Float));
       assertTrue("Expecting double result to be an instance of Double.", (hResultValues.get("double") instanceof Double));
       
-      for (Iterator i = hResultValues.keySet().iterator(); i.hasNext(); ) {
-         String key = (String)i.next();
+      for (Iterator<String> i = hResultValues.keySet().iterator(); i.hasNext(); ) {
+         String key = i.next();
          Object value = hResultValues.get(key);
          
          assertNotNull("value ValidatorResults.getResultValueMap() should not be null.", value);
@@ -142,7 +142,7 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
       info.setFloat("12,1555");
       info.setDouble("129,1551511111");
       info.setDate("21/12/2010");
-      Map map = localeTest(info, Locale.FRENCH);
+      Map<String, ?> map = localeTest(info, Locale.FRENCH);
       assertTrue("float value not correct", ((Float)map.get("float")).intValue() == 12);
       assertTrue("double value not correct", ((Double)map.get("double")).intValue() == 129);
   }
@@ -150,7 +150,7 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
   /**
     * Tests the locale.
     */
-   private Map localeTest(TypeBean info, Locale locale) throws ValidatorException {
+   private Map<String, ?> localeTest(TypeBean info, Locale locale) throws ValidatorException {
      
       // Construct validator based on the loaded resources 
       // and the form key
@@ -171,7 +171,7 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
       
       assertNotNull("Results are null.", results);
       
-      Map hResultValues = results.getResultValueMap();
+      Map<String, ?> hResultValues = results.getResultValueMap();
 
       assertTrue("Expecting byte result to be an instance of Byte for locale: "+locale, (hResultValues.get("byte") instanceof Byte));
       assertTrue("Expecting short result to be an instance of Short for locale: "+locale, (hResultValues.get("short") instanceof Short));
@@ -181,8 +181,8 @@ public class GenericTypeValidatorTest extends AbstractCommonTest {
       assertTrue("Expecting double result to be an instance of Double for locale: "+locale, (hResultValues.get("double") instanceof Double));
       assertTrue("Expecting date result to be an instance of Date for locale: "+locale, (hResultValues.get("date") instanceof Date));
       
-      for (Iterator i = hResultValues.keySet().iterator(); i.hasNext(); ) {
-         String key = (String)i.next();
+      for (Iterator<String> i = hResultValues.keySet().iterator(); i.hasNext(); ) {
+         String key = i.next();
          Object value = hResultValues.get(key);
          
          assertNotNull("value ValidatorResults.getResultValueMap() should not be null for locale: "+locale, value);

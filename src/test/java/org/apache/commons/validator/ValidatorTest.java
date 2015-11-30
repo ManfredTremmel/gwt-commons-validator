@@ -30,7 +30,7 @@ import org.apache.commons.validator.util.ValidatorUtils;
 /**                                                       
  * Performs Validation Test.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651811 $
  */
 public class ValidatorTest extends TestCase {            
                                                           
@@ -191,7 +191,7 @@ public class ValidatorTest extends TestCase {
       resources.addFormSet(fs);
       resources.process();
 
-      List l = new ArrayList();
+      List<?> l = new ArrayList<Object>();
 
       TestBean bean = new TestBean();  
       bean.setLetter("A");
@@ -223,7 +223,7 @@ public class ValidatorTest extends TestCase {
    /**
     * Checks if the field is one upper case letter between 'A' and 'Z'.
     */
-   public static boolean isCapLetter(Object bean, Field field, List l) {
+   public static boolean isCapLetter(Object bean, Field field, List<String> l) {
       String value = ValidatorUtils.getValueAsString(bean, field.getProperty());
 
       if (value != null && value.length() == 1) {

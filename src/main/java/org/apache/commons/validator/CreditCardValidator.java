@@ -18,7 +18,6 @@ package org.apache.commons.validator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.validator.util.Flags;
 
@@ -49,7 +48,7 @@ import org.apache.commons.validator.util.Flags;
  * <a href="http://www.merriampark.com/anatomycc.htm">here</a>.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1651811 $
  * @since Validator 1.1
  * @deprecated Use the new CreditCardValidator in the routines package. This class
  * will be removed in a future release.
@@ -94,7 +93,7 @@ public class CreditCardValidator {
     /**
      * The CreditCardTypes that are allowed to pass validation.
      */
-    private final Collection cardTypes = new ArrayList();
+    private final Collection<CreditCardType> cardTypes = new ArrayList<CreditCardType>();
 
     /**
      * Create a new CreditCardValidator with default options.
@@ -144,9 +143,8 @@ public class CreditCardValidator {
             return false;
         }
 
-        Iterator types = this.cardTypes.iterator();
-        while (types.hasNext()) {
-            CreditCardType type = (CreditCardType) types.next();
+        for (Object cardType : this.cardTypes) {
+            CreditCardType type = (CreditCardType) cardType;
             if (type.matches(card)) {
                 return true;
             }
@@ -234,7 +232,7 @@ public class CreditCardValidator {
         private static final String PREFIX = "34,37,";
         public boolean matches(String card) {
             String prefix2 = card.substring(0, 2) + ",";
-            return ((PREFIX.indexOf(prefix2) != -1) && (card.length() == 15));
+            return ((PREFIX.contains(prefix2)) && (card.length() == 15));
         }
     }
 
@@ -249,7 +247,7 @@ public class CreditCardValidator {
         private static final String PREFIX = "51,52,53,54,55,";
         public boolean matches(String card) {
             String prefix2 = card.substring(0, 2) + ",";
-            return ((PREFIX.indexOf(prefix2) != -1) && (card.length() == 16));
+            return ((PREFIX.contains(prefix2)) && (card.length() == 16));
         }
     }
 

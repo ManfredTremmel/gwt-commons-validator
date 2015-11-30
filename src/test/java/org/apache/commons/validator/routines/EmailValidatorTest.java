@@ -24,7 +24,7 @@ import org.apache.commons.validator.ResultPair;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1649927 $
+ * @version $Revision: 1715080 $
  */
 public class EmailValidatorTest extends TestCase {
 
@@ -367,6 +367,17 @@ public class EmailValidatorTest extends TestCase {
 
         assertTrue(validator.isValid("\"..\"@apache.org"));
 
+        assertTrue(validator.isValid("john56789.john56789.john56789.john56789.john56789.john56789.john@example.com"));
+
+        assertFalse(validator.isValid("john56789.john56789.john56789.john56789.john56789.john56789.john5@example.com"));
+
+        assertTrue(validator.isValid("\\>escape\\\\special\\^characters\\<@example.com"));
+
+        assertTrue(validator.isValid("Abc\\@def@example.com"));
+
+        assertFalse(validator.isValid("Abc@def@example.com"));
+
+        assertTrue(validator.isValid("space\\ monkey@example.com"));
     }
 
     /**
@@ -469,5 +480,36 @@ public class EmailValidatorTest extends TestCase {
         assertTrue(validator.isValid("abc-def@abc.com"));
         assertTrue(validator.isValid("abc_def@abc.com"));
         assertFalse(validator.isValid("abc@abc_def.com"));
+    }
+
+    public void testValidator365() {
+        assertFalse(validator.isValid(
+                "Loremipsumdolorsitametconsecteturadipiscingelit.Nullavitaeligulamattisrhoncusnuncegestasmattisleo."+
+                "Donecnonsapieninmagnatristiquedictumaacturpis.Fusceorciduifacilisisutsapieneuconsequatpharetralectus."+
+                "Quisqueenimestpulvinarutquamvitaeportamattisex.Nullamquismaurisplaceratconvallisjustoquisportamauris."+
+                "Innullalacusconvalliseufringillautvenenatissitametdiam.Maecenasluctusligulascelerisquepulvinarfeugiat."+
+                "Sedmolestienullaaliquetorciluctusidpharetranislfinibus.Suspendissemalesuadatinciduntduisitametportaarcusollicitudinnec."+
+                "Donecetmassamagna.Curabitururnadiampretiumveldignissimporttitorfringillaeuneque."+
+                "Duisantetelluspharetraidtinciduntinterdummolestiesitametfelis.Utquisquamsitametantesagittisdapibusacnonodio."+
+                "Namrutrummolestiediamidmattis.Cumsociisnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmus."+
+                "Morbiposueresedmetusacconsectetur.Etiamquisipsumvitaejustotempusmaximus.Sedultriciesplaceratvolutpat."+
+                "Integerlacuslectusmaximusacornarequissagittissitametjusto."+
+                "Cumsociisnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmus.Maecenasindictumpurussedrutrumex.Nullafacilisi."+
+                "Integerfinibusfinibusmietpharetranislfaucibusvel.Maecenasegetdolorlacinialobortisjustovelullamcorpersem."+
+                "Vivamusaliquetpurusidvariusornaresapienrisusrutrumnisitinciduntmollissemnequeidmetus."+
+                "Etiamquiseleifendpurus.Nuncfelisnuncscelerisqueiddignissimnecfinibusalibero."+
+                "Nuncsemperenimnequesitamethendreritpurusfacilisisac.Maurisdapibussemperfelisdignissimgravida."+
+                "Aeneanultricesblanditnequealiquamfinibusodioscelerisqueac.Aliquamnecmassaeumaurisfaucibusfringilla."+
+                "Etiamconsequatligulanisisitametaliquamnibhtemporquis.Nuncinterdumdignissimnullaatsodalesarcusagittiseu."+
+                "Proinpharetrametusneclacuspulvinarsedvolutpatliberoornare.Sedligulanislpulvinarnonlectuseublanditfacilisisante."+
+                "Sedmollisnislalacusauctorsuscipit.Inhachabitasseplateadictumst.Phasellussitametvelittemporvenenatisfeliseuegestasrisus."+
+                "Aliquameteratsitametnibhcommodofinibus.Morbiefficiturodiovelpulvinariaculis."+
+                "Aeneantemporipsummassaaconsecteturturpisfaucibusultrices.Praesentsodalesmaurisquisportafermentum."+
+                "Etiamnisinislvenenatisvelauctorutullamcorperinjusto.Proinvelligulaerat.Phasellusvestibulumgravidamassanonfeugiat."+
+                "Maecenaspharetraeuismodmetusegetefficitur.Suspendisseamet@gmail.com"));
+    }
+
+    public void testValidator374() {
+        assertTrue(validator.isValid("abc@school.school"));
     }
 }

@@ -17,15 +17,18 @@
 package org.apache.commons.validator.routines;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
+import java.net.IDN;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,12 +42,14 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.validator.routines.DomainValidator.ArrayType;
+
 import junit.framework.TestCase;
 
 /**
  * Tests for the DomainValidator.
  *
- * @version $Revision: 1649720 $
+ * @version $Revision: 1712853 $
  */
 public class DomainValidatorTest extends TestCase {
 
@@ -52,6 +57,7 @@ public class DomainValidatorTest extends TestCase {
 
     public void setUp() {
         validator = DomainValidator.getInstance();
+        DomainValidator.clearTLDOverrides(); // N.B. this clears the inUse flag, allowing overrides
     }
 
     public void testValidDomains() {
@@ -208,6 +214,67 @@ public class DomainValidatorTest extends TestCase {
         assertFalse("254 chars domain should fail", validator.isValidDomainSyntax(longDomain+"x"));
     }
 
+    // Check that IDN.toASCII behaves as it should (when wrapped by DomainValidator.unicodeToASCII)
+    // Tests show that method incorrectly trims a trailing "." character 
+    public void testUnicodeToASCII() {
+        String[] asciidots = {
+                "",
+                ",",
+                ".", // fails IDN.toASCII, but should pass wrapped version
+                "a.", // ditto
+                "a.b",
+                "a..b",
+                "a...b",
+                ".a",
+                "..a",
+        };
+        for(String s : asciidots) {
+            assertEquals(s,DomainValidator.unicodeToASCII(s));
+        }
+        // RFC3490 3.1. 1)
+//      Whenever dots are used as label separators, the following
+//      characters MUST be recognized as dots: U+002E (full stop), U+3002
+//      (ideographic full stop), U+FF0E (fullwidth full stop), U+FF61
+//      (halfwidth ideographic full stop).
+        final String otherDots[][] = {
+                {"b\u3002", "b.",},
+                {"b\uFF0E", "b.",},
+                {"b\uFF61", "b.",},
+                {"\u3002", ".",},
+                {"\uFF0E", ".",},
+                {"\uFF61", ".",},
+        };
+        for(String s[] : otherDots) {
+            assertEquals(s[1],DomainValidator.unicodeToASCII(s[0]));
+        }
+    }
+
+    // Check if IDN.toASCII is broken or not
+    public void testIsIDNtoASCIIBroken() {
+        System.out.println(">>DomainValidatorTest.testIsIDNtoASCIIBroken()");
+        final String input = ".";
+        final boolean ok = input.equals(IDN.toASCII(input));
+        System.out.println("IDN.toASCII is " + (ok? "OK" : "BROKEN"));
+        String props[] = {
+        "java.version", //    Java Runtime Environment version
+        "java.vendor", // Java Runtime Environment vendor
+        "java.vm.specification.version", //   Java Virtual Machine specification version
+        "java.vm.specification.vendor", //    Java Virtual Machine specification vendor
+        "java.vm.specification.name", //  Java Virtual Machine specification name
+        "java.vm.version", // Java Virtual Machine implementation version
+        "java.vm.vendor", //  Java Virtual Machine implementation vendor
+        "java.vm.name", //    Java Virtual Machine implementation name
+        "java.specification.version", //  Java Runtime Environment specification version
+        "java.specification.vendor", //   Java Runtime Environment specification vendor
+        "java.specification.name", // Java Runtime Environment specification name
+        "java.class.version", //  Java class format version number
+        };
+        for(String t : props) {
+            System.out.println(t + "=" + System.getProperty(t));
+        }    
+        System.out.println("<<DomainValidatorTest.testIsIDNtoASCIIBroken()");
+    }
+
     // Check array is sorted and is lower-case
     public void test_INFRASTRUCTURE_TLDS_sortedAndLowerCase() throws Exception {
         final boolean sorted = isSortedLowerCase("INFRASTRUCTURE_TLDS");
@@ -232,15 +299,66 @@ public class DomainValidatorTest extends TestCase {
         assertTrue(sorted);
     }
 
+    public void testUpdateCountryCode() {
+        assertFalse(validator.isValidCountryCodeTld("com")); // cannot be valid
+        DomainValidator.updateTLDOverride(ArrayType.COUNTRY_CODE_PLUS, new String[]{"com"});
+        assertTrue(validator.isValidCountryCodeTld("com")); // it is now!
+        DomainValidator.updateTLDOverride(ArrayType.COUNTRY_CODE_MINUS, new String[]{"com"});
+        assertFalse(validator.isValidCountryCodeTld("com")); // show that minus overrides the rest
+
+        assertTrue(validator.isValidCountryCodeTld("ch"));
+        DomainValidator.updateTLDOverride(ArrayType.COUNTRY_CODE_MINUS, new String[]{"ch"});
+        assertFalse(validator.isValidCountryCodeTld("ch"));
+        DomainValidator.updateTLDOverride(ArrayType.COUNTRY_CODE_MINUS, new String[]{"xx"});
+        assertTrue(validator.isValidCountryCodeTld("ch"));
+    }
+
+    public void testUpdateGeneric() {
+        assertFalse(validator.isValidGenericTld("ch")); // cannot be valid
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"ch"});
+        assertTrue(validator.isValidGenericTld("ch")); // it is now!
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_MINUS, new String[]{"ch"});
+        assertFalse(validator.isValidGenericTld("ch")); // show that minus overrides the rest
+
+        assertTrue(validator.isValidGenericTld("com"));
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_MINUS, new String[]{"com"});
+        assertFalse(validator.isValidGenericTld("com"));
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_MINUS, new String[]{"xx"}); // change the minus list
+        assertTrue(validator.isValidGenericTld("com"));
+    }
+
+    public void testCannotUpdate() {
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"ch"}); // OK
+        DomainValidator dv = DomainValidator.getInstance();
+        assertNotNull(dv);
+        try {
+            DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"ch"});
+            fail("Expected IllegalStateException");
+        } catch (IllegalStateException ise) {
+            // expected
+        }
+    }
     // Download and process local copy of http://data.iana.org/TLD/tlds-alpha-by-domain.txt
     // Check if the internal TLD table is up to date
     // Check if the internal TLD tables have any spurious entries
     public static void main(String a[]) throws Exception {
-        Set ianaTlds = new HashSet(); // keep for comparison with array contents
+        // Check the arrays first as this affects later checks
+        // Doing this here makes it easier when updating the lists
+        boolean OK = true;
+        for(String list : new String[]{"INFRASTRUCTURE_TLDS","COUNTRY_CODE_TLDS","GENERIC_TLDS","LOCAL_TLDS"}) {
+            OK &= isSortedLowerCase(list);
+        }
+        if (!OK) {
+            System.out.println("Fix arrays before retrying; cannot continue");
+            return;
+        }
+        Set<String> ianaTlds = new HashSet<String>(); // keep for comparison with array contents
         DomainValidator dv = DomainValidator.getInstance();;
         File txtFile = new File("target/tlds-alpha-by-domain.txt");
         long timestamp = download(txtFile, "http://data.iana.org/TLD/tlds-alpha-by-domain.txt", 0L);
         final File htmlFile = new File("target/tlds-alpha-by-domain.html");
+        // N.B. sometimes the html file may be updated a day or so after the txt file
+        // if the txt file contains entries not found in the html file, try again in a day or two
         download(htmlFile,"http://www.iana.org/domains/root/db", timestamp);
 
         BufferedReader br = new BufferedReader(new FileReader(txtFile));
@@ -254,32 +372,17 @@ public class DomainValidatorTest extends TestCase {
             throw new IOException("File does not have expected Version header");
         }
         final boolean generateUnicodeTlds = false; // Change this to generate Unicode TLDs as well
-        final Method toUnicode = getIDNMethod();
-        if (toUnicode == null) {
-            if (generateUnicodeTlds) {
-                System.err.println("Cannot convert XN-- entries (no access to java.net.IDN)");
-            }
-        }
 
         // Parse html page to get entries
-        Map htmlInfo = getHtmlInfo(htmlFile);
-        Map missingTLD = new TreeMap(); // stores entry and comments as String[]
-        Map missingCC = new TreeMap();
+        Map<String, String[]> htmlInfo = getHtmlInfo(htmlFile);
+        Map<String, String> missingTLD = new TreeMap<String, String>(); // stores entry and comments as String[]
+        Map<String, String> missingCC = new TreeMap<String, String>();
         while((line = br.readLine()) != null) {
             if (!line.startsWith("#")) {
                 final String unicodeTld; // only different from asciiTld if that was punycode
                 final String asciiTld = line.toLowerCase(Locale.ENGLISH);
                 if (line.startsWith("XN--")) {
-                    if (toUnicode != null) {
-                        unicodeTld = toUnicode(toUnicode, line);
-                    } else {
-                        // allow the code to check for missing ASCII TLDs
-                        if (generateUnicodeTlds) {
-                            continue; // No translation possible
-                        } else {
-                            unicodeTld = "";
-                        }
-                    }
+                    unicodeTld = IDN.toUnicode(line);
                 } else {
                     unicodeTld = asciiTld;
                 }
@@ -300,7 +403,7 @@ public class DomainValidatorTest extends TestCase {
                             }
                         }
                     } else {
-                        System.err.println("Expected to find info for "+ asciiTld);
+                        System.err.println("Expected to find HTML info for "+ asciiTld);
                     }
                 }
                 ianaTlds.add(asciiTld);
@@ -313,6 +416,14 @@ public class DomainValidatorTest extends TestCase {
             }
         }
         br.close();
+        // List html entries not in TLD text list
+        for(String key : (new TreeMap<String, String[]>(htmlInfo)).keySet()) {
+            if (!ianaTlds.contains(key)) {
+                if (!isNotInRootZone(key)) {
+                    System.err.println("Expected to find text entry for html: "+key);                    
+                }
+            }
+        }
         if (!missingTLD.isEmpty()) {
             printMap(header, missingTLD, "TLD");
         }
@@ -327,21 +438,21 @@ public class DomainValidatorTest extends TestCase {
         System.out.println("Finished checks");
     }
 
-    private static void printMap(final String header, Map map, String string) {
+    private static void printMap(final String header, Map<String, String> map, String string) {
         System.out.println("Entries missing from "+ string +" List\n");
         if (header != null) {
             System.out.println("        // Taken from " + header);
         }
-        Iterator it = map.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
         while(it.hasNext()){
-            Map.Entry me = (Map.Entry)it.next();
+            Map.Entry<String, String> me = it.next();
             System.out.println("        \"" + me.getKey() + "\", // " + me.getValue());
         }
         System.out.println("\nDone");
     }
 
-    private static Map getHtmlInfo(final File f) throws IOException {
-        final Map info = new HashMap();
+    private static Map<String, String[]> getHtmlInfo(final File f) throws IOException {
+        final Map<String, String[]> info = new HashMap<String, String[]>();
 
 //        <td><span class="domain tld"><a href="/domains/root/db/ax.html">.ax</a></span></td>
         final Pattern domain = Pattern.compile(".*<a href=\"/domains/root/db/([^.]+)\\.html");
@@ -360,6 +471,9 @@ public class DomainValidatorTest extends TestCase {
                 String typ = "??";
                 String com = "??";
                 line = br.readLine();
+                while (line.matches("^\\s*$")) { // extra blank lines introduced
+                    line = br.readLine();                    
+                }
                 Matcher t = type.matcher(line);
                 if (t.lookingAt()) {
                     typ = t.group(1);
@@ -378,8 +492,15 @@ public class DomainValidatorTest extends TestCase {
                     if (n.lookingAt()) {
                         com = n.group(1);
                     }
-                    info.put(dom.toLowerCase(Locale.ENGLISH), new String[]{typ, com});
-//                    System.out.println(dom + " " + typ + " " +com);
+                    // Don't save unused entries
+                    if (com.contains("Not assigned") || com.contains("Retired") || typ.equals("test")) {
+//                        System.out.println("Ignored: " + typ + " " + dom + " " +com);
+                    } else {
+                        info.put(dom.toLowerCase(Locale.ENGLISH), new String[]{typ, com});
+//                        System.out.println("Storing: " + typ + " " + dom + " " +com);
+                    }
+                } else {
+                    System.err.println("Unexpected type: " + line);
                 }
             }
         }
@@ -393,16 +514,20 @@ public class DomainValidatorTest extends TestCase {
      * Html page, so we check if it is newer than the txt file and skip download if so
      */
     private static long download(File f, String tldurl, long timestamp) throws IOException {
-        if (timestamp > 0 && f.canRead()) {
-            long modTime = f.lastModified();            
-            if (modTime > timestamp) {
+        final int HOUR = 60*60*1000; // an hour in ms
+        final long modTime;
+        // For testing purposes, don't download files more than once an hour
+        if (f.canRead()) {
+            modTime = f.lastModified();                        
+            if (modTime > System.currentTimeMillis()-HOUR) {
                 System.out.println("Skipping download - found recent " + f);
                 return modTime;
             }
+        } else {
+            modTime = 0;
         }
         HttpURLConnection hc = (HttpURLConnection) new URL(tldurl).openConnection();
-        if (f.canRead()) {
-            long modTime = f.lastModified();            
+        if (modTime > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");//Sun, 06 Nov 1994 08:49:37 GMT
             String since = sdf.format(new Date(modTime));
             hc.addRequestProperty("If-Modified-Since", since);
@@ -427,27 +552,45 @@ public class DomainValidatorTest extends TestCase {
         return f.lastModified();
     }
 
-    private static String toUnicode(Method m, String line) {
+    private static boolean isNotInRootZone(String domain) {
+        String tldurl = "http://www.iana.org/domains/root/db/" + domain + ".html";
+        HttpURLConnection hc = null;
+        BufferedReader in = null;
         try {
-            return (String) m.invoke(null, new String[]{line.toLowerCase(Locale.ENGLISH)});
-        } catch (Exception e) {
+            hc = (HttpURLConnection) new URL(tldurl).openConnection();
+            in = new BufferedReader(
+                    new InputStreamReader(hc.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                if (inputLine.contains("This domain is not present in the root zone at this time.")) {
+                    return true;
+                }
+            }
+            in.close();        
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        } finally {
+            closeQuietly(in);
+            if (hc != null) {
+                hc.disconnect();
+            }
         }
-        return line;
+        return false;
     }
 
-    private static Method getIDNMethod() {
-        try {
-            Class clazz = Class.forName("java.net.IDN", false, DomainValidatorTest.class.getClassLoader());
-            return clazz.getDeclaredMethod("toUnicode", new Class[]{String.class});
-        } catch (Exception e) {
-          return null;
+    private static void closeQuietly(Closeable in) {
+        if (in != null) {
+            try {
+                in.close();
+            } catch (IOException e) {
+            }
         }
     }
 
     // isInIanaList and isSorted are split into two methods.
     // If/when access to the arrays is possible without reflection, the intermediate
     // methods can be dropped
-    private static boolean isInIanaList(String arrayName, Set ianaTlds) throws Exception {
+    private static boolean isInIanaList(String arrayName, Set<String> ianaTlds) throws Exception {
         Field f = DomainValidator.class.getDeclaredField(arrayName);
         final boolean isPrivate = Modifier.isPrivate(f.getModifiers());
         if (isPrivate) {
@@ -463,7 +606,7 @@ public class DomainValidatorTest extends TestCase {
         }
     }
 
-    private static boolean isInIanaList(String name, String [] array, Set ianaTlds) {
+    private static boolean isInIanaList(String name, String [] array, Set<String> ianaTlds) {
         for(int i = 0; i < array.length; i++) {
             if (!ianaTlds.contains(array[i])) {
                 System.out.println(name + " contains unexpected value: " + array[i]);
@@ -472,7 +615,7 @@ public class DomainValidatorTest extends TestCase {
         return true;
     }
 
-    private boolean isSortedLowerCase(String arrayName) throws Exception {
+    private static boolean isSortedLowerCase(String arrayName) throws Exception {
         Field f = DomainValidator.class.getDeclaredField(arrayName);
         final boolean isPrivate = Modifier.isPrivate(f.getModifiers());
         if (isPrivate) {

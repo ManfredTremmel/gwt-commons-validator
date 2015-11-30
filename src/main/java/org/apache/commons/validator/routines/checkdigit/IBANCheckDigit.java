@@ -37,7 +37,7 @@ import java.io.Serializable;
  *  <a href="http://en.wikipedia.org/wiki/International_Bank_Account_Number">Wikipedia -
  *  IBAN number</a>.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1713572 $
  * @since Validator 1.4
  */
 public final class IBANCheckDigit implements CheckDigit, Serializable {
@@ -68,6 +68,10 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
         if (code == null || code.length() < 5) {
             return false;
         }
+        String check = code.substring(2,4);
+        if ("00".equals(check) || "01".equals(check) || "99".equals(check)) {
+            return false;
+        }
         try {
             int modulusResult = calculateModulus(code);
             return (modulusResult == 1);
@@ -80,7 +84,7 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
      * Calculate the <i>Check Digit</i> for an IBAN code.
      * <p>
      * <b>Note:</b> The check digit is the third and fourth
-     * characters and and should contain value "<code>00</code>".
+     * characters and is set to the value "<code>00</code>".
      *
      * @param code The code to calculate the Check Digit for
      * @return The calculated Check Digit as 2 numeric decimal characters, e.g. "42"
@@ -92,6 +96,7 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
             throw new CheckDigitException("Invalid Code length=" +
                     (code == null ? 0 : code.length()));
         }
+        code = code.substring(0, 2) + "00" + code.substring(4);
         int modulusResult = calculateModulus(code);
         int charValue = (98 - modulusResult);
         String checkDigit = Integer.toString(charValue);
