@@ -157,6 +157,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <gwt.version>2.7.0</gwt.version>
+    <guava-gwt.version>18.0</guava-gwt.version>
     <wagonSSH.version>2.10</wagonSSH.version>
   </properties> 
 
@@ -232,7 +233,7 @@
           <style>OBFUSCATED</style>
           <failOnError>true</failOnError>
           <localWorkers>-1</localWorkers>
-          <extraJvmArgs>-Xms512m -Xmx1g -XX:MaxPermSize=256m</extraJvmArgs>
+          <extraJvmArgs>-Xms512m -Xmx1g</extraJvmArgs>
         </configuration>
       </plugin>
     </plugins>
@@ -251,6 +252,12 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.9.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -294,6 +301,13 @@
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-gwt</artifactId>
+      <version>${guava-gwt.version}</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
