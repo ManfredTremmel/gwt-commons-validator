@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>gwt-commons-validator</groupId>
   <artifactId>gwt-commons-validator</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.0-gwt27-0</version>
   <name>Apache Commons Validator</name>
   <description>
     Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
