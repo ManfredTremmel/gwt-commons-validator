@@ -33,7 +33,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * based on the country, language, and variant specified. Instances of this
  * class are configured with a &lt;formset&gt; xml element.
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739361 $
  */
 @GwtIncompatible("incompatible class")
 public class FormSet implements Serializable {
@@ -277,7 +277,7 @@ public class FormSet implements Serializable {
      * @return          The form
      */
     public Form getForm(String formName) {
-        return (Form) this.forms.get(formName);
+        return this.forms.get(formName);
     }
 
     /**
@@ -341,6 +341,7 @@ public class FormSet implements Serializable {
      *
      * @return   A string representation
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

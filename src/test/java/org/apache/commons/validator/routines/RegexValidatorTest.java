@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Test Case for RegexValidatorTest.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public class RegexValidatorTest extends TestCase {
@@ -51,6 +51,7 @@ public class RegexValidatorTest extends TestCase {
     /**
      * Set Up.
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -58,6 +59,7 @@ public class RegexValidatorTest extends TestCase {
     /**
      * Tear Down.
      */
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }

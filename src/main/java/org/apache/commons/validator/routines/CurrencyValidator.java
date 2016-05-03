@@ -41,7 +41,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *    you want the currency converted to. One thing to note - only the CurrencyValidator
  *    implements <i>lenient</i> behaviour regarding the currency symbol.</p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -94,6 +94,7 @@ public class CurrencyValidator extends BigDecimalValidator {
      * @param formatter The Format to parse the value with.
      * @return The parsed value if valid or <code>null</code> if invalid.
      */
+    @Override
     protected Object parse(String value, Format formatter) {
 
         // Initial parse of the value

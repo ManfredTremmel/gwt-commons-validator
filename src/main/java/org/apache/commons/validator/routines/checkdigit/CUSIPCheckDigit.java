@@ -36,7 +36,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * for more details.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public final class CUSIPCheckDigit extends ModulusCheckDigit {
@@ -53,7 +53,7 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
      * Construct an CUSIP Indetifier Check Digit routine.
      */
     public CUSIPCheckDigit() {
-        super(10);
+        super(10); // CHECKSTYLE IGNORE MagicNumber
     }
 
     /**
@@ -69,7 +69,7 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
             throws CheckDigitException {
         int charValue = CharacterGetNumericValue.getNumericValue(character);
         // the final character is only allowed to reach 9
-        final int charMax = rightPos == 1 ? 9 : 35;
+        final int charMax = rightPos == 1 ? 9 : 35;  // CHECKSTYLE IGNORE MagicNumber
         if (charValue < 0 || charValue > charMax) {
             throw new CheckDigitException("Invalid Character[" +
                     leftPos + "," + rightPos + "] = '" + charValue + "' out of range 0 to " + charMax);
@@ -90,6 +90,7 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
      * @param rightPos The positionof the character in the code, counting from right to left
      * @return The weighted value of the character.
      */
+    @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
         int weight = POSITION_WEIGHT[rightPos % 2];
         int weightedValue = (charValue * weight);

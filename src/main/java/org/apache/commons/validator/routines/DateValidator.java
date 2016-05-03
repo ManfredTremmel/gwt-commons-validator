@@ -81,7 +81,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using the format for the <i>default</i> <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -326,6 +326,7 @@ public class DateValidator extends AbstractCalendarValidator {
      * @param formatter The Format used to parse the value with.
      * @return The parsed value converted to a <code>Calendar</code>.
      */
+    @Override
     protected Object processParsedValue(Object value, Format formatter) {
         return value;
     }

@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * Tests that validator rules split between 2 different XML files get 
  * merged properly.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class MultipleConfigFilesTest extends TestCase {
 
@@ -58,6 +58,7 @@ public class MultipleConfigFilesTest extends TestCase {
     /** 
      * Load <code>ValidatorResources</code> from multiple xml files.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         InputStream[] streams =
             new InputStream[] {

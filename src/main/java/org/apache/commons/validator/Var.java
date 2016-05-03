@@ -25,7 +25,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * passing in information to a pluggable validator.  Instances of this class are
  * configured with a &lt;var&gt; xml element.
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  */
 public class Var implements Cloneable, Serializable {
 
@@ -183,6 +183,7 @@ public class Var implements Cloneable, Serializable {
      * @return A copy of the variable.
      */
     @GwtIncompatible("incompatible method")
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -196,6 +197,7 @@ public class Var implements Cloneable, Serializable {
      * Returns a string representation of the object.
      * @return A string representation of the variable.
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

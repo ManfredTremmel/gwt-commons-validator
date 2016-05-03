@@ -26,7 +26,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
 /**
  * Factory class used by Digester to create FormSet's.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.2
  */
 @GwtIncompatible("incompatible class")
@@ -43,6 +43,7 @@ public class FormSetFactory extends AbstractObjectCreationFactory {
      * @return The FormSet for a locale.
      * @throws Exception If an error occurs creating the FormSet.
      */
+    @Override
     public Object createObject(Attributes attributes) throws Exception {
 
         ValidatorResources resources = (ValidatorResources)digester.peek(0);

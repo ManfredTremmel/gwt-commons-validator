@@ -41,7 +41,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1713452 $
+ * @version $Revision: 1739361 $
  */
 public class ValidatorUtils {
 
@@ -143,6 +143,7 @@ public class ValidatorUtils {
      * copyMap() instead.
      */
     @GwtIncompatible("incompatible method")
+    @Deprecated
     public static FastHashMap copyFastHashMap(FastHashMap map) {
         FastHashMap results = new FastHashMap();
 
@@ -150,7 +151,7 @@ public class ValidatorUtils {
         Iterator<Entry<String, ?>> i = map.entrySet().iterator();
         while (i.hasNext()) {
             Entry<String, ?> entry = i.next();
-            String key = (String) entry.getKey();
+            String key = entry.getKey();
             Object value = entry.getValue();
 
             if (value instanceof Msg) {

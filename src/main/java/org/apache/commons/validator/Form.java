@@ -37,7 +37,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * The use of FastHashMap is deprecated and will be replaced in a future
  * release. </p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739361 $
  */
 //TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
@@ -60,6 +60,7 @@ public class Form implements Serializable {
      *
      * @deprecated   Subclasses should use getFieldMap() instead.
      */
+    @Deprecated
     protected FastHashMap hFields = new FastHashMap(); // <String, Field>
 
     /**
@@ -151,7 +152,7 @@ public class Form implements Serializable {
         Map<String, Field> temphFields = new FastHashMap();
         Iterator<Field> dependsIt = depends.getFields().iterator();
         while (dependsIt.hasNext()) {
-            Field defaultField = (Field) dependsIt.next();
+            Field defaultField = dependsIt.next();
             if (defaultField != null) {
                 String fieldKey = defaultField.getKey();
                 if (!this.containsField(fieldKey)) {
@@ -218,6 +219,7 @@ public class Form implements Serializable {
      *
      * @return string representation
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

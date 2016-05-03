@@ -44,7 +44,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739361 $
  * @see org.apache.commons.validator.Form
  */
 // TODO mutable non-private fields
@@ -133,11 +133,13 @@ public class Field implements Cloneable, Serializable {
     /**
      * @deprecated Subclasses should use getVarMap() instead.
      */
+    @Deprecated
     protected FastHashMap hVars = new FastHashMap(); // <String, Var>
 
     /**
      * @deprecated Subclasses should use getMsgMap() instead.
      */
+    @Deprecated
     protected FastHashMap hMsgs = new FastHashMap(); // <String, Msg>
 
     /**
@@ -289,7 +291,7 @@ public class Field implements Cloneable, Serializable {
      * @return A validation message for a specified validator.
      */
     public Msg getMessage(String key) {
-        return (Msg) getMsgMap().get(key);
+        return getMsgMap().get(key);
     }
 
     /**
@@ -433,7 +435,7 @@ public class Field implements Cloneable, Serializable {
             return null;
         }
 
-        Arg arg = (Arg) args[position].get(key);
+        Arg arg = args[position].get(key);
 
         // Didn't find default arg so exit, otherwise we would get into
         // infinite recursion
@@ -486,7 +488,7 @@ public class Field implements Cloneable, Serializable {
      * @return the Variable
      */
     public Var getVar(String mainKey) {
-        return (Var) getVarMap().get(mainKey);
+        return getVarMap().get(mainKey);
     }
 
     /**
@@ -684,6 +686,7 @@ public class Field implements Cloneable, Serializable {
      * Creates and returns a copy of this object.
      * @return A copy of the Field.
      */
+    @Override
     public Object clone() {
         Field field = null;
         try {
@@ -721,6 +724,7 @@ public class Field implements Cloneable, Serializable {
      * Returns a string representation of the object.
      * @return A string representation of the object.
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

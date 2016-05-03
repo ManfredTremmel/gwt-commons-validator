@@ -64,7 +64,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
  * <br>
  * Or just avoid using parentheses except for the parts you want to capture
  * 
- * @version $Revision: 1713388 $
+ * @version $Revision: 1739011 $
  * @since Validator 1.4
  */
 public final class CodeValidator implements Serializable {
@@ -254,7 +254,7 @@ public final class CodeValidator implements Serializable {
             }
         }
 
-        // check the length
+        // check the length (must be done after validate as that can change the code)
         if ((minLength >= 0 && code.length() < minLength) ||
             (maxLength >= 0 && code.length() > maxLength)) {
             return null;

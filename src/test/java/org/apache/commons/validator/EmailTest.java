@@ -24,9 +24,10 @@ import org.xml.sax.SAXException;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1710414 $
+ * @version $Revision: 1739358 $
  * @deprecated to be removed when target class is removed
  */
+@Deprecated
 public class EmailTest extends AbstractCommonTest {
 
     /**
@@ -49,7 +50,8 @@ public class EmailTest extends AbstractCommonTest {
     * Load <code>ValidatorResources</code> from 
     * validator-regexp.xml.
     */
-   protected void setUp() throws IOException, SAXException {
+   @Override
+protected void setUp() throws IOException, SAXException {
       loadResources("EmailTest-config.xml");
    }
 

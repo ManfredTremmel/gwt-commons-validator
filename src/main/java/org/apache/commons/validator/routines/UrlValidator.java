@@ -72,7 +72,7 @@ import com.google.gwt.regexp.shared.RegExp;
  *  Uniform Resource Identifiers (URI): Generic Syntax
  * </a>
  *
- * @version $Revision: 1713573 $
+ * @version $Revision: 1715435 $
  * @since Validator 1.4
  */
 public class UrlValidator implements Serializable {
@@ -101,7 +101,7 @@ public class UrlValidator implements Serializable {
      *  validation requirements you should create your validator with
      *  a {@link RegexValidator} instead ({@link #UrlValidator(RegexValidator, long)})
      */
-    public static final long ALLOW_LOCAL_URLS = 1 << 3;
+    public static final long ALLOW_LOCAL_URLS = 1 << 3; // CHECKSTYLE IGNORE MagicNumber
 
     /**
      * This expression derived/taken from the BNF for URI (RFC2396).

@@ -29,7 +29,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * This contains the results of a set of validation rules processed
  * on a JavaBean.
  *
- * @version $Revision: 1652498 $
+ * @version $Revision: 1739361 $
  */
 //TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
@@ -114,7 +114,7 @@ public class ValidatorResults implements Serializable {
      * @return The result of a specified key.
      */
     public ValidatorResult getValidatorResult(String key) {
-        return (ValidatorResult) this.hResults.get(key);
+        return this.hResults.get(key);
     }
 
     /**

@@ -37,12 +37,16 @@ import java.io.Serializable;
  *  <a href="http://en.wikipedia.org/wiki/International_Bank_Account_Number">Wikipedia -
  *  IBAN number</a>.
  *
- * @version $Revision: 1713572 $
+ * @version $Revision: 1739357 $
  * @since Validator 1.4
  */
 public final class IBANCheckDigit implements CheckDigit, Serializable {
 
+    private static final int MIN_CODE_LEN = 5;
+
     private static final long serialVersionUID = -3600191725934382801L;
+
+    private static final int MAX_ALPHANUMERIC_VALUE = 35; // Character.getNumericValue('Z')
 
     /** Singleton IBAN Number Check Digit instance */
     public static final CheckDigit IBAN_CHECK_DIGIT = new IBANCheckDigit();
@@ -64,11 +68,12 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
      * @return <code>true</code> if the check digit is valid, otherwise
      * <code>false</code>
      */
+    @Override
     public boolean isValid(String code) {
-        if (code == null || code.length() < 5) {
+        if (code == null || code.length() < MIN_CODE_LEN) {
             return false;
         }
-        String check = code.substring(2,4);
+        String check = code.substring(2,4); // CHECKSTYLE IGNORE MagicNumber
         if ("00".equals(check) || "01".equals(check) || "99".equals(check)) {
             return false;
         }
@@ -91,16 +96,17 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
      * @throws CheckDigitException if an error occurs calculating
      * the check digit for the specified code
      */
+    @Override
     public String calculate(String code) throws CheckDigitException {
-        if (code == null || code.length() < 5) {
+        if (code == null || code.length() < MIN_CODE_LEN) {
             throw new CheckDigitException("Invalid Code length=" +
                     (code == null ? 0 : code.length()));
         }
-        code = code.substring(0, 2) + "00" + code.substring(4);
+        code = code.substring(0, 2) + "00" + code.substring(4); // CHECKSTYLE IGNORE MagicNumber
         int modulusResult = calculateModulus(code);
-        int charValue = (98 - modulusResult);
+        int charValue = (98 - modulusResult); // CHECKSTYLE IGNORE MagicNumber
         String checkDigit = Integer.toString(charValue);
-        return (charValue > 9 ? checkDigit : "0" + checkDigit);
+        return (charValue > 9 ? checkDigit : "0" + checkDigit); // CHECKSTYLE IGNORE MagicNumber
     }
 
     /**
@@ -112,15 +118,15 @@ public final class IBANCheckDigit implements CheckDigit, Serializable {
      * for the specified code
      */
     private int calculateModulus(String code) throws CheckDigitException {
-        String reformattedCode = code.substring(4) + code.substring(0, 4);
+        String reformattedCode = code.substring(4) + code.substring(0, 4); // CHECKSTYLE IGNORE MagicNumber
         long total = 0;
         for (int i = 0; i < reformattedCode.length(); i++) {
             int charValue = CharacterGetNumericValue.getNumericValue(reformattedCode.charAt(i));
-            if (charValue < 0 || charValue > 35) {
+            if (charValue < 0 || charValue > MAX_ALPHANUMERIC_VALUE) {
                 throw new CheckDigitException("Invalid Character[" +
                         i + "] = '" + charValue + "'");
             }
-            total = (charValue > 9 ? total * 100 : total * 10) + charValue;
+            total = (charValue > 9 ? total * 100 : total * 10) + charValue; // CHECKSTYLE IGNORE MagicNumber
             if (total > MAX) {
                 total = total % MODULUS;
             }

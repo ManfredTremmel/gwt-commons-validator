@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * Abstracts date unit tests methods.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class DateTest extends AbstractCommonTest {
     
@@ -48,6 +48,7 @@ public class DateTest extends AbstractCommonTest {
      * Load <code>ValidatorResources</code> from 
      * validator-numeric.xml.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         // Load resources
         loadResources("DateTest-config.xml");

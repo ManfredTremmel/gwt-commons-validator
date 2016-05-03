@@ -28,7 +28,7 @@ import java.io.Serializable;
  * See <a href="http://en.wikipedia.org/wiki/Verhoeff_algorithm">Wikipedia
  *  - Verhoeff algorithm</a> for more details.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739357 $
  * @since Validator 1.4
  */
 public final class VerhoeffCheckDigit implements CheckDigit, Serializable {
@@ -74,6 +74,7 @@ public final class VerhoeffCheckDigit implements CheckDigit, Serializable {
      * @return <code>true</code> if the check digit is valid,
      * otherwise <code>false</code>
      */
+    @Override
     public boolean isValid(String code) {
         if (code == null || code.length() == 0) {
             return false;
@@ -93,6 +94,7 @@ public final class VerhoeffCheckDigit implements CheckDigit, Serializable {
      * @throws CheckDigitException if an error occurs calculating
      * the check digit for the specified code
      */
+    @Override
     public String calculate(String code) throws CheckDigitException {
         if (code == null || code.length() == 0) {
             throw new CheckDigitException("Code is missing");
@@ -114,12 +116,12 @@ public final class VerhoeffCheckDigit implements CheckDigit, Serializable {
         for (int i = 0; i < code.length(); i++) {
             int idx = code.length() - (i + 1);
             int num = CharacterGetNumericValue.getNumericValue(code.charAt(idx));
-            if (num < 0 || num > 9) {
+            if (num < 0 || num > 9) { // CHECKSTYLE IGNORE MagicNumber
                 throw new CheckDigitException("Invalid Character[" +
                         i + "] = '" + ((int)code.charAt(idx)) + "'");
             }
             int pos = includesCheckDigit ? i : i + 1;
-            checksum = D_TABLE[checksum][P_TABLE[pos % 8][num]];
+            checksum = D_TABLE[checksum][P_TABLE[pos % 8][num]]; // CHECKSTYLE IGNORE MagicNumber
         }
         return checksum;
     }

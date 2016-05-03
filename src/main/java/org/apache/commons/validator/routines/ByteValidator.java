@@ -61,7 +61,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using a specified pattern with a specified <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -244,6 +244,7 @@ public class ByteValidator extends AbstractNumberValidator {
      * @return The parsed <code>Number</code> converted to a
      *   <code>Byte</code> if valid or <code>null</code> if invalid.
      */
+    @Override
     protected Object processParsedValue(Object value, Format formatter) {
 
         long longValue = ((Number)value).longValue();
@@ -252,7 +253,7 @@ public class ByteValidator extends AbstractNumberValidator {
             longValue > Byte.MAX_VALUE) {
             return null;
         }
-        return new Byte((byte)longValue);
+        return Byte.valueOf((byte)longValue);
     }
 
 }

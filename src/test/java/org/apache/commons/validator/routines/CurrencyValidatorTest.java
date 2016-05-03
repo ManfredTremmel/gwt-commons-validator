@@ -25,7 +25,7 @@ import java.text.DecimalFormatSymbols;
 /**
  * Test Case for CurrencyValidator.
  * 
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739359 $
  */
 public class CurrencyValidatorTest extends TestCase {
     
@@ -42,6 +42,7 @@ public class CurrencyValidatorTest extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         US_DOLLAR = (new DecimalFormatSymbols(Locale.US)).getCurrencySymbol();
@@ -52,6 +53,7 @@ public class CurrencyValidatorTest extends TestCase {
      * Tear down
      * @throws Exception
      */
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
@@ -61,7 +63,7 @@ public class CurrencyValidatorTest extends TestCase {
      */
     public void testFormatType() {
         assertEquals("Format Type A", 1, CurrencyValidator.getInstance().getFormatType());
-        assertEquals("Format Type B", CurrencyValidator.CURRENCY_FORMAT, CurrencyValidator.getInstance().getFormatType());
+        assertEquals("Format Type B", AbstractNumberValidator.CURRENCY_FORMAT, CurrencyValidator.getInstance().getFormatType());
     }
 
     /**

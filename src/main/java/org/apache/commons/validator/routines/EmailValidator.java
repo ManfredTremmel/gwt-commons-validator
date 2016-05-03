@@ -31,7 +31,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * This implementation is not guaranteed to catch all possible errors in an email address.
  * </p>.
  *
- * @version $Revision: 1715080 $
+ * @version $Revision: 1723573 $
  * @since Validator 1.4
  */
 public class EmailValidator implements Serializable {
@@ -40,7 +40,7 @@ public class EmailValidator implements Serializable {
 
     private static final String SPECIAL_CHARS = "\\x00-\\x1F\\x7F\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
     private static final String VALID_CHARS = "(\\\\.)|[^\\s" + SPECIAL_CHARS + "]";
-    private static final String QUOTED_USER = "(\"[^\"]*\")";
+    private static final String QUOTED_USER = "(\"(\\\\\"|[^\"])*\")";
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
     private static final String EMAIL_REGEX = "^\\s*?(.+)@(.+?)\\s*$";
@@ -50,6 +50,8 @@ public class EmailValidator implements Serializable {
     private static final RegExp EMAIL_PATTERN = RegExp.compile(EMAIL_REGEX);
     private static final RegExp IP_DOMAIN_PATTERN = RegExp.compile(IP_DOMAIN_REGEX);
     private static final RegExp USER_PATTERN = RegExp.compile(USER_REGEX);
+
+    private static final int MAX_USERNAME_LEN = 64;
 
     private final boolean allowLocal;
     private final boolean allowTld;
@@ -93,6 +95,7 @@ public class EmailValidator implements Serializable {
      *  with local validation as required.
      *
      * @param allowLocal Should local addresses be considered valid?
+     * @param allowTld Should TLDs be allowed?
      * @return singleton instance of this validator
      */
     public static EmailValidator getInstance(boolean allowLocal, boolean allowTld) {
@@ -126,6 +129,7 @@ public class EmailValidator implements Serializable {
      * Protected constructor for subclasses to use.
      *
      * @param allowLocal Should local addresses be considered valid?
+     * @param allowTld Should TLDs be allowed?
      */
     protected EmailValidator(boolean allowLocal, boolean allowTld) {
         super();
@@ -196,7 +200,7 @@ public class EmailValidator implements Serializable {
         DomainValidator domainValidator =
                 DomainValidator.getInstance(allowLocal);
         if (allowTld) {
-            return domainValidator.isValid(domain) || domainValidator.isValidTld(domain);
+            return domainValidator.isValid(domain) || (!domain.startsWith(".") && domainValidator.isValidTld(domain));
         } else {
             return domainValidator.isValid(domain);
         }
@@ -210,7 +214,7 @@ public class EmailValidator implements Serializable {
      */
     protected boolean isValidUser(String user) {
         
-        if (user == null || user.length() > 64) {
+        if (user == null || user.length() > MAX_USERNAME_LEN) {
             return false;
         }
         

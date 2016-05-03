@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 /**                                                       
  * Performs Validation Test for exception handling.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class ExceptionTest extends AbstractCommonTest {
 
@@ -46,6 +46,7 @@ public class ExceptionTest extends AbstractCommonTest {
      * Load <code>ValidatorResources</code> from 
      * validator-exception.xml.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         loadResources("ExceptionTest-config.xml");
     }

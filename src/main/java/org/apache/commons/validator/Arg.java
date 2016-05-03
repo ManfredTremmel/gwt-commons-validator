@@ -35,7 +35,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * </p>
  * <p>Instances of this class are configured with an &lt;arg&gt; xml element.</p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  */
 //TODO mutable non-private fields
 public class Arg implements Cloneable, Serializable {
@@ -78,6 +78,7 @@ public class Arg implements Cloneable, Serializable {
      * @return A copy of this object.
      */
     @GwtIncompatible("incompatible method")
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -173,6 +174,7 @@ public class Arg implements Cloneable, Serializable {
      * Returns a string representation of the object.
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

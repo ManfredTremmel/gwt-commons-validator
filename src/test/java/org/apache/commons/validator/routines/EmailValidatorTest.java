@@ -24,7 +24,7 @@ import org.apache.commons.validator.ResultPair;
  * Performs Validation Test for e-mail validations.
  *
  *
- * @version $Revision: 1715080 $
+ * @version $Revision: 1739356 $
  */
 public class EmailValidatorTest extends TestCase {
 
@@ -45,11 +45,13 @@ public class EmailValidatorTest extends TestCase {
        super(name);
    }
 
-   protected void setUp() {
+   @Override
+protected void setUp() {
         validator = EmailValidator.getInstance();
    }
 
-   protected void tearDown() {
+   @Override
+protected void tearDown() {
    }
 
    /**
@@ -367,6 +369,9 @@ public class EmailValidatorTest extends TestCase {
 
         assertTrue(validator.isValid("\"..\"@apache.org"));
 
+        // escaped quote character valid in quoted string
+        assertTrue(validator.isValid("\"john\\\"doe\"@apache.org"));
+
         assertTrue(validator.isValid("john56789.john56789.john56789.john56789.john56789.john56789.john@example.com"));
 
         assertFalse(validator.isValid("john56789.john56789.john56789.john56789.john56789.john56789.john5@example.com"));
@@ -507,6 +512,23 @@ public class EmailValidatorTest extends TestCase {
                 "Aeneantemporipsummassaaconsecteturturpisfaucibusultrices.Praesentsodalesmaurisquisportafermentum."+
                 "Etiamnisinislvenenatisvelauctorutullamcorperinjusto.Proinvelligulaerat.Phasellusvestibulumgravidamassanonfeugiat."+
                 "Maecenaspharetraeuismodmetusegetefficitur.Suspendisseamet@gmail.com"));
+    }
+
+    /**
+     * Tests the e-mail validation with a user at a TLD
+     *
+     * http://tools.ietf.org/html/rfc5321#section-2.3.5
+     * (In the case of a top-level domain used by itself in an
+     * email address, a single string is used without any dots)
+     */
+    public void testEmailAtTLD() {
+        EmailValidator val = EmailValidator.getInstance(false, true);
+        assertTrue(val.isValid("test@com"));
+    }
+
+    public void testValidator359() {
+        EmailValidator val = EmailValidator.getInstance(false, true);
+        assertFalse(val.isValid("test@.com"));
     }
 
     public void testValidator374() {

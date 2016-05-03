@@ -20,7 +20,7 @@ package org.apache.commons.validator.routines.checkdigit;
 /**
  * CUSIP Check Digit Test.
  *
- * @version $Revision: 1648862 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public class CUSIPCheckDigitTest extends AbstractCheckDigitTest {
@@ -36,6 +36,7 @@ public class CUSIPCheckDigitTest extends AbstractCheckDigitTest {
     /**
      * Set up routine & valid codes.
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         routine = CUSIPCheckDigit.CUSIP_CHECK_DIGIT;

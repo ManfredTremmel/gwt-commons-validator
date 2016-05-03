@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 /**
  * Test Case for PercentValidator.
  * 
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739359 $
  */
 public class PercentValidatorTest extends TestCase {
 
@@ -37,6 +37,7 @@ public class PercentValidatorTest extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         validator = new PercentValidator();
@@ -46,6 +47,7 @@ public class PercentValidatorTest extends TestCase {
      * Tear down
      * @throws Exception
      */
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
         validator = null;
@@ -56,7 +58,7 @@ public class PercentValidatorTest extends TestCase {
      */
     public void testFormatType() {
         assertEquals("Format Type A", 2, PercentValidator.getInstance().getFormatType());
-        assertEquals("Format Type B", PercentValidator.PERCENT_FORMAT, PercentValidator.getInstance().getFormatType());
+        assertEquals("Format Type B", AbstractNumberValidator.PERCENT_FORMAT, PercentValidator.getInstance().getFormatType());
     }
 
     /**

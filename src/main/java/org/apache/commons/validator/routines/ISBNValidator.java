@@ -50,10 +50,12 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
  *       Transition details</a>.</li>
  * </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1715435 $
  * @since Validator 1.4
  */
 public class ISBNValidator implements Serializable {
+
+    private static final int ISBN_10_LEN = 10;
 
     private static final long serialVersionUID = 4319515687976420405L;
 
@@ -239,12 +241,12 @@ public class ISBNValidator implements Serializable {
         }
 
         String input = isbn10.trim();
-        if (input.length() != 10) {
+        if (input.length() != ISBN_10_LEN) {
             throw new IllegalArgumentException("Invalid length " + input.length() + " for '" + input + "'");
         }
 
-        // Calculate the new ISBN-13 code
-        String isbn13 = "978" + input.substring(0, 9);
+        // Calculate the new ISBN-13 code (drop the original checkdigit)
+        String isbn13 = "978" + input.substring(0, ISBN_10_LEN - 1);
         try {
             String checkDigit = isbn13Validator.getCheckDigit().calculate(isbn13);
             isbn13 += checkDigit;

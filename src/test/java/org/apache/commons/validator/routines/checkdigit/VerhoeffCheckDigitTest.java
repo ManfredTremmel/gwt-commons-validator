@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 /**
  * Verhoeff Check Digit Test.
  *
- * @version $Revision: 909009 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public class VerhoeffCheckDigitTest extends AbstractCheckDigitTest {
@@ -35,6 +35,7 @@ public class VerhoeffCheckDigitTest extends AbstractCheckDigitTest {
     /**
      * Set up routine & valid codes.
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         routine = VerhoeffCheckDigit.VERHOEFF_CHECK_DIGIT;
@@ -48,6 +49,7 @@ public class VerhoeffCheckDigitTest extends AbstractCheckDigitTest {
     /**
      * Test zero sum
      */
+    @Override
     public void testZeroSum() {
         // ignore, don't run this test
     }

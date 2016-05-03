@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * Test that the new Var attributes and the
  * digester rule changes work.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class VarTest extends AbstractCommonTest {
 
@@ -50,12 +50,14 @@ public class VarTest extends AbstractCommonTest {
     * Load <code>ValidatorResources</code> from
     * validator-multipletest.xml.
     */
-   protected void setUp() throws IOException, SAXException {
+   @Override
+protected void setUp() throws IOException, SAXException {
       // Load resources
       loadResources("VarTest-config.xml");
    }
 
-   protected void tearDown() {
+   @Override
+protected void tearDown() {
    }
 
    /**

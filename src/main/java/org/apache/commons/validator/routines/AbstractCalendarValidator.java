@@ -32,7 +32,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * <p>This is a <i>base</i> class for building Date / Time
  *    Validators using format parsing.</p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -67,6 +67,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      * @param locale The locale to use for the Format, defaults to the default
      * @return <code>true</code> if the value is valid.
      */
+    @Override
     public boolean isValid(String value, String pattern, Locale locale) {
         Object parsedValue = parse(value, pattern, locale, (TimeZone)null);
         return (parsedValue == null ? false : true);
@@ -122,6 +123,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      * @param locale The locale to use for the Format.
      * @return The value formatted as a <code>String</code>.
      */
+    @Override
     public String format(Object value, String pattern, Locale locale) {
         return format(value, pattern, locale, (TimeZone)null);
     }
@@ -154,6 +156,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      * @param formatter The Format to use.
      * @return The formatted value.
      */
+    @Override
     protected String format(Object value, Format formatter) {
         if (value == null) {
             return null;
@@ -196,6 +199,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      * @return The parsed value converted to the appropriate type
      *         if valid or <code>null</code> if invalid.
      */
+    @Override
     protected abstract Object processParsedValue(Object value, Format formatter);
 
     /**
@@ -207,6 +211,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      * @param locale The locale to use for the currency format, system default if null.
      * @return The <code>DateFormat</code> to created.
      */
+    @Override
     protected Format getFormat(String pattern, Locale locale) {
         DateFormat formatter = null;
         boolean usePattern = (pattern != null && pattern.length() > 0);
@@ -392,13 +397,13 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
         int month = (calendar.get(Calendar.MONTH) + 1);
         int relativeMonth = (month >= monthOfFirstQuarter)
                           ? (month - monthOfFirstQuarter)
-                          : (month + (12 - monthOfFirstQuarter));
-        int quarter = ((relativeMonth / 3) + 1);
+                          : (month + (12 - monthOfFirstQuarter)); // CHECKSTYLE IGNORE MagicNumber
+        int quarter = ((relativeMonth / 3) + 1); // CHECKSTYLE IGNORE MagicNumber
         // adjust the year if the quarter doesn't start in January
         if (month < monthOfFirstQuarter) {
             --year;
         }
-        return (year * 10) + quarter;
+        return (year * 10) + quarter; // CHECKSTYLE IGNORE MagicNumber
     }
 
     /**

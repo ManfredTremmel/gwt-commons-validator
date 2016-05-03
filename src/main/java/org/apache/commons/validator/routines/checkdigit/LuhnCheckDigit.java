@@ -34,7 +34,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * for more details.
  * </p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public final class LuhnCheckDigit extends ModulusCheckDigit {
@@ -51,7 +51,7 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
      * Construct a modulus 10 Luhn Check Digit routine.
      */
     public LuhnCheckDigit() {
-        super(10);
+        super(10); // CHECKSTYLE IGNORE MagicNumber
     }
 
     /**
@@ -67,9 +67,10 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
      * @param rightPos The positionof the character in the code, counting from right to left
      * @return The weighted value of the character.
      */
+    @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
-        int weight = POSITION_WEIGHT[rightPos % 2];
+        int weight = POSITION_WEIGHT[rightPos % 2]; // CHECKSTYLE IGNORE MagicNumber
         int weightedValue = charValue * weight;
-        return weightedValue > 9 ? (weightedValue - 9) : weightedValue;
+        return weightedValue > 9 ? (weightedValue - 9) : weightedValue; // CHECKSTYLE IGNORE MagicNumber
     }
 }

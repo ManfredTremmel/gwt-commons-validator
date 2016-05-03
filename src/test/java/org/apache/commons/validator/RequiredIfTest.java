@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 /**                                                       
  * Performs Validation Test.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class RequiredIfTest extends AbstractCommonTest {
    
@@ -46,12 +46,14 @@ public class RequiredIfTest extends AbstractCommonTest {
     * Load <code>ValidatorResources</code> from 
     * validator-requiredif.xml.
     */
-   protected void setUp() throws IOException, SAXException {
+   @Override
+protected void setUp() throws IOException, SAXException {
       // Load resources
       loadResources("RequiredIfTest-config.xml");
    }
 
-   protected void tearDown() {
+   @Override
+protected void tearDown() {
    }
 
    /**

@@ -26,7 +26,7 @@ import java.util.TimeZone;
 /**
  * Test Case for TimeValidator.
  * 
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class TimeValidatorTest extends TestCase {
 
@@ -102,6 +102,7 @@ public class TimeValidatorTest extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         validator = new TimeValidator();
@@ -111,6 +112,7 @@ public class TimeValidatorTest extends TestCase {
      * Tear down
      * @throws Exception
      */
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
         validator = null;

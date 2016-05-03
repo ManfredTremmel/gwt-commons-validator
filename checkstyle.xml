@@ -129,6 +129,11 @@
     <!-- Item 57 - Provide a readResolve method when necessary -->
     <!-- no rfe yet -->
 
+    <module name="MagicNumber"/>
+
+    <!-- This is needed for Suppression Comment Filters -->
+    <module name="FileContentsHolder"/>
+
   </module>
 
   <!-- enforce package documentation -->
@@ -147,6 +152,22 @@
   <!-- don't allow tabs -->
   <module name="FileTabCharacter">
     <property name="fileExtensions" value="java,xml"/>
+  </module>
+
+  <module name="SuppressionCommentFilter"/>
+
+  <module name="SuppressionFilter">
+    <!-- config_loc is used by Eclipse plugin -->
+    <property name="file" value="${config_loc}/checkstyle-suppressions.xml"/>
+  </module>
+
+  <!-- 
+      Allow comment to suppress checkstyle for a single line
+      e.g. // CHECKSTYLE IGNORE MagicNumber
+   -->
+  <module name="SuppressWithNearbyCommentFilter">
+    <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+)"/>
+    <property name="checkFormat" value="$1"/>
   </module>
 
 </module>

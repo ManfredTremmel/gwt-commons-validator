@@ -21,9 +21,10 @@ import junit.framework.TestCase;
 /**
  * Performs Validation Test for url validations.
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739358 $
  * @deprecated to be removed when org.apache.commons.validator.UrlValidator is removed
  */
+@Deprecated
 public class UrlTest extends TestCase {
 
    private final boolean printStatus = false;
@@ -33,7 +34,8 @@ public class UrlTest extends TestCase {
       super(testName);
    }
 
-   protected void setUp() {
+   @Override
+protected void setUp() {
       for (int index = 0; index < testPartsIndex.length - 1; index++) {
          testPartsIndex[index] = 0;
       }

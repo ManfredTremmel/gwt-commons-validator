@@ -20,15 +20,16 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Iterator;
 
 import com.google.gwt.core.shared.GwtIncompatible;
+
+import java.util.Iterator;
 
 /**
  * This contains the results of a set of validation rules processed
  * on a JavaBean.
  *
- * @version $Revision: 1652498 $
+ * @version $Revision: 1739361 $
  */
 //TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
@@ -91,7 +92,7 @@ public class ValidatorResult implements Serializable {
      * @return true if the validation passed.
      */
     public boolean isValid(String validatorName) {
-        ResultStatus status = (ResultStatus) hAction.get(validatorName);
+        ResultStatus status = hAction.get(validatorName);
         return (status == null) ? false : status.isValid();
     }
 
@@ -101,7 +102,7 @@ public class ValidatorResult implements Serializable {
      * @return The validation result.
      */
     public Object getResult(String validatorName) {
-        ResultStatus status = (ResultStatus) hAction.get(validatorName);
+        ResultStatus status = hAction.get(validatorName);
         return (status == null) ? null : status.getResult();
     }
 
@@ -121,6 +122,7 @@ public class ValidatorResult implements Serializable {
      *             to determine the contents of ResultStatus.
      *
      */
+    @Deprecated
     public Map<String, ResultStatus> getActionMap() {
         return Collections.unmodifiableMap(hAction);
     }
@@ -161,6 +163,7 @@ public class ValidatorResult implements Serializable {
          *
          * @deprecated Use {@code ResultStatus(boolean, Object)} instead
          */
+        @Deprecated
         public ResultStatus(ValidatorResult ignored, boolean valid, Object result) {
             this(valid, result);
         }

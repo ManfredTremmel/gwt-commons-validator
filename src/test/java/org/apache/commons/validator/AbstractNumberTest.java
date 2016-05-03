@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 /**
  * Abstracts number unit tests methods.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 abstract public class AbstractNumberTest extends AbstractCommonTest {
     
@@ -47,11 +47,13 @@ abstract public class AbstractNumberTest extends AbstractCommonTest {
      * Load <code>ValidatorResources</code> from 
      * validator-numeric.xml.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         // Load resources
         loadResources("TestNumber-config.xml");
     }
 
+    @Override
     protected void tearDown() {
     }
 

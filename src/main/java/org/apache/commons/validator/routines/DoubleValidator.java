@@ -61,7 +61,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using a specified pattern with a specified <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -243,6 +243,7 @@ public class DoubleValidator extends AbstractNumberValidator {
      * @return The validated/converted <code>Double</code> value if valid
      * or <code>null</code> if invalid.
      */
+    @Override
     protected Object processParsedValue(Object value, Format formatter) {
 
         if (value instanceof Double) {

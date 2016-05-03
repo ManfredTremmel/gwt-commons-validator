@@ -21,9 +21,10 @@ import junit.framework.TestCase;
 /**
  * ISBNValidator Test Case.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739358 $
  * @deprecated to be removed when the org.apache.commons.validator.ISBNValidator class is removed
  */
+@Deprecated
 public class ISBNValidatorTest extends TestCase {
 
     private static final String VALID_ISBN_RAW = "1930110995";

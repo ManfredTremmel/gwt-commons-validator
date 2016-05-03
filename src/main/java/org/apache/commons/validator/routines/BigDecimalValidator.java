@@ -65,7 +65,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using a specified pattern with a specified <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -225,6 +225,7 @@ public class BigDecimalValidator extends AbstractNumberValidator {
      *         <code>BigDecimal</code>.
      */
     @GwtIncompatible("incompatible method")
+    @Override
     protected Object processParsedValue(Object value, Format formatter) {
         BigDecimal decimal = null;
         if (value instanceof Long) {

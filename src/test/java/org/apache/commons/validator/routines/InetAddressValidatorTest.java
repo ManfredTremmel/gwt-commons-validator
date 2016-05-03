@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  * Test cases for InetAddressValidator.
  *
- * @version $Revision: 1649163 $
+ * @version $Revision: 1739356 $
  */
 public class InetAddressValidatorTest extends TestCase {
 
@@ -36,6 +36,7 @@ public class InetAddressValidatorTest extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() {
         validator = new InetAddressValidator();
     }

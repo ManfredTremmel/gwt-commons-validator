@@ -64,7 +64,53 @@ The <action> type attribute can be add,update,fix,remove.
      -->
 
   <body>
-  <release version="1.5.0" date="tba" description="
+  <release version="1.5.1" date="2016-??-??" description="
+This is a maintenance release.
+
+All projects are encouraged to update to this release of
+Apache Commons Validator.
+
+  Commons Validator requires Java 1.6 or later.
+
+
+ IMPORTANT NOTES
+ ===============
+
+
+ BREAKING CHANGES:
+
+   * NONE.
+
+
+ DEPENDENCIES
+ ============
+
+The dependencies for Validator have not changed since the 1.4 release.
+
+For the current list of dependencies, please see
+http://commons.apache.org/validator/dependencies.html
+  ">
+    <action issue="VALIDATOR-392" type="fix" dev="sebb" due-to="Tim Deboer">
+    Mastercard Series 2 BIN ranges (active from October 2016) added to CreditCardValidator
+    To disable the new ranges, use option MASTERCARD_PRE_OCT2016 or validator MASTERCARD_VALIDATOR_PRE_OCT2016
+    </action>
+    <action issue="VALIDATOR-386" type="fix" dev="sebb" due-to="Auke van Leeuwen">
+    org.apache.commons.validator.routines.DomainValidator.ArrayType is not public
+    </action>
+    <action issue="VALIDATOR-359" type="fix" dev="sebb" due-to="Dora Kinghorn">
+    EmailValidator does not catch invalid email address like dora@.com
+    </action>
+    <action issue="VALIDATOR-384" type="fix" dev="sebb" due-to="Kris Babic">
+    EmailValidator does not support escaped quotes in a quoted string
+    </action>
+    <action issue="VALIDATOR-351" type="add" dev="sebb">
+    DomainValidator - allow access to internal arrays
+    </action>
+    <action type="update" dev="sebb">
+    Updated to TLD list Version 2016042500, Last Updated Mon Apr 25 07:07:01 2016 UTC
+    </action>
+  </release>
+  <release version="1.5.0" date="2015-11-24" description="
 This is a maintenance release.
 
 All projects are encouraged to update to this release of

@@ -43,7 +43,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *
  * <strong>Note</strong>: The validation method is assumed to be thread safe.
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739361 $
  */
 @GwtIncompatible("incompatible class")
 public class ValidatorAction implements Serializable {
@@ -423,7 +423,7 @@ public class ValidatorAction implements Serializable {
         }
 
         StringBuilder buffer = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is)); // TODO encoding
         try {
             String line = null;
             while ((line = reader.readLine()) != null) {
@@ -502,6 +502,7 @@ public class ValidatorAction implements Serializable {
      * Returns a string representation of the object.
      * @return a string representation.
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder("ValidatorAction: ");
         results.append(name);
@@ -649,7 +650,7 @@ public class ValidatorAction implements Serializable {
         Class<?>[] parameterClasses = new Class[this.methodParameterList.size()];
 
         for (int i = 0; i < this.methodParameterList.size(); i++) {
-            String paramClassName = (String) this.methodParameterList.get(i);
+            String paramClassName = this.methodParameterList.get(i);
 
             try {
                 parameterClasses[i] = loader.loadClass(paramClassName);

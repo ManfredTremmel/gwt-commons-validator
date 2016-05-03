@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 /**
  * Luhn Check Digit Test.
  *
- * @version $Revision: 1651480 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public abstract class AbstractCheckDigitTest extends TestCase {
@@ -94,6 +94,7 @@ public abstract class AbstractCheckDigitTest extends TestCase {
     /**
      * Tear Down - clears routine and valid codes.
      */
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
         valid = null;

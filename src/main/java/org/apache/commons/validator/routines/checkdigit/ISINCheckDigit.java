@@ -36,12 +36,14 @@ package org.apache.commons.validator.routines.checkdigit;
  * for more details.
  * </p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public final class ISINCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = -1239211208101323599L;
+
+    private static final int MAX_ALPHANUMERIC_VALUE = 35; // Character.getNumericValue('Z')
 
     /** Singleton ISIN Check Digit instance */
     public static final CheckDigit ISIN_CHECK_DIGIT = new ISINCheckDigit();
@@ -53,7 +55,7 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
      * Construct an ISIN Indetifier Check Digit routine.
      */
     public ISINCheckDigit() {
-        super(10);
+        super(10); // CHECKSTYLE IGNORE MagicNumber
     }
 
     /**
@@ -65,6 +67,7 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
      * @throws CheckDigitException if an error occurs calculating the modulus
      * for the specified code
      */
+    @Override
     protected int calculateModulus(String code, boolean includesCheckDigit) throws CheckDigitException {
         StringBuilder transformed = new  StringBuilder(code.length() * 2);
         if (includesCheckDigit) {
@@ -75,7 +78,7 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
         }
         for (int i = 0; i < code.length(); i++) {
             int charValue = CharacterGetNumericValue.getNumericValue(code.charAt(i));
-            if (charValue < 0 || charValue > 35) {
+            if (charValue < 0 || charValue > MAX_ALPHANUMERIC_VALUE) {
                 throw new CheckDigitException("Invalid Character[" +
                         (i + 1) + "] = '" + charValue + "'");
             }
@@ -99,6 +102,7 @@ public final class ISINCheckDigit extends ModulusCheckDigit {
      * @param rightPos The positionof the character in the code, counting from right to left
      * @return The weighted value of the character.
      */
+    @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) {
         int weight = POSITION_WEIGHT[rightPos % 2];
         int weightedValue = (charValue * weight);

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Performs Validation Test for url validations.
  *
- * @version $Revision: 1715076 $
+ * @version $Revision: 1739356 $
  */
 public class UrlValidatorTest extends TestCase {
 
@@ -34,7 +34,8 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
 
-   protected void setUp() {
+   @Override
+protected void setUp() {
       for (int index = 0; index < testPartsIndex.length - 1; index++) {
          testPartsIndex[index] = 0;
       }

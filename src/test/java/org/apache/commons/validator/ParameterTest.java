@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * This TestCase is a confirmation of the parameter of the validator's method.
  *
- * @version $Revision: 1651811 $
+ * @version $Revision: 1739356 $
  */
 public class ParameterTest extends AbstractCommonTest {
 
@@ -47,6 +47,7 @@ public class ParameterTest extends AbstractCommonTest {
      * Load <code>ValidatorResources</code> from
      * ValidatorResultsTest-config.xml.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         // Load resources
         loadResources("ParameterTest-config.xml");
@@ -58,6 +59,7 @@ public class ParameterTest extends AbstractCommonTest {
 
     }
 
+    @Override
     protected void tearDown() {
     }
 

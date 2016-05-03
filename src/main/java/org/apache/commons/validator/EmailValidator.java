@@ -36,11 +36,12 @@ import com.google.gwt.regexp.shared.RegExp;
  * is no TLD "somedog"
  * </p>.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739358 $
  * @since Validator 1.1
  * @deprecated Use the new EmailValidator in the routines package. This class
  * will be removed in a future release.
  */
+@Deprecated
 public class EmailValidator {
 
     private static final String SPECIAL_CHARS = "\\p{Cntrl}\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
@@ -137,8 +138,8 @@ public class EmailValidator {
      * @return true if the ip address is valid.
      */
     protected boolean isValidIpAddress(String ipAddress) {
-    	MatchResult ipAddressMatcher = IP_DOMAIN_PATTERN.exec(ipAddress);
-        for (int i = 1; i <= 4; i++) {
+        MatchResult ipAddressMatcher = IP_DOMAIN_PATTERN.exec(ipAddress);
+        for (int i = 1; i <= 4; i++) { // CHECKSTYLE IGNORE MagicNumber
             String ipSegment = ipAddressMatcher.getGroup(i);
             if (ipSegment == null || ipSegment.length() <= 0) {
                 return false;
@@ -152,7 +153,7 @@ public class EmailValidator {
                 return false;
             }
 
-            if (iIpSegment > 255) {
+            if (iIpSegment > 255) { // CHECKSTYLE IGNORE MagicNumber
                 return false;
             }
 
@@ -166,7 +167,7 @@ public class EmailValidator {
      * @return true if the symbolic domain name is valid.
      */
     protected boolean isValidSymbolicDomain(String domain) {
-        String[] domainSegment = new String[10];
+        String[] domainSegment = new String[10]; // CHECKSTYLE IGNORE MagicNumber
         boolean match = true;
         int i = 0;
         MatchResult atomMatcher = ATOM_PATTERN.exec(domain);

@@ -72,11 +72,12 @@ import com.google.gwt.regexp.shared.RegExp;
  *  Uniform Resource Identifiers (URI): Generic Syntax
  * </a>
  *
- * @version $Revision: 1651811 $
+ * @version $Revision: 1739358 $
  * @since Validator 1.1
  * @deprecated Use the new UrlValidator in the routines package. This class
  * will be removed in a future release.
  */
+@Deprecated
 public class UrlValidator implements Serializable {
 
     private static final long serialVersionUID = 24137157400029593L;
@@ -160,7 +161,7 @@ public class UrlValidator implements Serializable {
     private static final RegExp LEGAL_ASCII_PATTERN = RegExp.compile("^[\\x00-\\x7F]+$");
 
     private static final RegExp DOMAIN_PATTERN =
-    		RegExp.compile("^" + ATOM + "(\\." + ATOM + ")*$");
+            RegExp.compile("^" + ATOM + "(\\." + ATOM + ")*$");
 
     private static final RegExp PORT_PATTERN = RegExp.compile("^:(\\d{1,5})$");
 
@@ -347,7 +348,7 @@ public class UrlValidator implements Serializable {
             int segmentLength = 0;
 
             while (match) {
-            	MatchResult atomMatcher = ATOM_PATTERN.exec(hostIP);
+                MatchResult atomMatcher = ATOM_PATTERN.exec(hostIP);
                 match = (atomMatcher != null);
                 if (match) {
                     domainSegment[segmentCount] = atomMatcher.getGroup(1);
@@ -361,7 +362,7 @@ public class UrlValidator implements Serializable {
                 }
             }
             String topLevel = domainSegment[segmentCount - 1];
-            if (topLevel.length() < 2 || topLevel.length() > 4) {
+            if (topLevel.length() < 2 || topLevel.length() > 4) { // CHECKSTYLE IGNORE MagicNumber (deprecated code)
                 return false;
             }
 

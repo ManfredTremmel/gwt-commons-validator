@@ -60,7 +60,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using the format for the <i>default</i> <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -242,12 +242,13 @@ public class LongValidator extends AbstractNumberValidator {
      * @return The parsed <code>Number</code> converted to a
      *         <code>Long</code>.
      */
+    @Override
     protected Object processParsedValue(Object value, Format formatter) {
 
         if (value instanceof Long) {
             return value;
         }
-        return new Long(((Number)value).longValue());
+        return Long.valueOf(((Number)value).longValue());
 
     }
 }

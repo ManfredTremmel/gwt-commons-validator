@@ -31,7 +31,7 @@ import java.io.Serializable;
  * ISBN number (rather than this 10 digit ISBN number) which uses the EAN-13 / UPC
  * standard.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739357 $
  * @since Validator 1.4
  */
 public final class ISBNCheckDigit implements CheckDigit, Serializable {
@@ -63,12 +63,13 @@ public final class ISBNCheckDigit implements CheckDigit, Serializable {
      * length (i.e. not 9 or 12) or if there is an error calculating the
      * check digit.
      */
+    @Override
     public String calculate(String code) throws CheckDigitException {
         if (code == null || code.length() == 0) {
             throw new CheckDigitException("ISBN Code is missing");
-        } else if (code.length() == 9) {
+        } else if (code.length() == 9) { // CHECKSTYLE IGNORE MagicNumber
             return ISBN10_CHECK_DIGIT.calculate(code);
-        } else if (code.length() == 12) {
+        } else if (code.length() == 12) { // CHECKSTYLE IGNORE MagicNumber
             return ISBN13_CHECK_DIGIT.calculate(code);
         } else {
             throw new CheckDigitException("Invalid ISBN Length = " + code.length());
@@ -89,12 +90,13 @@ public final class ISBNCheckDigit implements CheckDigit, Serializable {
      * a valid ISBN-10 check digit or the code has a length of 13 and is
      * a valid ISBN-13 check digit - otherwise <code>false</code>.
      */
+    @Override
     public boolean isValid(String code) {
         if (code == null) {
             return false;
-        } else if (code.length() == 10) {
+        } else if (code.length() == 10) { // CHECKSTYLE IGNORE MagicNumber
             return ISBN10_CHECK_DIGIT.isValid(code);
-        } else if (code.length() == 13) {
+        } else if (code.length() == 13) { // CHECKSTYLE IGNORE MagicNumber
             return ISBN13_CHECK_DIGIT.isValid(code);
         } else {
             return false;

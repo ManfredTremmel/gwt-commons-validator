@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.knightsoft-net</groupId>
   <artifactId>gwt-commons-validator</artifactId>
-  <version>1.5.0-1</version>
+  <version>1.5.1-0</version>
   <name>Apache Commons Validator</name>
   <description>
     Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
@@ -170,8 +170,8 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <commons.componentid>validator</commons.componentid>
     <!-- Re-generate the download page using: mvn commons:download-page -->
-    <commons.release.version>1.5.0</commons.release.version>
-    <commons.rc.version>RC1</commons.rc.version>
+    <commons.release.version>1.5.1</commons.release.version>
+    <commons.rc.version>RC2</commons.rc.version>
     <commons.release.desc>(requires JDK ${maven.compiler.target})</commons.release.desc>
     <commons.release.2.version>1.4.1</commons.release.2.version>
     <commons.release.2.desc>(requires JDK 1.4)</commons.release.2.desc>
@@ -187,13 +187,14 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 
     <gwt.version>2.7.0</gwt.version>
-    <guava-gwt.version>18.0</guava-gwt.version>
-    <nexus-staging-maven-plugin.version>1.6.6</nexus-staging-maven-plugin.version>
+    <guava-gwt.version>19.0</guava-gwt.version>
+    <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
     <wagon-webdav-jackrabbit.version>2.10</wagon-webdav-jackrabbit.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-    <maven-source-plugin.version>2.4</maven-source-plugin.version>
+    <maven-source-plugin.version>3.0.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
   </properties> 
@@ -232,6 +233,17 @@
           </ignorePathsToDelete>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.plugin.version}</version>
+        <configuration>
+          <configLocation>${basedir}/checkstyle.xml</configLocation>
+          <!-- Needed to define config_loc -->
+          <propertyExpansion>config_loc=${basedir}</propertyExpansion>
+          <enableRulesSummary>false</enableRulesSummary>
+        </configuration>
+      </plugin>
 
       <!-- GWT Maven Plugin -->
       <plugin>
@@ -242,6 +254,7 @@
           <execution>
             <goals>
               <goal>compile</goal>
+              <goal>resources</goal>
             </goals>
           </execution>
         </executions>
@@ -407,9 +420,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.16</version>
+        <version>${checkstyle.plugin.version}</version>
         <configuration>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
+          <!-- Needed to define config_loc -->
+          <propertyExpansion>config_loc=${basedir}</propertyExpansion>
           <enableRulesSummary>false</enableRulesSummary>
         </configuration>
         <reportSets>

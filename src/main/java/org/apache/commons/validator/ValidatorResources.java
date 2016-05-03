@@ -32,9 +32,10 @@ import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
-import org.xml.sax.Attributes;
 
 import com.google.gwt.core.shared.GwtIncompatible;
+
+import org.xml.sax.Attributes;
 
 /**
  * <p>
@@ -52,7 +53,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * release.
  * </p>
  *
- * @version $Revision: 1713452 $
+ * @version $Revision: 1739361 $
  */
 //TODO mutable non-private fields
 @GwtIncompatible("incompatible class")
@@ -92,6 +93,7 @@ public class ValidatorResources implements Serializable {
      * a <code>Locale</code> key (expressed as a String).
      * @deprecated Subclasses should use getFormSets() instead.
      */
+    @Deprecated
     protected FastHashMap hFormSets = new FastHashMap(); // <String, FormSet>
 
     /**
@@ -99,6 +101,7 @@ public class ValidatorResources implements Serializable {
      * the name of the constant as the key.
      * @deprecated Subclasses should use getConstants() instead.
      */
+    @Deprecated
     protected FastHashMap hConstants = new FastHashMap(); // <String, String>
 
     /**
@@ -106,6 +109,7 @@ public class ValidatorResources implements Serializable {
      * the name of the <code>ValidatorAction</code> as the key.
      * @deprecated Subclasses should use getActions() instead.
      */
+    @Deprecated
     protected FastHashMap hActions = new FastHashMap(); // <String, ValidatorAction>
 
     /**
@@ -287,6 +291,7 @@ public class ValidatorResources implements Serializable {
 
         // Create a new rule to process args elements
         Rule rule = new Rule() {
+            @Override
             public void begin(String namespace, String name,
                                Attributes attributes) throws Exception {
                 // Create the Arg
@@ -297,7 +302,8 @@ public class ValidatorResources implements Serializable {
                     arg.setResource(false);
                 }
                 try {
-                    arg.setPosition(Integer.parseInt(name.substring(3)));
+                    final int length = "arg".length(); // skip the arg prefix
+                    arg.setPosition(Integer.parseInt(name.substring(length)));
                 } catch (Exception ex) {
                     getLog().error("Error parsing Arg position: "
                                + name + " " + arg + " " + ex);
@@ -571,16 +577,16 @@ public class ValidatorResources implements Serializable {
         if (fs.getType() == FormSet.LANGUAGE_FORMSET) {
             parent = defaultFormSet;
         } else if (fs.getType() == FormSet.COUNTRY_FORMSET) {
-            parent = (FormSet) getFormSets().get(buildLocale(fs.getLanguage(),
+            parent = getFormSets().get(buildLocale(fs.getLanguage(),
                     null, null));
             if (parent == null) {
                 parent = defaultFormSet;
             }
         } else if (fs.getType() == FormSet.VARIANT_FORMSET) {
-            parent = (FormSet) getFormSets().get(buildLocale(fs.getLanguage(), fs
+            parent = getFormSets().get(buildLocale(fs.getLanguage(), fs
                     .getCountry(), null));
             if (parent == null) {
-                parent = (FormSet) getFormSets().get(buildLocale(fs.getLanguage(),
+                parent = getFormSets().get(buildLocale(fs.getLanguage(),
                         null, null));
                 if (parent == null) {
                     parent = defaultFormSet;
@@ -607,7 +613,7 @@ public class ValidatorResources implements Serializable {
             return defaultFormSet;
         }
 
-        return (FormSet)getFormSets().get(key);
+        return getFormSets().get(key);
     }
 
     /**

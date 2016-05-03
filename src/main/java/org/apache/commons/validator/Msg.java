@@ -26,7 +26,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * stored in the <code>ValidatorAction</code> (aka pluggable validator).
  * Instances of this class are configured with a &lt;msg&gt; xml element.
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  */
 //TODO mutable non-private fields
 public class Msg implements Cloneable, Serializable {
@@ -131,6 +131,7 @@ public class Msg implements Cloneable, Serializable {
      * @return A copy of the Msg.
      */
     @GwtIncompatible("incompatible method")
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -144,6 +145,7 @@ public class Msg implements Cloneable, Serializable {
      * Returns a string representation of the object.
      * @return Msg String representation.
      */
+    @Override
     public String toString() {
         StringBuilder results = new StringBuilder();
 

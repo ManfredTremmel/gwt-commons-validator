@@ -66,7 +66,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * to the {@link Pattern} API are safe to use in a multi-threaded environment.
  * </p>
  *
- * @version $Revision: 1713331 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public class RegexValidator implements Serializable {
@@ -219,6 +219,7 @@ public class RegexValidator implements Serializable {
      * Provide a String representation of this validator.
      * @return A String representation of this validator
      */
+    @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         buffer.append("RegexValidator{");

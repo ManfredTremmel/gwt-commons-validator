@@ -30,7 +30,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  * <p>This is a <i>base</i> class for building Number
  *    Validators using format parsing.</p>
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -97,6 +97,7 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
      * @param locale The locale to use for the date format, system default if null.
      * @return <code>true</code> if the value is valid.
      */
+    @Override
     public boolean isValid(String value, String pattern, Locale locale) {
         Object parsedValue = parse(value, pattern, locale);
         return (parsedValue == null ? false : true);
@@ -174,6 +175,7 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
      * @return The parsed value converted to the appropriate type
      *         if valid or <code>null</code> if invalid.
      */
+    @Override
     protected abstract Object processParsedValue(Object value, Format formatter);
 
     /**
@@ -185,6 +187,7 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
      * @param locale The locale to use for the currency format, system default if null.
      * @return The <code>NumberFormat</code> to created.
      */
+    @Override
     protected Format getFormat(String pattern, Locale locale) {
 
         NumberFormat formatter = null;
@@ -226,13 +229,13 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
         int scale = minimumFraction;
         if (format instanceof DecimalFormat) {
             int multiplier = ((DecimalFormat)format).getMultiplier();
-            if (multiplier == 100) {
-                scale += 2;
-            } else if (multiplier == 1000) {
-                scale += 3;
+            if (multiplier == 100) { // CHECKSTYLE IGNORE MagicNumber
+                scale += 2; // CHECKSTYLE IGNORE MagicNumber
+            } else if (multiplier == 1000) { // CHECKSTYLE IGNORE MagicNumber
+                scale += 3; // CHECKSTYLE IGNORE MagicNumber
             }
         } else if (formatType == PERCENT_FORMAT) {
-            scale += 2;
+            scale += 2; // CHECKSTYLE IGNORE MagicNumber
         }
         return scale;
     }

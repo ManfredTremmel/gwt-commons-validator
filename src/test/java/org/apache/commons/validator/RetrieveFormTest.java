@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 /**
  * Tests retrieving forms using different Locales.
  *
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class RetrieveFormTest extends TestCase {
 
@@ -55,6 +55,7 @@ public class RetrieveFormTest extends TestCase {
     /** 
      * Load <code>ValidatorResources</code> from multiple xml files.
      */
+    @Override
     protected void setUp() throws IOException, SAXException {
         InputStream[] streams =
             new InputStream[] {

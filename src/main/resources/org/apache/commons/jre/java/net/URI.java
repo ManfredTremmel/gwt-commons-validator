@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public final class URI implements Comparable<URI>, Serializable {
 
-	static final long serialVersionUID = -6052424284110960213L;
+    static final long serialVersionUID = -6052424284110960213L;
 
-	private String path;
+    private String path;
 
     public URI(String scheme, String host, String path, String fragment)
         throws URISyntaxException {
@@ -21,14 +21,14 @@ public final class URI implements Comparable<URI>, Serializable {
         return this.path;
     }
 
-	@Override
-	public int compareTo(URI that) {
-		if (that == null || that.getPath() == null) {
-			return -1;
-		}
-		if (this.getPath() == null) {
-			return 1;
-		}
-		return this.getPath().compareTo(that.getPath());
-	}
+    @Override
+    public int compareTo(URI that) {
+        if (that == null || that.getPath() == null) {
+            return -1;
+        }
+        if (this.getPath() == null) {
+            return 1;
+        }
+        return this.getPath().compareTo(that.getPath());
+    }
 }

@@ -21,7 +21,7 @@ import java.util.Locale;
 /**
  * Test Case for ShortValidator.
  * 
- * @version $Revision: 1649191 $
+ * @version $Revision: 1739356 $
  */
 public class ShortValidatorTest extends AbstractNumberValidatorTest {
 
@@ -33,6 +33,7 @@ public class ShortValidatorTest extends AbstractNumberValidatorTest {
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

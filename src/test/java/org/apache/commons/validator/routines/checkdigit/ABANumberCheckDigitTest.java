@@ -20,7 +20,7 @@ package org.apache.commons.validator.routines.checkdigit;
 /**
  * ABA Number Check Digit Test.
  *
- * @version $Revision: 909009 $
+ * @version $Revision: 1739356 $
  * @since Validator 1.4
  */
 public class ABANumberCheckDigitTest extends AbstractCheckDigitTest {
@@ -36,6 +36,7 @@ public class ABANumberCheckDigitTest extends AbstractCheckDigitTest {
     /**
      * Set up routine & valid codes.
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         routine = ABANumberCheckDigit.ABAN_CHECK_DIGIT;
