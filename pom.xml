@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.knightsoft-net</groupId>
   <artifactId>gwt-commons-validator</artifactId>
-  <version>1.5.1-0</version>
+  <version>1.5.1-1</version>
   <name>Apache Commons Validator</name>
   <description>
     Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
@@ -165,8 +165,8 @@
   </contributors>
 
   <properties>
-    <maven.compile.source>1.7</maven.compile.source>
-    <maven.compile.target>1.7</maven.compile.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <commons.componentid>validator</commons.componentid>
     <!-- Re-generate the download page using: mvn commons:download-page -->
@@ -183,19 +183,16 @@
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-validator</commons.scmPubUrl>
 
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 
     <gwt.version>2.7.0</gwt.version>
-    <guava-gwt.version>19.0</guava-gwt.version>
     <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
     <wagon-webdav-jackrabbit.version>2.10</wagon-webdav-jackrabbit.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-source-plugin.version>3.0.0</maven-source-plugin.version>
-    <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
   </properties> 
 
@@ -404,13 +401,6 @@
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava-gwt</artifactId>
-      <version>${guava-gwt.version}</version>
-      <scope>compile</scope>
     </dependency>
 
   </dependencies>

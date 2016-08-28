@@ -4,10 +4,6 @@
 <module rename-to='GWTCommonsValidator'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User' />
-  <inherits name="java.util.Util"/>
-
-  <!-- guave support -->
-  <inherits name="com.google.common.util.concurrent.Concurrent" />
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.apache.commons.validator.GWTCommonsValidator' />
