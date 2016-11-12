@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.knightsoft-net</groupId>
   <artifactId>gwt-commons-validator</artifactId>
-  <version>1.5.1-1</version>
+  <version>1.5.1-2</version>
   <name>Apache Commons Validator</name>
   <description>
     Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
