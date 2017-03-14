@@ -72,12 +72,14 @@ import com.google.gwt.regexp.shared.RegExp;
  *  Uniform Resource Identifiers (URI): Generic Syntax
  * </a>
  *
- * @version $Revision: 1715435 $
+ * @version $Revision: 1783203 $
  * @since Validator 1.4
  */
 public class UrlValidator implements Serializable {
 
     private static final long serialVersionUID = 7557161713937335013L;
+
+    private static final int MAX_UNSIGNED_16_BIT_INT = 0xFFFF; // port max
 
     /**
      * Allows all validly formatted schemes to pass validation instead of
@@ -146,19 +148,18 @@ public class UrlValidator implements Serializable {
     private static final String USERINFO_CHARS_REGEX = "[a-zA-Z0-9%-._~!$&'()*+,;=]";
     // since neither ':' nor '@' are allowed chars, we don't need to use non-greedy matching
     private static final String USERINFO_FIELD_REGEX =
-            USERINFO_CHARS_REGEX + "+:" + // At least one character for the name
-            USERINFO_CHARS_REGEX + "*@"; // password may be absent
+            USERINFO_CHARS_REGEX + "+" + // At least one character for the name
+            "(?::" + USERINFO_CHARS_REGEX + "*)?@"; // colon and password may be absent
     private static final String AUTHORITY_REGEX =
-            "(?:\\[("+IPV6_REGEX+")\\]|(?:(?:"+USERINFO_FIELD_REGEX+")?([" + AUTHORITY_CHARS_REGEX + "]*)))(:\\d*)?(.*)?";
-    //             1                          e.g. user:pass@          2                                   3       4
+            "(?:\\[("+IPV6_REGEX+")\\]|(?:(?:"+USERINFO_FIELD_REGEX+")?([" + AUTHORITY_CHARS_REGEX + "]*)))(?::(\\d*))?(.*)?";
+    //             1                          e.g. user:pass@          2                                         3       4
     private static final RegExp AUTHORITY_PATTERN = RegExp.compile(AUTHORITY_REGEX);
 
     private static final int PARSE_AUTHORITY_IPV6 = 1;
 
     private static final int PARSE_AUTHORITY_HOST_IP = 2; // excludes userinfo, if present
 
-    // Not needed, because it is validated by AUTHORITY_REGEX
-//    private static final int PARSE_AUTHORITY_PORT = 3;
+    private static final int PARSE_AUTHORITY_PORT = 3; // excludes leading colon
 
     /**
      * Should always be empty. The code currently allows spaces.
@@ -168,7 +169,7 @@ public class UrlValidator implements Serializable {
     private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!/~*'%$_;\\(\\)]*)?$";
     private static final RegExp PATH_PATTERN = RegExp.compile(PATH_REGEX);
 
-    private static final String QUERY_REGEX = "^(.*)$";
+    private static final String QUERY_REGEX = "^(\\S*)$";
     private static final RegExp QUERY_PATTERN = RegExp.compile(QUERY_REGEX);
 
     /**
@@ -313,7 +314,7 @@ public class UrlValidator implements Serializable {
 
         String authority = urlMatcher.getGroup(PARSE_URL_AUTHORITY);
         if ("file".equals(scheme)) {// Special case - file: allows an empty authority
-            if (!"".equals(authority)) {
+            if (authority != null) {
                 if (authority.contains(":")) { // but cannot allow trailing :
                     return false;
                 }
@@ -412,6 +413,17 @@ public class UrlValidator implements Serializable {
                 if (!inetAddressValidator.isValidInet4Address(hostLocation)) {
                     // isn't IPv4, so the URL is invalid
                     return false;
+                }
+            }
+            String port = authorityMatcher.getGroup(PARSE_AUTHORITY_PORT);
+            if (port != null && port.length() > 0) {
+                try {
+                    int iPort = Integer.parseInt(port);
+                    if (iPort < 0 || iPort > MAX_UNSIGNED_16_BIT_INT) {
+                        return false;
+                    }
+                } catch (NumberFormatException nfe) {
+                    return false; // this can happen for big numbers
                 }
             }
         }

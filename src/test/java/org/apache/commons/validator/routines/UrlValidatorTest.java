@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Performs Validation Test for url validations.
  *
- * @version $Revision: 1739356 $
+ * @version $Revision: 1783203 $
  */
 public class UrlValidatorTest extends TestCase {
 
@@ -177,13 +177,13 @@ protected void setUp() {
 
         // Now check using options
         validator = new UrlValidator(UrlValidator.ALLOW_LOCAL_URLS);
-        
+
         assertTrue("localhost URL should validate",
               validator.isValid("http://localhost/test/index.html"));
-        
+
         assertTrue("machinename URL should validate",
               validator.isValid("http://machinename/test/index.html"));
-        
+
         assertTrue("www.apache.org should still validate",
               validator.isValid("http://www.apache.org/test/index.html"));
     }
@@ -196,10 +196,10 @@ protected void setUp() {
 
         assertTrue("hostname with path should validate",
                 validator.isValid("http://hostname/test/index.html"));
-        
+
         assertTrue("localhost URL should validate",
                 validator.isValid("http://localhost/test/index.html"));
-        
+
         assertFalse("first.my-testing should not validate",
                 validator.isValid("http://first.my-testing/test/index.html"));
 
@@ -217,65 +217,76 @@ protected void setUp() {
 
         assertFalse("localhost URL should no longer validate",
                 validator.isValid("http://localhost/test/index.html"));
-        
+
         assertTrue("www.apache.org should still validate",
                 validator.isValid("http://www.apache.org/test/index.html"));
     }
-    
+
     public void testValidator276() {
         // file:// isn't allowed by default
         UrlValidator validator = new UrlValidator();
-        
+
         assertTrue("http://apache.org/ should be allowed by default",
                  validator.isValid("http://www.apache.org/test/index.html"));
-       
+
         assertFalse("file:///c:/ shouldn't be allowed by default",
                  validator.isValid("file:///C:/some.file"));
-        
+
         assertFalse("file:///c:\\ shouldn't be allowed by default",
               validator.isValid("file:///C:\\some.file"));
-        
+
         assertFalse("file:///etc/ shouldn't be allowed by default",
               validator.isValid("file:///etc/hosts"));
-        
+
         assertFalse("file://localhost/etc/ shouldn't be allowed by default",
               validator.isValid("file://localhost/etc/hosts"));
-        
+
         assertFalse("file://localhost/c:/ shouldn't be allowed by default",
               validator.isValid("file://localhost/c:/some.file"));
-        
+
         // Turn it on, and check
         // Note - we need to enable local urls when working with file:
         validator = new UrlValidator(new String[] {"http","file"}, UrlValidator.ALLOW_LOCAL_URLS);
-        
+
         assertTrue("http://apache.org/ should be allowed by default",
                  validator.isValid("http://www.apache.org/test/index.html"));
-       
+
         assertTrue("file:///c:/ should now be allowed",
                  validator.isValid("file:///C:/some.file"));
-        
+
         // Currently, we don't support the c:\ form
         assertFalse("file:///c:\\ shouldn't be allowed",
               validator.isValid("file:///C:\\some.file"));
-        
+
         assertTrue("file:///etc/ should now be allowed",
               validator.isValid("file:///etc/hosts"));
-        
+
         assertTrue("file://localhost/etc/ should now be allowed",
               validator.isValid("file://localhost/etc/hosts"));
-        
+
         assertTrue("file://localhost/c:/ should now be allowed",
               validator.isValid("file://localhost/c:/some.file"));
-        
+
         // These are never valid
         assertFalse("file://c:/ shouldn't ever be allowed, needs file:///c:/",
               validator.isValid("file://C:/some.file"));
-     
+
         assertFalse("file://c:\\ shouldn't ever be allowed, needs file:///c:/",
               validator.isValid("file://C:\\some.file"));
     }
 
-    
+    public void testValidator391OK() {
+        String[] schemes = {"file"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        assertTrue(urlValidator.isValid("file:///C:/path/to/dir/"));
+    }
+
+    public void testValidator391FAILS() {
+        String[] schemes = {"file"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        assertTrue(urlValidator.isValid("file:/C:/path/to/dir/"));
+    }
+
     public void testValidator309() {
         UrlValidator urlValidator = new UrlValidator();
         assertTrue(urlValidator.isValid("http://sample.ondemand.com/"));
@@ -311,12 +322,22 @@ protected void setUp() {
         assertTrue(urlValidator.isValid("http://example.rocks"));
     }
 
+    public void testValidator411(){
+        UrlValidator urlValidator = new UrlValidator();
+        assertTrue(urlValidator.isValid("http://example.rocks:/"));
+        assertTrue(urlValidator.isValid("http://example.rocks:0/"));
+        assertTrue(urlValidator.isValid("http://example.rocks:65535/"));
+        assertFalse(urlValidator.isValid("http://example.rocks:65536/"));
+        assertFalse(urlValidator.isValid("http://example.rocks:100000/"));
+    }
+
     static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
       boolean carry = true;  //add 1 to lowest order part.
       boolean maxIndex = true;
       for (int testPartsIndexIndex = testPartsIndex.length - 1; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
          int index = testPartsIndex[testPartsIndexIndex];
          ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
+         maxIndex &= (index == (part.length - 1));
          if (carry) {
             if (index < part.length - 1) {
                index++;
@@ -327,7 +348,6 @@ protected void setUp() {
                carry = true;
             }
          }
-         maxIndex &= (index == (part.length - 1));
       }
 
 
@@ -451,6 +471,7 @@ protected void setUp() {
        assertTrue(validator.isValid("http://www.apache.org:80/path"));
        assertTrue(validator.isValid("http://user:pass@www.apache.org:80/path"));
        assertTrue(validator.isValid("http://user:@www.apache.org:80/path"));
+       assertTrue(validator.isValid("http://user@www.apache.org:80/path"));
        assertTrue(validator.isValid("http://us%00er:-._~!$&'()*+,;=@www.apache.org:80/path"));
        assertFalse(validator.isValid("http://:pass@www.apache.org:80/path"));
        assertFalse(validator.isValid("http://:@www.apache.org:80/path"));
@@ -465,22 +486,18 @@ protected void setUp() {
 
    public void testValidator380() {
        UrlValidator validator = new UrlValidator();
-       assertTrue(validator.isValid("http://www.apache.org:80/path"));       
-       assertTrue(validator.isValid("http://www.apache.org:8/path")); 
+       assertTrue(validator.isValid("http://www.apache.org:80/path"));
+       assertTrue(validator.isValid("http://www.apache.org:8/path"));
        assertTrue(validator.isValid("http://www.apache.org:/path"));
    }
 
-   /**
-    * Only used to debug the unit tests.
-    * @param argv
-    */
-   public static void main(String[] argv) {
-
-      UrlValidatorTest fct = new UrlValidatorTest("url test");
-      fct.setUp();
-      fct.testIsValid();
-      fct.testIsValidScheme();
+   public void testValidator420() {
+       UrlValidator validator = new UrlValidator();
+       assertFalse(validator.isValid("http://example.com/serach?address=Main Avenue"));
+       assertTrue(validator.isValid("http://example.com/serach?address=Main%20Avenue"));
+       assertTrue(validator.isValid("http://example.com/serach?address=Main+Avenue"));
    }
+
    //-------------------- Test data for creating a composite URL
    /**
     * The data given below approximates the 4 parts of a URL
@@ -497,10 +514,10 @@ protected void setUp() {
                                new ResultPair("http:/", false),
                                new ResultPair("http:", false),
                                new ResultPair("http/", false),
-                               new ResultPair("://", false),
-                               new ResultPair("", true)};
+                               new ResultPair("://", false)};
 
    ResultPair[] testUrlAuthority = {new ResultPair("www.google.com", true),
+                                  new ResultPair("www.google.com.", true),
                                   new ResultPair("go.com", true),
                                   new ResultPair("go.au", true),
                                   new ResultPair("0.0.0.0", true),
@@ -521,11 +538,13 @@ protected void setUp() {
                                   new ResultPair("", false)
    };
    ResultPair[] testUrlPort = {new ResultPair(":80", true),
-                             new ResultPair(":65535", true),
+                             new ResultPair(":65535", true), // max possible
+                             new ResultPair(":65536", false), // max possible +1
                              new ResultPair(":0", true),
                              new ResultPair("", true),
                              new ResultPair(":-1", false),
-                             new ResultPair(":65636", true),
+                             new ResultPair(":65636", false),
+                             new ResultPair(":999999999999999999", false),
                              new ResultPair(":65a", false)
    };
    ResultPair[] testPath = {new ResultPair("/test1", true),

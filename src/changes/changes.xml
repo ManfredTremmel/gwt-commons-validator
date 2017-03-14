@@ -64,7 +64,88 @@ The <action> type attribute can be add,update,fix,remove.
      -->
 
   <body>
-  <release version="1.5.1" date="2016-??-??" description="
+  <release version="1.6" date="2017-02-20" description="
+This is primarily a maintenance release.
+
+All projects are encouraged to update to this release of
+Apache Commons Validator.
+
+  Commons Validator requires Java 1.6 or later.
+
+Main enhancements
+=================
+
+* Modulus Ten Check Digit Implementation
+
+* Generic CreditCard validation (syntax and checkdigit only; does not check IIN)
+
+* CreditCard validation specification by numeric range
+
+ IMPORTANT NOTES
+ ===============
+
+
+ BREAKING CHANGES:
+
+   * NONE.
+
+
+ DEPENDENCIES
+ ============
+
+The dependencies for Validator have not changed since the 1.4 release.
+
+For the current list of dependencies, please see
+http://commons.apache.org/validator/dependencies.html
+  ">
+    <action issue="VALIDATOR-420" type="fix" dev="sebb" due-to="Marcin Gasior">
+    Query params validator shouldn't accept whitespaces
+    </action>
+    <action issue="VALIDATOR-419" type="fix" dev="sebb" due-to="Denis Iskhakov">
+    Invalid IPv6 addresses that are IPv4-mapped pass InetAddressValidator validation
+    </action>
+    <action issue="VALIDATOR-418" type="fix" dev="britter" due-to="Robert McGuigan">
+    UrlValidatorTest: testIsValid() does not run all tests
+    </action>
+    <action issue="VALIDATOR-415" type="add" dev="sebb">
+    Simplify building new CreditCard validators
+    </action>
+    <action issue="VALIDATOR-413" type="add" dev="sebb">
+    Generic CreditCard validation
+    </action>
+    <action issue="VALIDATOR-379" type="fix" dev="sebb">
+    CodeValidator unconditionally trim()s the input string - document the behaviour
+    </action>
+    <action issue="VALIDATOR-387" type="fix" dev="sebb" due-to="Shumpei Akai">
+    Userinfo without colon should be valid in UrlValidator
+    </action>
+    <action issue="VALIDATOR-394" type="add" dev="sebb" due-to="Niall Pemberton">
+    General Modulus Ten Check Digit Implementation
+    </action>
+    <action issue="VALIDATOR-411" type="fix" dev="sebb">
+    UrlValidator accepts ports above max limit of 16-bit unsigned integer
+    </action>
+    <action type="update" dev="sebb">
+    IANA TLD lists: Updated to Version 2017020400, Last Updated Sat Feb  4 07:07:01 2017 UTC
+    </action>
+    <action type="update" dev="sebb">
+    Update to version 73 of SWIFT IBAN list: added BY (Belarus) and IQ (Iraq); fixed Santa Lucia format
+    </action>
+    <action issue="VALIDATOR-407" type="fix" dev="sebb">
+    Generic .shop top level domain is considered invalid
+    </action>
+    <action issue="VALIDATOR-405" type="fix" dev="sebb">
+    IBANValidator - Costa Rica entry has been updated in SWIFT docs
+    </action>
+    <action issue="VALIDATOR-401" type="fix" dev="britter">
+    IBANValidator fails for Seychelles and Ukraine
+    </action>
+    <action issue="VALIDATOR-391" type="fix" dev="sebb" due-to="Mark E. Scott, Jr. &amp; Jason Loomis">
+    UrlValidator.isValid throws exception for FILEURLs
+    Fixed code so it handles URLs with no authority field
+    </action>
+  </release>
+  <release version="1.5.1" date="2016-04-30" description="
 This is a maintenance release.
 
 All projects are encouraged to update to this release of

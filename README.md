@@ -11,7 +11,7 @@ gwt-commons-validator requires gwt >= 2.7.0, older versions are not supported!
     <dependency>
       <groupId>de.knightsoft-net</groupId>
       <artifactId>gwt-commons-validator</artifactId>
-      <version>1.5.1-2</version>
+      <version>1.6-0</version>
     </dependency>
 ```
 

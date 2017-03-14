@@ -47,7 +47,7 @@ import junit.framework.TestCase;
 /**
  * Tests for the DomainValidator.
  *
- * @version $Revision: 1739361 $
+ * @version $Revision: 1781829 $
  */
 public class DomainValidatorTest extends TestCase {
 
@@ -368,6 +368,18 @@ public class DomainValidatorTest extends TestCase {
         assertTrue(validator.isValidGenericTld("com"));
     }
 
+    public void testVALIDATOR_412() {
+        assertFalse(validator.isValidGenericTld("local"));
+        assertFalse(validator.isValid("abc.local"));
+        assertFalse(validator.isValidGenericTld("pvt"));
+        assertFalse(validator.isValid("abc.pvt"));
+        DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"local", "pvt"});
+        assertTrue(validator.isValidGenericTld("local"));
+        assertTrue(validator.isValid("abc.local"));
+        assertTrue(validator.isValidGenericTld("pvt"));
+        assertTrue(validator.isValid("abc.pvt"));
+    }
+
     public void testCannotUpdate() {
         DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"ch"}); // OK
         DomainValidator dv = DomainValidator.getInstance();
@@ -396,11 +408,11 @@ public class DomainValidatorTest extends TestCase {
         Set<String> ianaTlds = new HashSet<String>(); // keep for comparison with array contents
         DomainValidator dv = DomainValidator.getInstance();
         File txtFile = new File("target/tlds-alpha-by-domain.txt");
-        long timestamp = download(txtFile, "http://data.iana.org/TLD/tlds-alpha-by-domain.txt", 0L);
+        long timestamp = download(txtFile, "https://data.iana.org/TLD/tlds-alpha-by-domain.txt", 0L);
         final File htmlFile = new File("target/tlds-alpha-by-domain.html");
         // N.B. sometimes the html file may be updated a day or so after the txt file
         // if the txt file contains entries not found in the html file, try again in a day or two
-        download(htmlFile,"http://www.iana.org/domains/root/db", timestamp);
+        download(htmlFile,"https://www.iana.org/domains/root/db", timestamp);
 
         BufferedReader br = new BufferedReader(new FileReader(txtFile));
         String line;

@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.knightsoft-net</groupId>
   <artifactId>gwt-commons-validator</artifactId>
-  <version>1.5.1-2</version>
+  <version>1.6-0</version>
   <name>Apache Commons Validator</name>
   <description>
     Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
@@ -170,12 +170,9 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <commons.componentid>validator</commons.componentid>
     <!-- Re-generate the download page using: mvn commons:download-page -->
-    <commons.release.version>1.5.1</commons.release.version>
-    <commons.rc.version>RC2</commons.rc.version>
+    <commons.release.version>1.6</commons.release.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.desc>(requires JDK ${maven.compiler.target})</commons.release.desc>
-    <commons.release.2.version>1.4.1</commons.release.2.version>
-    <commons.release.2.desc>(requires JDK 1.4)</commons.release.2.desc>
-    <commons.release.2.binary.suffix />
     <commons.jira.id>VALIDATOR</commons.jira.id>
     <commons.jira.pid>12310494</commons.jira.pid>
     <commons.encoding>UTF-8</commons.encoding>
@@ -188,8 +185,8 @@
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 
     <gwt.version>2.8.0</gwt.version>
-    <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
-    <wagon-webdav-jackrabbit.version>2.10</wagon-webdav-jackrabbit.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <wagon-webdav-jackrabbit.version>2.12</wagon-webdav-jackrabbit.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
@@ -436,7 +433,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.5</version>
+        <version>3.7</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
         </configuration>
@@ -452,7 +449,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.4</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>

@@ -61,7 +61,7 @@ import com.google.gwt.core.shared.GwtIncompatible;
  *       <li>using a specified pattern with a specified <code>Locale</code></li>
  *    </ul>
  *
- * @version $Revision: 1739356 $
+ * @version $Revision: 1782756 $
  * @since Validator 1.3.0
  */
 @GwtIncompatible("incompatible class")
@@ -253,6 +253,6 @@ public class IntegerValidator extends AbstractNumberValidator {
             longValue > Integer.MAX_VALUE) {
             return null;
         }
-        return new Integer((int)longValue);
+        return Integer.valueOf((int)longValue);
     }
 }

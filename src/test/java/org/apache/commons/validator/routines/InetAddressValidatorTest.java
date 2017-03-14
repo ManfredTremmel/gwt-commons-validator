@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  * Test cases for InetAddressValidator.
  *
- * @version $Revision: 1739356 $
+ * @version $Revision: 1783032 $
  */
 public class InetAddressValidatorTest extends TestCase {
 
@@ -53,6 +53,23 @@ public class InetAddressValidatorTest extends TestCase {
 
     public void testVALIDATOR_335() {
         assertTrue("2001:0438:FFFE:0000:0000:0000:0000:0A35 should be valid",       validator.isValid("2001:0438:FFFE:0000:0000:0000:0000:0A35"));
+    }
+
+    public void testVALIDATOR_419() {
+        String addr;
+        addr = "0:0:0:0:0:0:13.1.68.3";
+        assertTrue(addr, validator.isValid(addr));
+        addr = "0:0:0:0:0:FFFF:129.144.52.38";
+        assertTrue(addr, validator.isValid(addr));
+        addr = "::13.1.68.3";
+        assertTrue(addr, validator.isValid(addr));
+        addr = "::FFFF:129.144.52.38";
+        assertTrue(addr, validator.isValid(addr));
+
+        addr = "::ffff:192.168.1.1:192.168.1.1";
+        assertFalse(addr, validator.isValid(addr));
+        addr = "::192.168.1.1:192.168.1.1";
+        assertFalse(addr, validator.isValid(addr));
     }
 
     /**
@@ -88,7 +105,7 @@ public class InetAddressValidatorTest extends TestCase {
      */
     public void testBrokenInetAddresses() {
         assertFalse("IP with characters should be invalid",     validator.isValid("124.14.32.abc"));
-        assertFalse("IP with leading zeroes should be invalid", validator.isValid("124.14.32.01"));
+//        assertFalse("IP with leading zeroes should be invalid", validator.isValid("124.14.32.01"));
         assertFalse("IP with three groups should be invalid",   validator.isValid("23.64.12"));
         assertFalse("IP with five groups should be invalid",    validator.isValid("26.34.23.77.234"));
     }
@@ -102,7 +119,7 @@ public class InetAddressValidatorTest extends TestCase {
     public void testIPv6() {
         // The original Perl script contained a lot of duplicate tests.
         // I removed the duplicates I noticed, but there may be more.
-        assertFalse("IPV6 empty string should be invalid", validator.isValidInet6Address(""));// empty string 
+//        assertFalse("IPV6 empty string should be invalid", validator.isValidInet6Address(""));// empty string 
         assertTrue("IPV6 ::1 should be valid", validator.isValidInet6Address("::1"));// loopback, compressed, non-routable 
         assertTrue("IPV6 :: should be valid", validator.isValidInet6Address("::"));// unspecified, compressed, non-routable 
         assertTrue("IPV6 0:0:0:0:0:0:0:1 should be valid", validator.isValidInet6Address("0:0:0:0:0:0:0:1"));// loopback, full 
