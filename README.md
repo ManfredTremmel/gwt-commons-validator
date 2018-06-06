@@ -1,3 +1,5 @@
+# This project is read only and was moved to gitlab: [https://gitlab.com/ManfredTremmel/gwt-commons-validator](https://gitlab.com/ManfredTremmel/gwt-commons-validator)
+
 gwt-commons-validator
 =====================
 
